@@ -1,0 +1,170 @@
+---
+title: "GitとGitHub"
+---
+
+バージョン管理システムの一つ。
+
+[サルでもわかるGit入門](http://www.backlog.jp/git-guide/)
+[5分でわかる分散型バージョン管理システムGit](http://www.atmarkit.co.jp/ait/articles/1307/05/news028.html)
+
+GitHubが共同作業用のサーバー（共用リポジトリ置き場）として用いられる。Publicは無料、Privateは有料。学生の間はタダで使える。dotfilesもここに置いている。
+
+## 初期設定ファイル ~/.gitconfig
+
+「~/.gitconfig」で、[dotfilesで管理中](https://github.com/u-4/dotfiles/blob/master/.gitconfig)。
+もっと詳しく見たくなったら以下を参照。
+http://k-shogo.github.io/article/2014/07/23/gitconfig/
+
+## .gitignore_global
+
+設定しておくとOSXでの.DS_store的なのを全部入れつつ個別のプロジェクトやリポジトリの（共用になるかもしれない）.gitignoreには書かなくて済む。.gitconfigに記載してdotfilesでの管理に移行済み。R言語の設定
+https://github.com/github/gitignore
+を参考に追加ずみ（自分でR Notebook用の*.nb.htmlを追加）
+
+    [core]
+      excludesfile = ~/.gitignore_global
+
+## 基本的なワークフロー
+
+これが一番わかりにくいところか。
+
+1. ファイルの変更をステージングエリアに「追加」
+2. ローカルリポジトリに「コミット」
+3. リモートリポジトリに「プッシュ」
+
+### 状況を確認
+
+これをこまめに行うことで最後のcommitからの差分状況がわかる。また複数の作業を行った際にもどのファイルをaddすべきかがわかる。
+
+    $ git status
+
+`origin/master`：リモートリポジトリ上のoriginのmasterブランチ
+
+### 1. 新規ファイルやファイルの変更をステージングエリアに「追加」
+
+様々な変更をした場合にステージングエリアに送るファイルを選ぶことができ、コミットの内容をシンプルにすることができる。
+
+    # バージョン管理するファイルを追加
+    $ git add [ファイル名]
+    
+    # フォルダ内のファイルを全て追加
+    $ git add .
+    
+    # ファイルを削除したことをステージングエリアに追加
+    $ git rm [ファイル名]
+
+### 2. ローカルリポジトリに「コミット」
+
+これで変更がリポジトリ内に時系列で記録される。1つの作業で1コミットすることで多人数での作業や自分での見返しに役立つことになる。
+
+    # 通常はこれで行う（変更内容が表示される）
+    $ git commit -v
+    
+    # シンプルなコミットメッセージを追加
+    $ git commit -m "コミットメッセージ"
+
+コミットメッセージの書き方
+1行目：変更内容の要約
+2行目：空行
+3行目：変更した理由
+
+コミットの確認のための`git log`のオプションについては以下に詳しい。
+Git - コミット履歴の閲覧
+
+
+    # コミット記録の確認
+    $ git log
+    
+    # 変更内容を1行で表示
+    $ git log --oneline
+    
+    # ファイルの差分を表示
+    $ git log -p [ファイル名（省略可）]
+    
+    # 最新n行だけ表示
+    $ git log -n 3
+    
+    # 最新２行だけ表示
+    $ git log -2
+    
+    # 最近2週間のだけ表示
+    $ git log --since=2.week
+
+### 3. リモートリポジトリに「プッシュ」
+
+
+    $ git push origin master
+
+"origin"はリモートリポジトリのエイリアス、"master"はデフォルトのブランチ名。リモートの"origin"にローカルの"master"を送信するということ。"master"以外のブランチを送りたい場合はそのブランチ名を指定する。"origin"の設定は下の方に。
+
+ブランチ名などを「-u」オプションで指定すると、次から「git push」だけで同じブランチへのpushになる
+
+    $ git push -u origin branch
+
+## その他のコマンド
+
+### ローカルリポジトリの作成
+
+    # .gitディレクトリが作成される
+    $ git init
+    
+    $ git checkout
+
+### 変更差分を表示（add、commitの前にその変更が本当に必要か確認する）
+
+    # ローカルとステージングエリアとの差分
+    $ git diff
+    
+    # ステージエリアとコミットの差分
+    $ git diff HEAD
+
+### リモートリポジトリにローカルリポジトリを登録
+
+    # "origin"という名前でGitHubリポジトリにアクセスできるようにする
+    # "origin"はデフォルトで使われるリモートリポジトリの名称（aliasみたいなもの）
+    
+    $ git remote add origin https://github.com/u-4/repo.git
+
+### リモートリポジトリはどちらに設定していましたっけ？
+
+そもそも設定していましたっけ？とか。
+
+    $ git remote -v
+    origin  git@github.com:u-4/PalmWiki.git (fetch)
+    origin  git@github.com:u-4/PalmWiki.git (push)
+
+## Gitのバージョン管理から外したいファイルを指定する
+
+.gitignoreファイルに指定する。gitignore.ioで共有されている推奨設定を簡単に利用できるように、あらかじめ`.gitconfig`でaliasを以下のように設定済み
+
+    [alias]
+        ignore = !"f() { local s=$1; shift; \
+          while [ $# -gt 0 ]; do s=\"$s,$1\"; shift; done;\
+          curl \"https://www.gitignore.io/api/$s\"; }; f"
+
+`git ignore osx r`とすると標準出力にテンプレートが出力される。`git ignore list`でサポートしているタイプの一覧が得られる。
+
+    git ignore osx r > .gitignore
+
+とするだけでテンプレート完成。
+
+個別に省くべきもの
+・自動生成されるファイル
+・パスワードが記載されているファイル
+・Rなら`*.nb.html`とか`*.html`も入れて良いかな。htmlは気をつけなくてはいけなさそう。
+
+すでにコミットしてしまったファイルをGitの管理から削除したい場合は
+
+    # ファイルごと削除する
+    $ git rm [ファイル名]
+    $ git rm -r [ディレクトリ名]
+    
+    # ファイルは残す場合（その後.gitignoreに追記する）
+    $ git rm --cached [ファイル名]
+
+さらに'git rm'したファイルを戻したい場合には
+
+    # Gitの管理に戻す
+    $ git reset HEAD [ファイル名]
+    # ローカルからは消えたままなのでファイルも戻す
+    $ git checkout [ファイル名]
