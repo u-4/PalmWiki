@@ -1,0 +1,10 @@
+---
+title: "Exploratory Data Analysis"
+output: html_document
+---
+
+
+- [Introduction to DataExplorer](https://cran.r-project.org/web/packages/DataExplorer/vignettes/dataexplorer-intro.html)
+- [boxuancui/DataExplorer: Automate data exploration and treatment](https://github.com/boxuancui/DataExplorer)
+- [CRAN - Package tabplot](https://cran.r-project.org/web/packages/tabplot/index.html)
+- [[R] データフレームを可視化するtabplotパッケージについて | singular point](http://www.singularpoint.org/blog/r/r-package-tabplo/)

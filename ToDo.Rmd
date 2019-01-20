@@ -1,0 +1,53 @@
+---
+title: "ToDo"
+---
+
+
+
+- [hoxo_mがいいねした記事 - Qiita](https://qiita.com/hoxo_m/like)
+- [yuifu/ajacs68: Materials for tutorial at ajacs68 (Japanese)](https://github.com/yuifu/ajacs68)
+- [R歴1ヶ月の俺がtidyverseを使ってNDBオープンデータから尿蛋白検査の地域差を検証してみた件について #1 - Qiita](https://qiita.com/renwood_aoba/items/977229fda4cbd8cfc02a)
+- [Microsoft Word - 第３回ＮＤＢオープンデータ解説編（①前編）.docx](https://www.mhlw.go.jp/content/12400000/000346720.pdf)
+- [臨床心理学におけるR入門: データハンドリングから統計解析まで](https://www.slideshare.net/YoshihikoKunisato/r-74207682)
+- [Rによるデータクリーニング実践――政府統計からのグラフ作成を例として｜Colorless Green Ideas](http://id.fnshr.info/2018/04/23/r-data-cleaning-school/)
+- [e-Stat APIをRから使うパッケージを作りました - Technically, technophobic.](https://notchained.hatenablog.com/entry/2015/11/01/084909)
+- [Overleaf v2 で日本語を使用する方法 - TeX Alchemist Online](http://doratex.hatenablog.jp/entry/20180503/1525338512)
+
+- [Presentations by kilometer - Speaker Deck](https://speakerdeck.com/kilometer)
+
+- [ggplot2で臨床経過図を、簡単に作成する - Ｒ言語による電子カルテデータの二次利用](http://r-beginner.hatenadiary.jp/entry/2018/06/23/155503)
+
+## 並列化
+
+- [【超訳】foreach パッケージの使い方 #rstatsj - Qiita](https://qiita.com/hoxo_m/items/04903cbbe9d023f0ed6d)
+
+
+## 欠測データ処理
+
+- [欠測データ処理 ―Rによる単一代入法と多重代入法― / 高橋 将宜　渡辺 美智子　著 | 共立出版](https://www.kyoritsu-pub.co.jp/bookdetail/9784320112568)
+
+
+## 統計
+
+- [黒木玄のウェブサイト](https://genkuroki.github.io/)
+- [黒木玄先生の統計の話（など） - Togetter](https://togetter.com/li/1213644)
+- [Mathematical Foundation of Statistical Learning](http://watanabe-www.math.dis.titech.ac.jp/users/swatanab/joho05.pdf)
+- [Introduction to Statistical Learning](http://www-bcf.usc.edu/~gareth/ISL/)
+- [Computer Age Statistical Inference: Algorithms, Evidence and Data Science](https://web.stanford.edu/~hastie/CASI/)
+- [Statistical Learning with Sparsity: the Lasso and Generalizations](https://web.stanford.edu/~hastie/StatLearnSparsity/)
+
+
+## fzf
+
+- [fzf（fuzzy finder）の便利な使い方をREADME, Wikiを読んで学ぶ - もた日記](https://wonderwall.hatenablog.com/entry/2017/10/06/063000)
+- [fzfによるCUI生活の改善](https://blog.nijohando.jp/post/fzf-fish-vim/)
+
+## ripgrep
+
+- [.ripgreprc & glob patterns · Issue #927 · BurntSushi/ripgrep](https://github.com/BurntSushi/ripgrep/issues/927)
+- [BurntSushi/ripgrep: ripgrep recursively searches directories for a regex pattern](https://github.com/BurntSushi/ripgrep)
+
+## Alfred
+
+- [Alfred WorkflowのScript Filterを利用して、共通の値をまとめる | 豆腐メンタルは崩れない](http://wbtmiu.herokuapp.com/2014/10/20/d99f603c029aa9fa19ff63582703265a/)
+- [Alfred WorkflowのScript Filterを利用して、共通の値をまとめる〜シェルスクリプト編〜 | 豆腐メンタルは崩れない](https://wbtmiu.herokuapp.com/2014/10/22/5df13745be5c1915929f73c079a5ba81/)

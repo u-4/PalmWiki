@@ -1,0 +1,111 @@
+---
+title: "Importing & Cleaning Data with R"
+---
+
+[Data Import Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf)
+
+- readrでの読み込み
+- excelも一応
+- google spreadsheet, form
+- データベースやAPIからの取得は別で
+- データクリーニング実例もここに入れてしまうか
+    - [Rでデータクレンジング | DATUM STUDIO株式会社](https://datumstudio.jp/blog/r%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E3%82%AF%E3%83%AC%E3%83%B3%E3%82%B8%E3%83%B3%E3%82%B0)
+    - [ESJ65-W07 それもRにやらせよう — 整然データの下ごしらえ](https://heavywatal.github.io/slides/esj65/)
+- DataCampで実習あればそれもこちら？
+- [RでDropboxからファイルを読み込む](https://keachmurakami.github.io/page/2016/04/30/r%E3%81%A7dropbox%E3%81%8B%E3%82%89%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80-r/)
+
+## Rでのデータファイルの種類
+
+R言語ではデータを格納する独自形式として、「.RDS」と「.RData」の2つがあり、
+
+|  形式  | 格納オブジェクト | 特徴 |
+| ------ | ------------- | ------------------------------------------------- |
+| .RDS   | 1個のRオブジェクトを格納 | 再現性の高いコードを書くには推奨される。読み込み時にオブジェクト名を指定できる/しなくてはいけない |
+| .RData | 複数のRオブジェクトを格納 | 読み込みなどは楽だが、中身が何なのかわかりにくく、格納しているオブジェクトの名前を忘れると面倒。  |
+
+という特徴がある。RStudioの本では「`.RDS`」の使用が推奨されている。「`.RData`」が自動で保存されないようにaliasや[RStudio](RStudio.html)を設定しておく。
+
+Rファイルとして保存することで、ファイルが自動で圧縮され、R関連のメタデータがオブジェクトとともに保存されることになる。特にデータがファクタ、日付・時刻情報、クラス属性などを持つ場合に有効。
+
+### `base`関数から`readr`へ
+
+`saveRDS`、`readRDS`の代わりにreadrの関数を使用する方針に。
+
+```{r, eval=FALSE}
+readr::read_rds(path)
+readr::write_rds(x, path, compress = c("none", "gz", "bz2", "xz"), ...)
+```
+
+
+### 「.RDS」ファイルの書き込み
+
+書き込み（保存）は~~「`saveRDS`」~~「`readr::write_rds`」を使用する。ディスクスペースの問題が以前より少ないため、デフォルトでは圧縮しないようになっている。
+オブジェクト「x」を「data」フォルダ内の「x.rds」に保存したければ以下のように記載（混乱を避けるためにオブジェクト名とファイル名は一致させておく方が良さそう）
+
+```{r, eval=FALSE}
+readr::write_rds(x, "data/x.rds")
+```
+
+### 「.RDS」ファイルの読み込み
+
+読み込みは~~「`readRDS`」~~「`readr::read_rds`」を使用する。
+
+```{r , eval=FALSE}
+poker <- readr::read_rds("pocker.RDS")
+```
+
+オブジェクトをロードする時に名前をつけるため、たまたま同じ名前をつけていたRオブジェクトを上書きする心配もない。
+
+## `readr`による読み込み
+
+## Excelファイルの処理
+
+R言語でexcelファイルを読み込むためのパッケージ。tidyverseの一部のため原則としてこれを用いる。
+https://github.com/tidyverse/readxl
+readxl 1.0の解説
+http://uribo.hatenablog.com/entry/2017/05/04/122524
+col_namesとかcol_typesの指定はreadrと同じ。
+https://heavywatal.github.io/rstats/readr.html
+
+ではなさそう
+[Cell and Column Types • readxl](https://readxl.tidyverse.org/articles/cell-and-column-types.html)
+
+tidyverseをインストールしてあれば同時にインストールされている。
+
+    readxl::read_excel(path, sheet=1, col_names=TRUE, col_types=NULL, na='', skip=0)
+
+* read_excel()でxlsもxlsxも読み込める（拡張子で判断）
+* excel_sheets()でシート名を表示できる
+* read_excel()で読み込む時のシート指定はsheet引数で
+    * sheet = "シート名"
+    * sheet = シート番号
+* 読み込むセルの範囲を指定する方法は様々で、excel的な表現も可能
+    * n_max = 3
+        * ヘッダ行がある場合はそれを除いた行数で
+    * range = "C1:E4"
+    * range = cell_rows(1:4)
+    * range = cell_cols("B:D")
+    * range = "mtcars!B1:D5"
+    * skipもある
+* 空白セルが<NA>として扱われる。他を指定するならna = "文字列"
+* 列（変数）の名前とタイプはデフォルトでは自動的に決まる。col_namesとcol_typesで指定もできる
+* tibbleとして読み込まれる
+* JavaとかPerlのような外部ライブラリ不要
+* non-ASCIIはUTF-8にエンコードされる
+タイプの自動推定がうまくいかない場合
+
+
+## Google Spreadsheet
+
+[googlesheets Basic Usage](https://cran.r-project.org/web/packages/googlesheets/vignettes/basic-usage.html)
+
+R言語でGoogle Spreadsheetと連携する方法あれこれ。
+https://speakerdeck.com/jennybc/googlesheets-talk-at-user2015
+http://hacknote.jp/archives/10712/
+http://qiita.com/uri/items/2e108d6fcbd80ef58444
+https://github.com/jennybc/googlesheets
+
+
+## Google Forms
+
+## データクレンジング実習

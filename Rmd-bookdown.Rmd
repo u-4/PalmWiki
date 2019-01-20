@@ -1,0 +1,12 @@
+---
+title: "bookdown"
+---
+
+[bookdown: Authoring Books and Technical Documents with R Markdown](https://bookdown.org/yihui/bookdown/)
+
+
+- [{bookdown}を利用してRで本を作成 - Qiita](https://qiita.com/kazutan/items/40b45d4aaba88a4ed706)
+- [kazutan/bookdown_ja_template: for bookdown starter kits for japanese.](https://github.com/kazutan/bookdown_ja_template)
+- [docker で RStudio Server を起動し, bookdown で日本語 pdf を作成する. - Qiita](https://qiita.com/kenjimyzk/items/d7723575876e823e1709)
+- [bookdown_ja_template でpdf出力を改善する - Qiita](https://qiita.com/kenjimyzk/items/d15fe378159b654d4067)
+- [Writing Academic Papers with Rmarkdown - Daijiang Li](https://daijiang.name/en/2017/04/05/writing-academic-papers-with-rmarkdown/)

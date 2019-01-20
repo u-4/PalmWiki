@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>R雑多メモ</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="site_style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h2 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h3 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h4 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h5 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h6 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R memorandum</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    データ操作
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="readr.html">データ読み込み(readr)</a>
+    </li>
+    <li>
+      <a href="dplyr-tidyr.html">データセット操作(dplyr, tidyr)</a>
+    </li>
+    <li>
+      <a href="purrr.html">関数型プログラミング(purrr)</a>
+    </li>
+    <li>
+      <a href="stringr.html">文字列操作(stringr)</a>
+    </li>
+    <li>
+      <a href="lubridate.html">日付・時刻データ(lubridate)</a>
+    </li>
+    <li>
+      <a href="fs.html">ファイルシステム操作(fs)</a>
+    </li>
+    <li>
+      <a href="rlang.html">tidy eval (rlang)</a>
+    </li>
+    <li>
+      <a href="scraping.html">スクレイピング(rvest)</a>
+    </li>
+    <li class="dropdown-header">データベース（NDBとか色々）</li>
+    <li>
+      <a href="baseR.html">base関数メモ</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    可視化
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ggplot2.html">ggplot2</a>
+    </li>
+    <li>
+      <a href="ggplot2-color.html">ggplot2の配色</a>
+    </li>
+    <li>
+      <a href="ggplot2-grid.html">ggplot2の配置</a>
+    </li>
+    <li>
+      <a href="ggplot2-extension.html">ggplot2の拡張パッケージ</a>
+    </li>
+    <li>
+      <a href="ggplot2-practice.html">ggplot2用例</a>
+    </li>
+    <li>
+      <a href="plotly.html">plotly</a>
+    </li>
+    <li>
+      <a href="base-plot.html">base::plot</a>
+    </li>
+    <li>
+      <a href="EDA.html">探索的データ解析</a>
+    </li>
+    <li>
+      <a href="Table.html">表の可視化</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    統計
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Statistics.html">統計</a>
+    </li>
+    <li class="dropdown-header">検定・相関</li>
+    <li>
+      <a href="Stat-probability-distribution.html">確率分布</a>
+    </li>
+    <li class="dropdown-header">lm, glm</li>
+    <li>
+      <a href="Stat-GLMM.html">GLMM（一般化線形混合モデル）</a>
+    </li>
+    <li class="dropdown-header">主成分分析</li>
+    <li class="dropdown-header">RStan</li>
+    <li>
+      <a href="tidymodels.html">tidymodels</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Rmd
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Rmarkdown.html">R Markdown覚書</a>
+    </li>
+    <li>
+      <a href="Rmd-Dashboard.html">flexdashboard</a>
+    </li>
+    <li>
+      <a href="Rmd-Presentation.html">R Markdownでスライド</a>
+    </li>
+    <li>
+      <a href="Rmd-GitHubPages.html">Rmd to GitHub Pages</a>
+    </li>
+    <li>
+      <a href="Rmd-bookdown.html">Bookdown</a>
+    </li>
+    <li>
+      <a href="LaTeX.html">LaTeX</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R-Environment.html">R環境設定</a>
+    </li>
+    <li>
+      <a href="RStudio.html">RStudioの設定</a>
+    </li>
+    <li>
+      <a href="R-Package.html">パッケージ管理</a>
+    </li>
+    <li>
+      <a href="reprex.html">バグ報告・質問など(reprex)</a>
+    </li>
+    <li>
+      <a href="R-Tips.html">R雑多メモ</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Python
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R-and-Python.html">RでPython</a>
+    </li>
+    <li>
+      <a href="Python-Environment.html">Python環境構築</a>
+    </li>
+    <li>
+      <a href="Python-Jupyter.html">Jupyter Notebook</a>
+    </li>
+    <li class="dropdown-header">Pythonメモ</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    その他
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ToDo.html">頑張ろう</a>
+    </li>
+    <li>
+      <a href="mac-Environment.html">mac環境構築</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/u-4/PalmWiki/">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R雑多メモ</h1>
+
+</div>
+
+
+<div id="文字列を関数として評価するr" class="section level2">
+<h2>文字列を関数として評価する＠R</h2>
+<p>2018年9月9日 調べるのにめちゃめちゃハマった。 fig1a, fig1b, fig1c, fig1dみたいなグラフオブジェクトがある時に、これらをまとめて</p>
+<pre><code>write_rds(fig1a, &quot;data/fig1a.RDS&quot;)</code></pre>
+<p>みたいな処理をしたかったのだが、<code>map</code>や<code>for</code>ループでややろうとするもことごとくエラーか<code>"``fig1a``"</code>というも文字列オブジェクトを保存する結果になってしまった。</p>
+<p><code>eval + parse + text</code>か<code>eval + substitute + do.call</code>を用いることになる模様。前者はわかりやすいが遅くて非推奨？後者は<code>do.call</code>の勉強を兼ねてやって見る感じか。どうしても必要なところ以外はできるだけ<code>tidyverse</code>な感じでやっていきたい。</p>
+<ul>
+<li><a href="https://teramonagi.hatenablog.com/entry/20171224/1514080053">eval(parse(text=…))をモダンに書きたい - My Life as a Mock Quant</a></li>
+<li><a href="http://nshi.jp/contents/r/eval/">eval + parse + text vs. eval + substitute + do.call | R | Kengo Nagashima - The Institute of Statistical Mathematics</a></li>
+</ul>
+<div id="eval-parse-textで処理" class="section level3">
+<h3><code>eval + parse + text</code>で処理</h3>
+<p>結局手が回らないのでこちらだけ。オブジェクトリストを取得して<code>fig[0-9]*</code>的なものだけ抜き出してリストを作成、それを<code>for</code>ループなどで処理。<code>%&gt;%</code>で<code>eval(parse(text = .), envir = .GlovhbalEnv)</code>とか投げるとエラーが出て解決できなかったので諦めた。</p>
+<div id="forループ版" class="section level4">
+<h4><code>for</code>ループ版</h4>
+<p>リスト作ってforループという王道パターン。とはいえ実はほとんどforループ使っていなかったので良い練習に。</p>
+<pre><code>figlist &lt;- ls() %&gt;% # オブジェクト一覧を取得
+  str_subset(&quot;fig[0-9]&quot;) # fig（数字）任意のものを取得
+
+# figlistの各要素についてのforループ
+for (i in 1:length(figlist)) {
+  # eval(parse(text = string))で文字列stringをコマンドとして実行する
+  eval(parse(text = str_c(
+    &quot;write_rds(&quot;,
+    figlist[i],
+    &quot;, \&quot;data/&quot;,
+    figlist[i],
+    &quot;.RDS\&quot;)&quot;
+  )))
+}</code></pre>
+</div>
+<div id="purrrwalk版" class="section level4">
+<h4><code>purrr::walk()</code>版</h4>
+<p><code>map()</code>だとなぜかplotがもう一度作成されて出力される。保存ももちろんできるけど。 仕方がないので<code>walk()</code>を使って保存だけ行わせ、さらにそのsilentな出力を利用して保存対象としたオブジェクトを根こそぎ<code>remove()</code>へ放り込むことに。パイプ内の実行になるので<code>envir = .GlobalEnv</code>がひ必要になった。</p>
+<pre><code># オブジェクトのリストを取得→fig[0-9]を選択→保存処理
+ls() %&gt;%
+  str_subset(&quot;fig[0-9]&quot;) %&gt;% 
+  # map()だとなぜかもう一度作図されてしまう？
+  walk(~ eval(parse(text = str_c(&quot;write_rds(&quot;, ., &quot;, \&quot;data/&quot;, ., &quot;.RDS\&quot;)&quot;)))) %&gt;% 
+  # walk()にしてsilentな出力（対象のオブジェクト）を削除してしまうことに
+  # envir = .GlobalEnvがないとオブジェクトと環境が違うのでエラーに
+  remove(list = ., envir = .GlobalEnv)</code></pre>
+</div>
+<div id="rlangeval_tidy" class="section level4">
+<h4><code>rlang::eval_tidy</code>？</h4>
+<p><code>eval()</code>も置き換えるならこれ？挙動が把握できずにギブアップ</p>
+</div>
+</div>
+</div>
+<div id="rにおける暗号化匿名化" class="section level2">
+<h2>Rにおける暗号化・匿名化</h2>
+<p>Rの中で処理できる方法について</p>
+<p>ハッシュ生成とsaltキーの付加 Opensslパッケージ（付随してshaとかmd5が使えるように）</p>
+<pre><code>install.packages(&quot;openssl&quot;)</code></pre>
+<p>でsha256でsaltキー付きで生成とか？そのキーをランダムに生成する？ しかしsha256(x, key = KEY)のKEYはベクトル入力できない模様。forループ作るかいちいちやるかになりそう。</p>
+<p><a href="https://www.rdocumentation.org/packages/openssl/versions/0.9.9/topics/hashing" class="uri">https://www.rdocumentation.org/packages/openssl/versions/0.9.9/topics/hashing</a></p>
+<p>匿名化ID用のランダム文字列生成 匿名化ID用の文字列生成は以下のスレッドを参考に <a href="https://stackoverflow.com/questions/42734547/generating-random-strings" class="uri">https://stackoverflow.com/questions/42734547/generating-random-strings</a></p>
+<p>「stringi」パッケージがtidyverseにも入っている「stringr」の上位互換（stringrがstringiのラッパーになっているらしい）なのでそれを使うのが一番よさそう。</p>
+<pre><code>#  n個のlength文字数のランダムな文字ベクトルを生成
+stringi::stri_rand_strings(n = 10, length = 5)
+## &quot;imN8B&quot; &quot;ZP51E&quot; &quot;xf73X&quot; &quot;l2g3u&quot; &quot;Tc63B&quot; &quot;h1jW7&quot; &quot;PQf7Z&quot; &quot;f3Cl9&quot; &quot;2HZ9P&quot; &quot;o97aG&quot;
+
+# 引数patternで使用する文字列を設定できる
+stringi::stri_rand_strings(n = 10, length = 5, pattern = &quot;[a-zあ-ん]&quot;)</code></pre>
+<p>最初はアルファベット5文字、数字4つ、アルファベット、などなら以下のようなコードがあるらしい</p>
+<pre><code>library(stringi)
+sprintf(&quot;%s%s%s&quot;, stri_rand_strings(5, 5, &#39;[A-Z]&#39;),
+     stri_rand_strings(5, 4, &#39;[0-9]&#39;), stri_rand_strings(5, 1, &#39;[A-Z]&#39;))
+
+
+do.call(paste0, Map(stri_rand_strings, n=5, length=c(5, 4, 1),
+           pattern = c(&#39;[A-Z]&#39;, &#39;[0-9]&#39;, &#39;[A-Z]&#39;)))</code></pre>
+<p>匿名化IDの表を印刷して、そこに本当のID、日付、必要なら氏名などを記載して鍵付きロッカー（個人情報保管用として定められたところ）へ</p>
+</div>
+<div id="rで日本語出力" class="section level2">
+<h2>Rで日本語出力</h2>
+<p>PDF（LaTeX）関連 標準で用いられる「pdflatex」は日本語が扱えないらしく、「XeLaTeX」を使うことになる。 macOSでLaTeXで先にLaTeXが利用できるようにしておく。</p>
+<p>uriさんのlab.noteを参考に拡張して行くのが良さそう。 <a href="https://qiita.com/uri/items/02883ef0f3e2962eac52">RユーザーがLaTeXユーザーと仲良くするべき理由 - Qiita</a> <a href="https://github.com/uribo/lab.note">uribo/lab.note: Create Laboratory Note and Report Using R Markdown</a></p>
+<p>この場合にはfont-awsomeをインストールしておく（ないとエラーになる） <a href="https://github.com/FortAwesome/Font-Awesome">FortAwesome/Font-Awesome: The iconic SVG, font, and CSS toolkit</a></p>
+<pre><code>brew tap caskroom/fonts
+brew cask install font-fontawesome</code></pre>
+<p><a href="https://qiita.com/izumin5210/items/83839616b149c907c3c3">ご注文はFont Awesomeですか？ 第1羽「ひと目で尋常でないスライドだと見抜いたよ」 - Qiita</a> のようにLaTeXに限らずちょっとしたスライドなんかにも使えそう。</p>
+header-includes: -
+
+<ul>
+<li><ul>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li><h1 id="comment-out-when-using-japanese.">Comment out when using Japanese.</h1></li>
+<li> # Set for Japanese font.</li>
+<li> </li>
+<li><h1 id="require-installed-fontawesome">require installed FontAwesome</h1></li>
+<li>output: pdf_document: latex_engine: xelatex toc: yes toc_depth: 3 highlight: tango fig_caption: yes # bibliography: bibliography.bib ## ref) <a href="http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html" class="uri">http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html</a> mainfont: Times New Roman # mathfont: monofont: Ricty</li>
+</ul></li>
+</ul>
+<hr />
+<p>以下はなくても行けてそう。</p>
+<p>日本語文章の折り返しがうまくいかない XeLaTeXは単語間のスペースを折り返し（改行）候補とするらしく、日本語だとうまくいかない。意図的に改行したい場合には半角スペースを2つ重ねる方法もあるとのことだが実用的ではない。</p>
+<p>ヘッダーで改行の様式を指定することでうまく行く模様。</p>
+<p><a href="https://qiita.com/Atsushi776/items/9ef1e5d744e2b91c61ee">Rmarkdownで日本語PDFを出力する - Qiita</a></p>
+<p>bxjsarticle <a href="https://www.ctan.org/pkg/bxjscls">CTAN: Package BXjscls</a> CTAN: Package BXjsclsというXeLaTeXを含む多くのパッケージで日本語をうまく扱うためのパッケージに含まれる「bxjsarticle」を用いるのが良さそうだが、2016あたりからの記事では「subtitle」コマンドが二重に定義されていてエラーが出るとの記載が多い。</p>
+<p><a href="https://www.trifields.jp/how-to-resolve-if-an-error-occurs-in-the-subtitle-when-using-bxjsarticle-1936">R,knitPDF bxjsarticleを用いた際にサブタイトルでエラーが出る場合の対処法 | トライフィールズ</a> <a href="https://miyazakikenji.wordpress.com/2016/05/03/rstudio-%E3%81%A7-rmd-%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%8B%E3%82%89%E6%97%A5%E6%9C%AC%E8%AA%9E-pdf-%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/">RStudio で Rmd ファイルから日本語 PDF を作成する方法 | miyazakikenji</a></p>
+<p>ZXjatypeパッケージ <a href="http://zrbabbler.sp.land.to/zxjatype.html">ZXjatype パッケージ ～XeLaTeX でまともな日本語組版を～ [電脳世界の奥底にて]</a></p>
+<p>標準のプロット関連</p>
+<p>ggplot2関連</p>
+<p>bookdownパッケージ関連</p>
+<p>bookdownにする際はさらにややこしい問題がありそう。下記のはlualatexを使用している模様。 <a href="https://github.com/kazutan/bookdown_ja_template">kazutan/bookdown_ja_template: for bookdown starter kits for japanese.</a></p>
+</div>
+<div id="r用語集" class="section level2">
+<h2>R用語集</h2>
+<div id="データ解析のための統計モデリング入門" class="section level3">
+<h3>データ解析のための統計モデリング入門</h3>
+<p>データ解析のための統計モデリング入門 久保拓弥 岩波書店 R界隈では緑本と呼ばれてる？</p>
+</div>
+</div>
+
+<footer>
+  <p>Copyright &copy; 2019 Yuho TAMAI </p>
+</footer>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

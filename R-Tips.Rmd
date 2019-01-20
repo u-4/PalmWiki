@@ -1,0 +1,261 @@
+---
+title: "R雑多メモ"
+---
+
+## 不要なRオブジェクトを削除する
+
+`rm()`ないし`remove()`でオブジェクトを指定する。オブジェクト1つを直接指定するなら`rm(x)`で、複数指定するなら`list = c("x", "y")`。`c(x, y)`だと`x`と`y`をくっつけたベクトルになるので注意。
+
+```{r}
+x <- c(1, 2)
+y <- c(3, 4)
+
+# rm(list = c(x, y))
+#> Warning in rm(list = c(x, y)) : object '1' not found
+#> Warning in rm(list = c(x, y)) : object '2' not found
+#> Warning in rm(list = c(x, y)) : object '3' not found
+#> Warning in rm(list = c(x, y)) : object '4' not found
+
+rm(list = c("x", "y"))
+```
+
+現在のオブジェクトの一覧は`ls()`か`objects()`で得られる。どちらもbase関数で[全く同じもの](https://stackoverflow.com/questions/29602761/difference-between-ls-and-objects)なので、短い`ls()`を使えば良さそう。
+
+```{r}
+all.equal(body(objects), body(ls))
+```
+
+また、デフォルトでは`all.names = FALSE`となっているため、`.`で始まる隠しオブジェクトは出力されない。
+
+```{r}
+x <- c(1, 2)
+y <- c(3, 4)
+
+ls()
+ls(all.names = TRUE)
+```
+
+オブジェクトを全部消したければ、通常は`rm(list = ls())`で良い。
+
+```{r}
+rm(list = ls())
+
+ls()
+ls(all.names = TRUE)
+```
+
+
+## 文字列を関数として評価する＠R
+
+2018年9月9日 調べるのにめちゃめちゃハマった。
+fig1a, fig1b, fig1c, fig1dみたいなグラフオブジェクトがある時に、これらをまとめて
+
+    write_rds(fig1a, "data/fig1a.RDS")
+
+みたいな処理をしたかったのだが、`map`や`for`ループでややろうとするもことごとくエラーか`"``fig1a``"`というも文字列オブジェクトを保存する結果になってしまった。
+
+`eval + parse + text`か`eval + substitute + do.call`を用いることになる模様。前者はわかりやすいが遅くて非推奨？後者は`do.call`の勉強を兼ねてやって見る感じか。どうしても必要なところ以外はできるだけ`tidyverse`な感じでやっていきたい。
+
+- [eval(parse(text=...))をモダンに書きたい - My Life as a Mock Quant](https://teramonagi.hatenablog.com/entry/20171224/1514080053)
+- [eval + parse + text vs. eval + substitute + do.call | R | Kengo Nagashima - The Institute of Statistical Mathematics](http://nshi.jp/contents/r/eval/)
+
+### `eval + parse + text`で処理
+
+結局手が回らないのでこちらだけ。オブジェクトリストを取得して`fig[0-9]*`的なものだけ抜き出してリストを作成、それを`for`ループなどで処理。`%>%`で`eval(parse(text = .), envir = .GlovhbalEnv)`とか投げるとエラーが出て解決できなかったので諦めた。
+
+
+#### `for`ループ版
+
+リスト作ってforループという王道パターン。とはいえ実はほとんどforループ使っていなかったので良い練習に。
+
+    figlist <- ls() %>% # オブジェクト一覧を取得
+      str_subset("fig[0-9]") # fig（数字）任意のものを取得
+    
+    # figlistの各要素についてのforループ
+    for (i in 1:length(figlist)) {
+      # eval(parse(text = string))で文字列stringをコマンドとして実行する
+      eval(parse(text = str_c(
+        "write_rds(",
+        figlist[i],
+        ", \"data/",
+        figlist[i],
+        ".RDS\")"
+      )))
+    }
+
+
+#### `purrr::walk()`版
+
+`map()`だとなぜかplotがもう一度作成されて出力される。保存ももちろんできるけど。
+仕方がないので`walk()`を使って保存だけ行わせ、さらにそのsilentな出力を利用して保存対象としたオブジェクトを根こそぎ`remove()`へ放り込むことに。パイプ内の実行になるので`envir = .GlobalEnv`がひ必要になった。
+
+
+    # オブジェクトのリストを取得→fig[0-9]を選択→保存処理
+    ls() %>%
+      str_subset("fig[0-9]") %>% 
+      # map()だとなぜかもう一度作図されてしまう？
+      walk(~ eval(parse(text = str_c("write_rds(", ., ", \"data/", ., ".RDS\")")))) %>% 
+      # walk()にしてsilentな出力（対象のオブジェクト）を削除してしまうことに
+      # envir = .GlobalEnvがないとオブジェクトと環境が違うのでエラーに
+      remove(list = ., envir = .GlobalEnv)
+
+
+#### `rlang::eval_tidy`？
+
+`eval()`も置き換えるならこれ？挙動が把握できずにギブアップ
+
+## Rにおける暗号化・匿名化
+
+Rの中で処理できる方法について
+
+ハッシュ生成とsaltキーの付加
+Opensslパッケージ（付随してshaとかmd5が使えるように）
+
+    install.packages("openssl")
+
+でsha256でsaltキー付きで生成とか？そのキーをランダムに生成する？
+しかしsha256(x, key = KEY)のKEYはベクトル入力できない模様。forループ作るかいちいちやるかになりそう。
+
+https://www.rdocumentation.org/packages/openssl/versions/0.9.9/topics/hashing
+
+匿名化ID用のランダム文字列生成
+匿名化ID用の文字列生成は以下のスレッドを参考に
+https://stackoverflow.com/questions/42734547/generating-random-strings
+
+「stringi」パッケージがtidyverseにも入っている「stringr」の上位互換（stringrがstringiのラッパーになっているらしい）なのでそれを使うのが一番よさそう。
+
+
+    #  n個のlength文字数のランダムな文字ベクトルを生成
+    stringi::stri_rand_strings(n = 10, length = 5)
+    ## "imN8B" "ZP51E" "xf73X" "l2g3u" "Tc63B" "h1jW7" "PQf7Z" "f3Cl9" "2HZ9P" "o97aG"
+    
+    # 引数patternで使用する文字列を設定できる
+    stringi::stri_rand_strings(n = 10, length = 5, pattern = "[a-zあ-ん]")
+
+最初はアルファベット5文字、数字4つ、アルファベット、などなら以下のようなコードがあるらしい
+
+    library(stringi)
+    sprintf("%s%s%s", stri_rand_strings(5, 5, '[A-Z]'),
+         stri_rand_strings(5, 4, '[0-9]'), stri_rand_strings(5, 1, '[A-Z]'))
+
+
+    do.call(paste0, Map(stri_rand_strings, n=5, length=c(5, 4, 1),
+               pattern = c('[A-Z]', '[0-9]', '[A-Z]')))
+
+
+匿名化IDの表を印刷して、そこに本当のID、日付、必要なら氏名などを記載して鍵付きロッカー（個人情報保管用として定められたところ）へ
+
+## Rで日本語出力
+
+
+PDF（LaTeX）関連
+標準で用いられる「pdflatex」は日本語が扱えないらしく、「XeLaTeX」を使うことになる。
+macOSでLaTeXで先にLaTeXが利用できるようにしておく。
+
+uriさんのlab.noteを参考に拡張して行くのが良さそう。
+[RユーザーがLaTeXユーザーと仲良くするべき理由 - Qiita](https://qiita.com/uri/items/02883ef0f3e2962eac52)
+[uribo/lab.note: Create Laboratory Note and Report Using R Markdown](https://github.com/uribo/lab.note)
+
+この場合にはfont-awsomeをインストールしておく（ないとエラーになる）
+[FortAwesome/Font-Awesome: The iconic SVG, font, and CSS toolkit](https://github.com/FortAwesome/Font-Awesome)
+
+    brew tap caskroom/fonts
+    brew cask install font-fontawesome
+    
+[ご注文はFont Awesomeですか？ 第1羽「ひと目で尋常でないスライドだと見抜いたよ」 - Qiita](https://qiita.com/izumin5210/items/83839616b149c907c3c3)
+のようにLaTeXに限らずちょっとしたスライドなんかにも使えそう。
+
+``` 
+header-includes:
+  - \usepackage{natbib}
+  - \usepackage{fancyhdr}
+  - \usepackage{fourier-orns}
+  - \usepackage{lscape}
+  - \usepackage{soul}
+  - \pagestyle{fancy}
+  - \usepackage{rotating}
+  - \usepackage{scrextend}
+  - \changefontsizes{12pt}
+  - \usepackage{zxjatype} # Comment out when using Japanese.
+  - \setjamainfont{Hiragino Kaku Gothic Pro} # Set for Japanese font.
+  - \lhead{\slshape \rightmark} \rhead{\slshape \today}
+  - \usepackage{fontspec, fontawesome} # require installed FontAwesome
+  - \newcommand{\onmline}{{\LARGE \decofourleft \hspace{0.1cm} \hrulefill\hspace{0.2cm} \floweroneleft \floweroneright \hspace{0.2cm} \hrulefill \hspace{0.1cm} \decofourright}}
+output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: yes
+    toc_depth: 3
+    highlight: tango
+    fig_caption: yes
+# bibliography: bibliography.bib ## ref) http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html
+mainfont: Times New Roman
+# mathfont:
+monofont: Ricty
+```
+
+
+以下はなくても行けてそう。
+
+日本語文章の折り返しがうまくいかない
+XeLaTeXは単語間のスペースを折り返し（改行）候補とするらしく、日本語だとうまくいかない。意図的に改行したい場合には半角スペースを2つ重ねる方法もあるとのことだが実用的ではない。
+
+ヘッダーで改行の様式を指定することでうまく行く模様。
+
+[Rmarkdownで日本語PDFを出力する - Qiita](https://qiita.com/Atsushi776/items/9ef1e5d744e2b91c61ee)
+
+```
+---
+output:
+  pdf_document:
+    latex_engine: xelatex
+documentclass: bxjsarticle
+classoption: xelatex,ja=standard
+geometry: no
+---
+
+---
+output:
+  pdf_document:
+    latex_engine: xelatex
+header-includes:
+  - \usepackage{bookmark}
+  - \usepackage{xltxtra}
+  - \usepackage{zxjatype}
+  - \usepackage[ipa]{zxjafont}
+---
+```
+
+
+bxjsarticle
+[CTAN: Package BXjscls](https://www.ctan.org/pkg/bxjscls)
+CTAN: Package BXjsclsというXeLaTeXを含む多くのパッケージで日本語をうまく扱うためのパッケージに含まれる「bxjsarticle」を用いるのが良さそうだが、2016あたりからの記事では「subtitle」コマンドが二重に定義されていてエラーが出るとの記載が多い。
+
+[R,knitPDF bxjsarticleを用いた際にサブタイトルでエラーが出る場合の対処法 | トライフィールズ](https://www.trifields.jp/how-to-resolve-if-an-error-occurs-in-the-subtitle-when-using-bxjsarticle-1936)
+[RStudio で Rmd ファイルから日本語 PDF を作成する方法 | miyazakikenji](https://miyazakikenji.wordpress.com/2016/05/03/rstudio-%E3%81%A7-rmd-%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%8B%E3%82%89%E6%97%A5%E6%9C%AC%E8%AA%9E-pdf-%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/)
+
+ZXjatypeパッケージ
+[ZXjatype パッケージ ～XeLaTeX でまともな日本語組版を～ [電脳世界の奥底にて]](http://zrbabbler.sp.land.to/zxjatype.html)
+
+
+標準のプロット関連
+
+
+
+ggplot2関連
+
+
+
+bookdownパッケージ関連
+
+bookdownにする際はさらにややこしい問題がありそう。下記のはlualatexを使用している模様。
+[kazutan/bookdown_ja_template: for bookdown starter kits for japanese.](https://github.com/kazutan/bookdown_ja_template)
+
+## R用語集
+
+### データ解析のための統計モデリング入門
+
+データ解析のための統計モデリング入門 久保拓弥 岩波書店
+R界隈では緑本と呼ばれてる？
+
+

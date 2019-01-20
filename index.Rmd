@@ -1,0 +1,24 @@
+---
+title: "PalmWiki"
+output:
+  html_document:
+    toc: false
+---
+
+## このページについて
+
+主にR言語に関するメモをまとめた、あるいはとりあえずメモしただけのものです。[無料統計ソフトEZR (Easy R)](http://www.jichi.ac.jp/saitama-sct/SaitamaHP.files/statmed.html)様をよくわからないながら使い始め、その後思い立って[RStudioではじめるRプログラミング入門](https://www.oreilly.co.jp/books/9784873117157/)と[Rではじめるデータサイエンス](https://www.oreilly.co.jp/books/9784873118147/)でRの勉強を始めたので、いわゆるbaseRの知識はほぼ皆無です。プログラミングもやったことがなく、流行りはPythonのようだったので入門書は買ってみましたが、インデックスは0から始まるしおまじないが大量に書いてあるしで挫折してR Markdownとtidyverseの使いやすさからRで頑張ることにしました。コンテンツの多くは~~パクってきた~~書籍やWeb上の情報を元に写経したり実践で試したものをあとで参照できるように~~まとめたものになります。~~まとめてなくてリンク貼っただけのものが大半ですが。各種パッケージなどの詳細は素晴らしいまとめサイトなどもあるため、自分が詰まったり見返したいものにとどめています。
+
+## 超参考文献
+
+- [RStudioではじめるRプログラミング入門](https://www.oreilly.co.jp/books/9784873117157/)
+- [Rではじめるデータサイエンス](https://www.oreilly.co.jp/books/9784873118147/)
+- [Wonderful R | 共立出版](https://www.kyoritsu-pub.co.jp/series/205/)
+- [Tidyverse](https://www.tidyverse.org/)
+- [Cheatsheets - RStudio](https://www.rstudio.com/resources/cheatsheets/)
+- [Heavy Watal](https://heavywatal.github.io/)
+- [Kazutan.R](https://kazutan.github.io/kazutanR/index.html)
+- [Technically, technophobic.](https://notchained.hatenablog.com/)
+- [Mase-Rstatman.pdf](https://cran.ism.ac.jp/doc/contrib/manuals-jp/Mase-Rstatman.pdf)
+- [R-Tips](http://cse.naro.affrc.go.jp/takezawa/r-tips/r.html)
+

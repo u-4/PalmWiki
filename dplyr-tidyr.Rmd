@@ -1,0 +1,40 @@
+---
+title: "dplyr and tidyr"
+---
+
+- [A Grammar of Data Manipulation • dplyr](https://dplyr.tidyverse.org/index.html)
+- [Data Transformation Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf)
+
+- [Easily Tidy Data with 'spread()' and 'gather()' Functions • tidyr](https://tidyr.tidyverse.org/)
+
+tidyrはreadrとまとめるべきか？
+
+- tibble
+  - as_tibble
+  - rownames_to_columnなど
+  
+
+- 行操作：slice, filter
+- 列操作：select、列選択のための関数
+- 列作成：mutate rename
+- 結合：join
+- グループ化：group_by
+- gather / spread
+- nest / unnest
+- separate
+- purrrとの組み合わせ
+- 古いdoの使い方
+- distinct, sample_n 
+- summarize, count
+- arrange
+
+[ESJ65-W07 それもRにやらせよう — 整然データの下ごしらえ](https://heavywatal.github.io/slides/esj65/)
+
+[データハンドリング入門](https://kazutan.github.io/kazutanR/hands_on_170730/index.html)
+
+
+## dplyr 0.8
+
+- [dplyr 0.8.0を使ってみた（group_by()のbreaking changes編） - Technically, technophobic.](https://notchained.hatenablog.com/entry/2018/12/09/120553)
+- [dplyr 0.8.0を使ってみた（新機能編） - Technically, technophobic.](https://notchained.hatenablog.com/entry/2018/12/09/160956)
+- [group_map などの data frame を要約する関数をベンチマーク (dplyr > 0.8.x) | Atusy's blog](https://atusy.github.io/blog/2019/01/04/benchmarks-on-summarizing-with-dplyr/)

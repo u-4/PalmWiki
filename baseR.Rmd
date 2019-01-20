@@ -1,0 +1,56 @@
+---
+title: "baseR"
+date: "`r format(Sys.time(), '%Y-%m-%d')`"
+---
+
+baseRの関数メモ。`.Rprofile`での処理や、教科書・他の人のコードを読むのに必要なので詰まったものをメモしていく。出来るだけtidyverse的に処理したいのでtidyverse的に置き換えられるものはその方法もメモ。機能的な差異もできるだけ記載しておく。
+
+- [Base R cheetsheet](http://github.com/rstudio/cheatsheets/raw/master/base-r.pdf)
+- [Advanced R cheetsheet](https://www.rstudio.com/wp-content/uploads/2016/02/advancedR.pdf)
+
+## `paste0` / `paste` から `str_c`
+
+[RPubs - Stringr-Stringi-base](http://rpubs.com/yamano357/92478)
+
+`base::paste0(..., collapse = NULL)`
+`base::paste(..., sep = " ", collapse = NULL)`
+`stringr::str_c(..., sep = "", collapse = NULL)`
+
+### NAの扱いの違い
+
+```{r}
+# pasteはas.character処理をするのでNAの扱いも文字列になる
+x <- LETTERS 
+x[x %in% c("A", "E", "I", "O", "U")] <- NA
+x %>% head()
+y <- letters
+y[c(TRUE, FALSE, FALSE)] <- NA
+y %>% head()
+stringr::str_c(x, y) %>% head()
+paste0(x, y) %>% head()
+# NAを文字列として扱いたければ str_replace_na
+stringr::str_c(str_replace_na(x), str_replace_na(y)) %>% head()
+```
+
+### ベクトルリサイクリングの警告
+
+`str_c()`はベクトルの長さがちょうど倍数になっていない場合には警告してくれる。
+
+```{r}
+paste0(month.abb, letters)
+stringr::str_c(month.abb, letters)
+```
+
+## ifelse()からdplyr::if_else()
+
+通常のif, elseの組み合わせと違ってベクトル化されているらしく、また標準のifelse()より厳密で、ただしベクトルを受け取った時の返り値が特殊らしく、注意が必要とのこと。速度的には最高の方法ではないが通常のforループなどよりは早い模様。
+
+与えられた値が欠損値NAの場合でも「missing」引数を設定しておくことで欠損値用の特定の処理を行うことができる。
+
+- [ifelse()は危険なのでやめてdplyr::if_else()を使いましょう - Technically, technophobic.](https://notchained.hatenablog.com/entry/2016/11/23/112729)
+- [dplyrのベクトル要素変換用関数3種](https://suryu.me/post/dplyr_recode/)
+
+
+## apply系からpurrr::map系
+
+- [R: apply系の関数の代わりにpurrrを使ってみる - 廿TT](http://abrahamcow.hatenablog.com/entry/2017/12/29/145220)

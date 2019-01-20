@@ -1,0 +1,15 @@
+---
+title: "R-Development"
+---
+
+開発とかでは使う？とりあえず色々メモしておく。
+
+- [CRAN - Package testthat](https://cran.r-project.org/web/packages/testthat/index.html)
+- [CRAN - Package assertthat](https://cran.r-project.org/web/packages/assertthat/index.html)
+- [Rでアサートする系のパッケージ：ensurer, assertthat, assertr - Technically, technophobic.](https://notchained.hatenablog.com/entry/2015/03/22/140656)
+
+
+[こわくないRパッケージ開発！2016 - Qiita](https://qiita.com/wakuteka/items/54f81f32baf50e243461)
+[devtools: Rパッケージ作成支援 - Heavy Watal](https://heavywatal.github.io/rstats/devtools.html)
+
+[ドブネズミ みたいに 美しくな {lintr} い - Qiita](https://qiita.com/wakuteka/items/b615b6679eee7064a4ac#_reference-b1270113b887aa325db6)

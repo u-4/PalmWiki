@@ -1,0 +1,187 @@
+---
+title: "Table"
+---
+
+- [DTでインタラクティブな表作り](https://kazutan.github.io/kazutanR/DT_demo.html)
+- [DT: An R interface to the DataTables library](https://rstudio.github.io/DT/)
+- [Rで様々な表を書く。パラメータの多いStanの結果も美しい表に。 – MrUnadon – Bayesian Statistical Modelings with R and Rstan](https://mrunadon.github.io/TableWithR/)
+
+## tableone
+
+医学論文の患者さんのcharacteristicsをまとめたいわゆる「Table 1」を簡単に作成するためのパッケージ吉田和樹さんが作られている。多分便利なのでPython版も存在する。
+
+`finalfit`パッケージの方が最終的には解析も含めてできるのでお手軽そうだが、現状では
+
+- total と stratのマージがうまくできない
+- meanを使うかmedianを使うかが個別に設定できない
+
+という大きな問題点もあり、これが解決されるまではこちらを利用することになりそう。
+
+- [kaz-yos/tableone: R package to create "Table 1", description of baseline characteristics](https://github.com/kaz-yos/tableone)
+- [CRAN - Package tableone](https://cran.r-project.org/web/packages/tableone/index.html)
+- [RPubs - tableone: 医学研究で必要な&quot;表1&quot;を作成するRパッケージ](https://rpubs.com/kaz_yos/tableone-demo-j)
+- [R package'tableone'のCreateTableOne関数で表1を書く - 統計学と疫学と時々、助教生活](http://jojoshin.hatenablog.com/entry/2016/05/24/110551)
+
+`CreateTableOne()`
+
+
+    CreateTableOne(
+        vars,
+        strata,
+        data,
+        factorVars,
+        includeNA = FALSE,
+        test = TRUE,
+        testApprox = chisq.test,
+        argsApprox = list(correct = TRUE),
+        testExact = fisher.test,
+        argsExact = list(workspace = 2 * 10^5),
+        testNormal = oneway.test,
+        argsNormal = list(var.equal = TRUE),
+        testNonNormal = kruskal.test,
+        argsNonNormal = list(NULL),
+        smd = TRUE)
+
+
+全体・層別の両方を統合した表を作成する
+
+これがオプション一発とかでできるとありがたいのだが。alfredのsnipetに`Rtable1` で展開されるようにテンプレート登録済み
+
+
+1. 必要なパッケージを読み込み
+2. データ読み込み、利用する変数を`dplyr::select()`で選択、必要なら変数作成
+3. `labelled::var_label()`で変数に出力用のラベルを設定
+4. 各種変数リストを作成
+  1. `nonnormalVars`：非正規分布する変数
+  2. `factorVars`：数値として入っているカテゴリカル変数のリスト
+  3. `cramVars`：１行で表示したいカテゴリ変数のリスト
+  4. `exactVars`：exact testで扱いたい変数のリスト
+  5. `stratVar`：層別化したい変数
+5. 全体および層別の`tableone`オブジェクトを生成する
+6. その`print`出力をオブジェクトに格納
+7. `cbind`を用いてmatrixを結合
+8. `knitr::kable()`と`kableExtra::kable_as_image`で$$\LaTeX$$的な表をpng出力
+
+
+    # 全体および層別のtableoneオブジェクトを作成
+    total1 <- tableone::CreateTableOne(data = d1)
+    strat1 <- tableone::CreateTableOne(data = d1, strat = stratVar)
+    
+    # print出力をオブジェクトに格納
+    # https://github.com/kaz-yos/tableone/issues/10
+    total1.matrix <- print(total1, printToggle = FALSE, noSpaces = TRUE,
+                           varLabels = TRUE, explain = TRUE,
+                           nonnormal = nonnormalVars,
+                           cramVars = cramVars)
+    
+    strat1.matrix <- print(strat1, printToggle = FALSE, noSpaces = TRUE,
+                           varLabels = TRUE, explain = TRUE,
+                           nonnormal = nonnormalVars,
+                           cramVars = cramVars,
+                           exact = exactVars)
+    
+    # cbindでmatrixを結合
+    table1 <- cbind(total1.matrix, strat1.matrix)
+    # readr::write_rds(table1, "data/table1.RDS")
+    
+
+
+
+
+tableoneでlabelの使用
+
+いちいち変数をrenameするのは大変。Ver 0.9.0で`labelled::var_label`によるラベルのサポートが開始。`print`の中で`varLabels = TRUE`としてやれば良い。
+
+[Release Variable Label Support · kaz-yos/tableone](https://github.com/kaz-yos/tableone/releases/tag/0.9.0)
+
+`var_label`の使い方
+
+もちろん一つずつ設定もできるが
+
+    var_label(iris$Sepal.Length) <- "Length of sepal"
+
+まとめて設定することもできる。
+
+    var_label(iris) <- list(Petal.Length = "Length of petal",
+                            Petal.Width = "Width of Petal")
+
+
+
+行名の「(mean (sd))」を消すには
+
+`print`で`explain = FALSE`を指定すれば消すことができる。
+
+## kableでLaTeX出力
+`kable`や`kableExtra`を利用して表を$$\LaTeX$$→png出力する際のメモ
+
+
+### $$\LaTeX$$っぽい表をpngファイルとして出力する
+
+1. `knitr::kable()`で`format =` `"``latex``"`を指定して出力
+    1. `row.names = FALSE`, `align = c(``"``l``"``,` `"``l``"``,` `"``r``"``,` `"``r``"``,` `"``r``"``)`などは適宜設定
+    2. `booktabs = TRUE`にするのが大抵の場合綺麗に出力される
+    3. この時の５行ごとのスペースを消すには`linesep =` `""`を追加する
+2. `kableExtra::kable_as_image()`でpngファイルとして出力
+    1. 基本的には`kable_as_image(``"``table1``"``)`とすれば`table1.png`として出力される
+    2. $$\LaTeX$$的にどうなっているか確認するには`keep_tex = TRUE`にして中間ファイルを確認する
+
+#### `kable()`
+
+[kable function | R Documentation](https://www.rdocumentation.org/packages/knitr/versions/1.20/topics/kable)
+
+#### `kable_as_image()`
+
+[kable_as_image function | R Documentation](https://www.rdocumentation.org/packages/kableExtra/versions/0.9.0/topics/kable_as_image)
+
+
+#### 出力例
+
+    kable(x, format = "latex", row.names=FALSE, align=c("l", "l", "r", "r", "r"),
+         caption = "Table1 in LaTeX format", booktabs = T, linesep = "") %>% 
+    kableExtra::kable_as_image(filename = NULL, file_format = "png",
+                   latex_header_includes = NULL, keep_pdf = FALSE, density = 300,
+                   keep_tex = FALSE)
+
+実際の使用時にはこのくらいの記載で良い
+
+    table1 %>%
+      as.data.frame() %>%
+      kable("latex", row.names=FALSE, align=c("l", "l", "r", "r", "r"),
+         caption = "Table1 in LaTeX format", booktabs = T, linesep = "") %>% 
+      kable_as_image("table1")
+
+### 各種フォーマット方法
+
+[Create Awesome LaTeX Table with knitr::kable and kableExtra](https://haozhu233.github.io/kableExtra/awesome_table_in_pdf.pdf)
+が実例を見ながら確認できる。
+
+#### booktabsフォーマットスタイル
+
+`booktabs = T`として`booktabs`スタイルを利用すると基本的には見栄えが良くなる。この時デフォルトの`kable()`では`linesep = if (booktabs) c('', '', '', '', '\\addlinespace') else '\\hline'`が設定されており、表の中の5行ごとに少し空白が入るようになっている（これはこれで見やすいが）。これをなくすためには`linesep =` `""`などとしてしまえば良い。
+
+$$\LaTeX$$的なフォーマットがどうなっているか確認するためには、
+
+    kableExtra::kable_as_image(…, keep_tex = TRUE)
+
+としてやれば中間ファイルの`.tex`ファイルが残るのでそれを見て確認すれば良い。
+
+
+#### ヘッダーの一部の書式調節など
+
+[Set col names and headers (above) to weird characters for tables with knitr, kableExtra and Latex in R markdown - Stack Overflow](https://stackoverflow.com/questions/50585031/set-col-names-and-headers-above-to-weird-characters-for-tables-with-knitr-kab)
+
+`escape = FALSE`にすると`$$`を使って数式表現できる？
+
+
+#### 改行の調節
+
+http://haozhu233.github.io/kableExtra/best_practice_for_newline_in_latex_table.pdf
+
+
+#### 図表のキャプション番号の手動変更
+
+$$\LaTeX$$なので基本的には図表の番号は自動でついていくが、実際には手動で番号を変更したい場合がある（よくある）。
+
+- [LaTeX table and figure numbering style « timmurphy.org](http://timmurphy.org/2011/07/18/latex-table-and-figure-numbering-style/)
+- [manual numbering of tables](https://latex.org/forum/viewtopic.php?t=5852)
+

@@ -1,0 +1,42 @@
+---
+title: "ggplot2-grid"
+output: html_document
+---
+
+
+- [ggplot2で複数のプロットをまとめて表示する方法あれこれ - Qiita](https://qiita.com/nozma/items/cd98ec7938e0783d5d89)
+- [patchworkを使って複数のggplotを組み合わせる - Qiita](https://qiita.com/nozma/items/4512623bea296ccb74ba)
+- [thomasp85/patchwork: The Composer of ggplots](https://github.com/thomasp85/patchwork)
+- [tokyor073-multi-ggplot2.utf8](https://atusy.github.io/presentation/tokyor073/tokyor073-multi-ggplot2.html?raw#/)
+- [ggplot2の図をパネル状に並べる (cowplot, patchwork, egg, ggpubr) - A plant researcher](https://keachmurakami.github.io/page/2018/07/21/ggplot2%E3%81%AE%E5%9B%B3%E3%82%92%E3%83%91%E3%83%8D%E3%83%AB%E7%8A%B6%E3%81%AB%E4%B8%A6%E3%81%B9%E3%82%8B-cowplot-patchwork-egg-ggpubr/)
+
+## cowplot
+
+[CRAN - Package cowplot](https://cran.r-project.org/web/packages/cowplot/)
+ggplot2のグラフをうまいこと学会や論文発表で使いやすいように整形したり並べたりできるパッケージ。
+
+- gridExtraよりも簡単に幅を揃えた複数の図表のgridを作成できる。
+- 図の「A, B, C, D」みたいなのも自動でも手動でも振ることができる。
+
+公式vignettes
+[Introduction to cowplot](https://cran.r-project.org/web/packages/cowplot/vignettes/introduction.html)
+[Arranging plots in a grid](https://cran.r-project.org/web/packages/cowplot/vignettes/plot_grid.html)
+[Changing the axis positions](https://cran.r-project.org/web/packages/cowplot/vignettes/axis_position.html)
+[Plot annotations](https://cran.r-project.org/web/packages/cowplot/vignettes/plot_annotations.html)
+[Shared legends](https://cran.r-project.org/web/packages/cowplot/vignettes/shared_legends.html)
+
+[random dispersal: （cowplotパッケージ）研究用にスッキリ簡潔にggplotを描画 & 複数パネル化](http://nhkuma.blogspot.com/2016/09/cowplotggplot2.html)
+
+scalesかなんかでgridの図の間の調節ができる模様
+
+作成した図の保存
+図を保存する際は「`ggplot2::ggsave`」でも大抵通るようだが、「`cowplot::save_plot`」の利用が推奨されている。
+[save_plot: Alternative to ggsave, with better support for multi-figure... in cowplot: Streamlined Plot Theme and Plot Annotations for 'ggplot2'](https://rdrr.io/cran/cowplot/man/save_plot.html)
+
+
+「`base_width`」と「`base_height`」の扱いに注意。あとは`ggsave`の引数が普通に使える。「`dpi`」とか。
+
+    save_plot(filename, plot, ncol = 1, nrow = 1, base_height = 4,
+      base_aspect_ratio = 1.1, base_width = NULL, ..., cols = NULL,
+      rows = NULL)
+

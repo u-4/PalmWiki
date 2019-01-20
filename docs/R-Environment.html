@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>R環境設定</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="site_style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h2 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h3 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h4 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h5 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h6 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R memorandum</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    データ操作
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="readr.html">データ読み込み(readr)</a>
+    </li>
+    <li>
+      <a href="dplyr-tidyr.html">データセット操作(dplyr, tidyr)</a>
+    </li>
+    <li>
+      <a href="purrr.html">関数型プログラミング(purrr)</a>
+    </li>
+    <li>
+      <a href="stringr.html">文字列操作(stringr)</a>
+    </li>
+    <li>
+      <a href="lubridate.html">日付・時刻データ(lubridate)</a>
+    </li>
+    <li>
+      <a href="fs.html">ファイルシステム操作(fs)</a>
+    </li>
+    <li>
+      <a href="rlang.html">tidy eval (rlang)</a>
+    </li>
+    <li>
+      <a href="scraping.html">スクレイピング(rvest)</a>
+    </li>
+    <li class="dropdown-header">データベース（NDBとか色々）</li>
+    <li>
+      <a href="baseR.html">base関数メモ</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    可視化
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ggplot2.html">ggplot2</a>
+    </li>
+    <li>
+      <a href="ggplot2-color.html">ggplot2の配色</a>
+    </li>
+    <li>
+      <a href="ggplot2-grid.html">ggplot2の配置</a>
+    </li>
+    <li>
+      <a href="ggplot2-extension.html">ggplot2の拡張パッケージ</a>
+    </li>
+    <li>
+      <a href="ggplot2-practice.html">ggplot2用例</a>
+    </li>
+    <li>
+      <a href="plotly.html">plotly</a>
+    </li>
+    <li>
+      <a href="base-plot.html">base::plot</a>
+    </li>
+    <li>
+      <a href="EDA.html">探索的データ解析</a>
+    </li>
+    <li>
+      <a href="Table.html">表の可視化</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    統計
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Statistics.html">統計</a>
+    </li>
+    <li class="dropdown-header">検定・相関</li>
+    <li>
+      <a href="Stat-probability-distribution.html">確率分布</a>
+    </li>
+    <li class="dropdown-header">lm, glm</li>
+    <li>
+      <a href="Stat-GLMM.html">GLMM（一般化線形混合モデル）</a>
+    </li>
+    <li class="dropdown-header">主成分分析</li>
+    <li class="dropdown-header">RStan</li>
+    <li>
+      <a href="tidymodels.html">tidymodels</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Rmd
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Rmarkdown.html">R Markdown覚書</a>
+    </li>
+    <li>
+      <a href="Rmd-Dashboard.html">flexdashboard</a>
+    </li>
+    <li>
+      <a href="Rmd-Presentation.html">R Markdownでスライド</a>
+    </li>
+    <li>
+      <a href="Rmd-GitHubPages.html">Rmd to GitHub Pages</a>
+    </li>
+    <li>
+      <a href="Rmd-bookdown.html">Bookdown</a>
+    </li>
+    <li>
+      <a href="LaTeX.html">LaTeX</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R-Environment.html">R環境設定</a>
+    </li>
+    <li>
+      <a href="RStudio.html">RStudioの設定</a>
+    </li>
+    <li>
+      <a href="R-Package.html">パッケージ管理</a>
+    </li>
+    <li>
+      <a href="reprex.html">バグ報告・質問など(reprex)</a>
+    </li>
+    <li>
+      <a href="R-Tips.html">R雑多メモ</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Python
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R-and-Python.html">RでPython</a>
+    </li>
+    <li>
+      <a href="Python-Environment.html">Python環境構築</a>
+    </li>
+    <li>
+      <a href="Python-Jupyter.html">Jupyter Notebook</a>
+    </li>
+    <li class="dropdown-header">Pythonメモ</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    その他
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ToDo.html">頑張ろう</a>
+    </li>
+    <li>
+      <a href="mac-Environment.html">mac環境構築</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/u-4/PalmWiki/">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R環境設定</h1>
+
+</div>
+
+
+<div id="rとrstudioのmacosでのインストール" class="section level2">
+<h2>RとRStudioのmacOSでのインストール</h2>
+<p><code>Homebrew</code>をインストールしている前提で。<a href="mac-Environment.html">mac環境構築</a>参照。</p>
+<pre class="bash"><code>brew cask install r-app rstudio</code></pre>
+<p>で終了。</p>
+<div id="rの種類" class="section level3">
+<h3>Rの種類</h3>
+<p>macOSで<code>Homebrew</code>を用いてインストールできるのは</p>
+<ol style="list-style-type: decimal">
+<li><code>brew install r</code>でインストールされるR</li>
+<li><code>brew cask install r-app</code>でインストールされる<a href="https://cran.r-project.org/bin/macosx/">R for Mac OS X</a>と基本的に同じもの</li>
+</ol>
+<p>の2種類になる。1. の<code>brew install r</code>版は<code>openblas</code>などでカスタムができること、<code>brew doctor</code>でWarningが出ないメリットがあるが、CRAN的には非公式ビルド扱いのために<strong>パッケージのインストールの際に毎回ソースからビルドすることになる</strong>。という大きなデメリットがある。またtcl/tkサポートがない？ため<a href="http://www.jichi.ac.jp/saitama-sct/SaitamaHP.files/statmed.html">EZR</a>がうまく動かなかったような記憶がある。EZRに関してはplotの出力の問題もあり、仮想マシンを使うなどしてWindows版を利用するのがスムーズではある。</p>
+<p>一方2. の<code>brew cask install r-app</code>でインストールされる方は基本的には公式ビルドのためパッケージのインストールなどで問題は生じない。代わりに一緒にインストールされるtcl/tkなどがあまりお行儀が良くないらしく、以下のような<code>brew doctor</code>でのWarningがでるようになってしまう。Warningを消すにはこれらのファイルを削除するしかないが、消さなくてもとりあえず気づけるような問題は生じていないのでそのままにしている。</p>
+<pre class="bash"><code>$ brew doctor
+Please note that these warnings are just used to help the Homebrew maintainers
+with debugging if you file an issue. If everything you use Homebrew for is
+working fine: please don&#39;t worry or file an issue; just ignore this. Thanks!
+
+Warning: Unbrewed dylibs were found in /usr/local/lib.
+If you didn&#39;t put them there on purpose they could cause problems when
+building Homebrew formulae, and may need to be deleted.
+
+Unexpected dylibs:
+  /usr/local/lib/libtcl8.6.dylib
+  /usr/local/lib/libtk8.6.dylib
+
+Warning: Unbrewed header files were found in /usr/local/include.
+If you didn&#39;t put them there on purpose they could cause problems when
+building Homebrew formulae, and may need to be deleted.
+
+Unexpected header files:
+  /usr/local/include/fakemysql.h
+  /usr/local/include/fakepq.h
+  /usr/local/include/fakesql.h
+  /usr/local/include/itcl.h
+  /usr/local/include/itcl2TclOO.h
+  /usr/local/include/itclDecls.h
+  /usr/local/include/itclInt.h
+  /usr/local/include/itclIntDecls.h
+  /usr/local/include/itclMigrate2TclCore.h
+  /usr/local/include/itclTclIntStubsFcn.h
+  /usr/local/include/mysqlStubs.h
+  /usr/local/include/odbcStubs.h
+  /usr/local/include/pqStubs.h
+  /usr/local/include/tcl.h
+  /usr/local/include/tclDecls.h
+  /usr/local/include/tclOO.h
+  /usr/local/include/tclOODecls.h
+  /usr/local/include/tclPlatDecls.h
+  /usr/local/include/tclThread.h
+  /usr/local/include/tclTomMath.h
+  /usr/local/include/tclTomMathDecls.h
+  /usr/local/include/tdbc.h
+  /usr/local/include/tdbcDecls.h
+  /usr/local/include/tdbcInt.h
+  /usr/local/include/tk.h
+  /usr/local/include/tkDecls.h
+  /usr/local/include/tkPlatDecls.h
+
+Warning: Unbrewed .pc files were found in /usr/local/lib/pkgconfig.
+If you didn&#39;t put them there on purpose they could cause problems when
+building Homebrew formulae, and may need to be deleted.
+
+Unexpected .pc files:
+  /usr/local/lib/pkgconfig/tcl.pc
+  /usr/local/lib/pkgconfig/tk.pc
+
+Warning: Unbrewed static libraries were found in /usr/local/lib.
+If you didn&#39;t put them there on purpose they could cause problems when
+building Homebrew formulae, and may need to be deleted.
+
+Unexpected static libraries:
+  /usr/local/lib/libtclstub8.6.a
+  /usr/local/lib/libtkstub8.6.a</code></pre>
+</div>
+</div>
+<div id="rの起動手順と設定ファイル" class="section level2">
+<h2>Rの起動手順と設定ファイル</h2>
+<pre class="r"><code>help(&quot;Startup&quot;)</code></pre>
+<ol style="list-style-type: decimal">
+<li><code>.Renviron</code>（<code>--no-environ</code>でスキップ）
+<ol style="list-style-type: decimal">
+<li><code>$R_ENVIRON</code></li>
+<li><code>$R_HOME/etc/Renviron.site</code></li>
+<li><code>$R_ENVIRON_USER</code></li>
+<li><code>./.Renviron</code></li>
+<li><code>~/.Renviron</code> ←これを用意している</li>
+</ol></li>
+<li><code>Rprofile.site</code>（あれば。<code>--no-site-file</code>でスキップ）
+<ol style="list-style-type: decimal">
+<li><code>$R_PROFILE</code></li>
+<li><code>$R_HOME/etc/Rprofile.site</code></li>
+</ol></li>
+<li><code>.Rprofile</code>（<code>--no-init-file</code>でスキップ）
+<ol style="list-style-type: decimal">
+<li><code>$R_PROFILE_USER</code> ←<code>.Renviron</code>で設定しているとこれが優先される</li>
+<li><code>./.Rprofile</code> ←するとプロジェクト毎のこれが読み込まれていなかった
+<ul>
+<li>このプロジェクト<code>.Rprofile</code>中で<code>source("packrat/init.R")</code>により<code>packrat</code>が起動</li>
+</ul></li>
+<li><code>~/.Rprofile</code></li>
+</ol></li>
+<li><code>./*.RData</code>の読み込み（あれば。<code>--no-restore-data</code>でスキップ）</li>
+<li><code>.First</code>関数が定義されていれば実行される</li>
+<li>（baseの）<code>.First.sys()</code>関数が実行される
+<ul>
+<li><code>options("defaultPackages")</code>のパッケージ群を<code>require</code>する</li>
+<li><code>methods</code>パッケージが含まれていると先に<code>.OptRequireMethods()</code>で読み込まれてnamespaceの初期化が正しく行われる、らしい</li>
+</ul></li>
+</ol>
+<p>なお<code>R --vanilla</code>とすると<code>--no-site-file, --no-init-file, --no-environ and (except for R CMD) --no-restore</code>の扱いになるので問題の切り分けをしたいときに。</p>
+</div>
+<div id="renviron" class="section level2">
+<h2>.Renviron</h2>
+<p>R起動時に読み込まれ、環境変数を設定するファイル。</p>
+<p>読み込まれる順番は上記のようになっており、プロジェクト（カレントディレクトリ）では通常は作られないので最後の<code>~/.Renviron</code>が読み込まれることになる模様。この後に<code>.Rprofile</code>の読み込みになり、その際にはこのファイル内で<code>R_PROFILE_USER</code>を設定していると優先される。</p>
+<script src="https://gist-it.appspot.com/https://github.com/u-4/dotfiles/blob/master/.Renviron"></script>
+</div>
+<div id="rprofile" class="section level2">
+<h2>.Rprofile</h2>
+<ul>
+<li><a href="https://github.com/heavywatal/dotfiles/blob/master/.R/.Rprofile">dotfiles/.Rprofile at master · heavywatal/dotfiles</a></li>
+</ul>
+<p>や各所を参考に作っている。</p>
+<script src="https://gist-it.appspot.com/https://github.com/u-4/dotfiles/blob/master/.Rprofile?slice=0:10"></script>
+<div id="rprofileの読み込み確認" class="section level3">
+<h3><code>.Rprofile</code>の読み込み確認</h3>
+<p>最初と最後にメッセージを表示させることで、こっそりエラーになって止まっていても気づけるようにしておく。</p>
+<pre class="r"><code>message(&quot;\n*** Loading user .Rprofile (~/.Rprofile) ***\n&quot;)
+
+...
+
+message(&quot;*** Successfully loaded user .Rprofile ***\n&quot;)</code></pre>
+</div>
+<div id="パッケージのインストールパス" class="section level3">
+<h3>パッケージのインストールパス</h3>
+<p><code>.Renviron</code>の<code>R_LIBS_USER</code>とともに<code>.libPaths</code>を設定する。「パッケージのインストール先」と「インストールされたパッケージの読込先」を両方とも設定しておく必要がある模様。<code>R_LIBS_USER</code>は読込先、<code>.libPaths</code>はインストール先の指定になる？。これらの設定は<code>packrat</code>管理の初期化処理で上書きされるため、プロジェクトの<code>.Rprofile</code>との読み込み順に注意が必要になる。<code>.Renviron</code>の設定にも依存するが、自分の設定では<code>R_PROFILE_USER</code>が設定されているため、その中でこのインストールパス処理してから下記のプロジェクトの<code>.Rprofile</code>読み込みが行われるようにしている。</p>
+<p><a href="https://qiita.com/ysk24ok/items/66a4c4ca637952f3f540">install.packagesでインストールするpathを変更する - Qiita</a></p>
+<p>なんか設定してもうまくいかないと思ったらあらかじめディレクトリは作っておく必要がある（存在しないディレクトリは読み込まない）のが原因だった。エラーは出してくれない。<code>.Renviron</code>で<code>$R_LIBS_USER</code>を、<code>.Rprofile</code>で<code>.libPaths()</code>を設定。</p>
+<pre class="r"><code># set .libPaths to &quot;~/.R_LIBS&quot;
+if (dir.exists(file.path(&quot;~&quot;, &quot;.R_LIBS&quot;)) || dir.create(file.path(&quot;~&quot;, &quot;.R_LIBS&quot;))) {
+  .libPaths(file.path(&quot;~&quot;, &quot;.R_LIBS&quot;))
+} else {
+  warning(&quot;\n******* .libPaths was undefined !!! *******\n&quot;)
+}</code></pre>
+<p>なおこっそり<code>.bashrc</code>にも入れている。ついでにaliasもここに記載。</p>
+<pre class="bash"><code># create directory for installed packages
+if [ ! -d ~/.R_LIBS ]; then
+    mkdir ~/.R_LIBS
+    echo &quot;Created &#39;~/.R_LIBS&#39; for R_LIBS_USER.&quot;
+fi
+
+alias R=&#39;R --no-save --no-restore-data&#39;</code></pre>
+</div>
+<div id="cranのレポジトリ設定" class="section level3">
+<h3>CRANのレポジトリ設定</h3>
+<p><code>brew cask install r-app</code>の方を使っている分には基本的には問題なくCRANのバイナリが利用できるはずだが、それだけでは足りないものもあるようで、<code>bookdown</code>パッケージほか多くのパッケージ作者でもあるYihui Xie氏の用意してくているCRANextra用のサーバーがあるようなのでそちらも設定。</p>
+<ul>
+<li><a href="https://yihui.name/en/2018/07/cranextra-macos/">A CRANextra Repository for Homebrew and R Users on macOS - Installing rattle on macOS? No more struggles! - Yihui Xie | 谢益辉</a></li>
+<li><a href="https://macos.rbind.org/">Extra Binary R packages for the Homebrew R (Cask)</a></li>
+</ul>
+<pre class="r"><code># CRAN repos from rstudio and extra from macos.rbind.org by Yihui Xie
+options(repos = c(
+  CRAN = &#39;https://cran.rstudio.com&#39;,
+  CRANextra = &#39;https://macos.rbind.org&#39;
+))</code></pre>
+</div>
+<div id="プロジェクトの.rprofile読み込み設定" class="section level3">
+<h3>プロジェクトの<code>.Rprofile</code>読み込み設定</h3>
+<p><code>~/.Renviron</code>で<code>$R_PROFILE_USER</code>を<code>~/.Rprofile</code>に設定し、カレントディレクトリの<code>./.Rprofile</code>よりも優先して読み込むようにしているため、プロジェクトの<code>.Rprofile</code>が存在しても<code>~/.Rprofile</code>が常に読み込まれることになる。特に<code>Packrat</code>で管理しているプロジェクトでは<code>（プロジェクトのルート）/.Rprofile</code>に</p>
+<pre class="r"><code>#### -- Packrat Autoloader (version 0.4.9-8) -- ####
+source(&quot;packrat/init.R&quot;)
+#### -- End Packrat Autoloader -- ####</code></pre>
+<p>のような初期化処理が追記されているため、気づかずにいると<code>Packrat</code>管理しているつもりで何もしていなかったということになりかねない（なった）。そのため以下のコードを<code>$R_PROFILE_USER</code>（実質<code>~/.Rprofile</code>）のインストールパスの設定よりあとかつ起動時のパッケージ追加処理より前に入れてプロジェクトの<code>.Rprofile</code>を読み込むようにしている。また<code>R --vanilla</code>環境では<code>Sys.getenv("R_USER")</code>は<code>""</code>を返すため、無限ループにハマらないように<code>unset = getwd()</code>を入れている。</p>
+<pre class="r"><code># source projectdir/.Rprofile
+# R --vanilla returns &quot;&quot; to Sys.getenv(&quot;R_USER&quot;)
+if ((Sys.getenv(&quot;R_USER&quot;, unset = getwd()) != getwd()) &amp;&amp; (file.exists(file.path(getwd(), &quot;.Rprofile&quot;)))) {
+  message(&quot;* Project .Rprofile is detected. *\nLoading Project .Rprofile...&quot;)
+  source(file.path(getwd(), &quot;.Rprofile&quot;))
+  message(&quot;Successfully loaded Project .Rprofile\n&quot;)
+}</code></pre>
+</div>
+<div id="起動時に追加でパッケージを読み込む" class="section level3">
+<h3>起動時に追加でパッケージを読み込む</h3>
+<ul>
+<li><a href="https://rviews.rstudio.com/2017/04/19/r-for-enterprise-understanding-r-s-startup/">R for Enterprise: Understanding R’s Startup · R Views</a></li>
+<li><a href="http://jundoll.hatenablog.com/entry/2014/03/05/150437">R起動時にpackageを自動ロードする - J’s blog</a></li>
+</ul>
+<p>.Rprofileに<code>library(tidyverse)</code>とすると、</p>
+<ol style="list-style-type: decimal">
+<li>.Rprofileでtidyverseを読み込む</li>
+<li><code>.First.sys()</code>で<code>options("defaultPackages")</code>のパッケージをロードする</li>
+</ol>
+<p>の順になるため<code>base::search()</code>でのパスの順番が変わり、<code>dplyr::filter()</code>ではなく<code>stats::filter()</code>が優先されてしまったりする。そのため、“defaultPakcages”に追記する形をとる必要がある。</p>
+<pre class="r"><code>options(defaultPackages = c(getOption(&quot;defaultPackages&quot;), &quot;tidyverse&quot;))</code></pre>
+<p>ただしこれだと<code>Packrat</code>を利用するプロジェクトなど、指定したパッケージがインストールされていない場合にはエラーが出てしまう。これを抑制するために<code>requireNamespace(x, quietly = TRUE)</code>を用いてインストールされているか判定し、存在するものだけを加えるようにしていたが、<code>requireNamespace</code>では<code>Packrat</code>管理下のプロジェクトにパッケージがインストールされていなくても<code>TRUE</code>が返ってしまう。 <code>require()</code>は<code>suppressWarnings()</code>と<code>suppressMessages()</code>を使えば余分な表示は消せるが、結局<code>.First.sys()</code>で外部パッケージを読み込ませていると、そのあとに立ち上がる<code>packrat</code>環境ではインストールされていないので<code>afterPackratModeOn -&gt; cleanSearchPath -&gt; forceUnload -&gt; unloadNamespace</code>のようなエラーが出る……。しかも先に<code>require</code>を呼び出してしまうせいか結局元々の<code>"defaultPackages"</code>よりも先に追加パッケージが<code>search()</code>のパスに入ってしまう。</p>
+<ul>
+<li><code>requreNamespace</code>だと<code>packrat</code>環境でのみ問題が生じる
+<ul>
+<li><code>.Rprofile</code>を実行している時点ではインストールされていると判断される</li>
+<li>その後の<code>packrat</code>が読み込まれた環境ではインストールされていないのでエラー</li>
+</ul></li>
+<li>もしかしたらこの処理の前にプロジェクトの<code>.Rprofile</code>を読み込んで<code>packrat</code>の読み込み処理をさせるとうまくいく？</li>
+</ul>
+<p>解決方法として</p>
+<ol style="list-style-type: decimal">
+<li>Packrat環境の時は何も追加しない</li>
+<li>Packrat環境でなければ<code>requireNamespace</code>を利用して（も問題ないので）<code>require</code>の順番を崩さずにインストールされているかだけチェックして追加</li>
+</ol>
+<p>の処理にすることで解決できる。</p>
+<p>Packrat環境かどうかを確認するには<code>!is.na(Sys.getenv("R_PACKRAT_MODE", unset = NA))</code>が使えるはずなのだが、これはpackratが開始してからしかわからない。packratの読み込みはプロジェクトの<code>.Rprofile</code>中の<code>source("packrat/init.R")</code>で行われるので、先にプロジェクトの<code>.Rprofile</code>読み込みを行っておけば正しく判定可能になる。読み込み前だと常に<code>FALSE</code>になってしまう。代替手段としては<code>getwd()/packrat/init.R</code>か<code>packrat.lock</code>が存在するかどうかで判定する。Packrat環境の場合は<code>defaultPakages</code>はいじらずに、プロジェクトの中でインストールおよび読みこむパッケージを管理するようにする。Packratの使用目的からもこの方が道理にかなっているだろう。大人しくセットアップファイルでも作って管理することにする。先にプロジェクトの<code>.Rprofile</code>を読み込んでいる前提なので、そちらか<code>.Renviron</code>で<code>Sys.setenv("NO_ADDITIONAL_PACKAGES" = TRUE)</code>（<code>NA</code>以外なら何でも）を設定しておけば追加処理をスキップできるようにしてある。</p>
+<pre class="r"><code>if (!is.na(Sys.getenv(&quot;R_PACKRAT_MODE&quot;, unset = NA))) {
+  message(&quot;* This project is under control of packrat. No additional packages will be loaded in global .Rprofile. *\n&quot;)
+} else if (!is.na(Sys.getenv(&quot;NO_ADDITIONAL_PACKAGES&quot;, unset = NA))) {
+  message(&quot;* This project is set to use &#39;defaultPackages&#39;. No additional packages will be loaded in global .Rprofile. *\n&quot;)
+} else {
+  local({
+  original_default &lt;- getOption(&quot;defaultPackages&quot;)
+  pkgs &lt;- c(&quot;tidyverse&quot;, &quot;magrittr&quot;, &quot;skimr&quot;)
+  pkgs &lt;- pkgs[sapply(pkgs, function(x) {return(ifelse((requireNamespace(x, quietly = TRUE)), TRUE, FALSE))})]
+  options(defaultPackages = c(original_default, pkgs))
+  message(paste0(&quot;* These additional packages will be loaded. *\n&quot;, paste(pkgs, collapse = &quot;, &quot;), &quot;\n&quot;))
+})
+}</code></pre>
+<p>一応<code>require</code>版もメモとして取っておく。こちらだと<code>getOption("defaultPackages")</code>で得られるリストは全く同じものになるが、先に<code>require()</code>してしまうせいか<code>namespace initialization</code>がうまく行かず、<code>filter()</code>で<code>dplyr::filter()</code>ではなく<code>stats::filter()</code>が呼び出される状態になってしまう。</p>
+<pre class="r"><code>pkgs[sapply(pkgs, function(x) {return((suppressMessages(suppressWarnings(require(x, character.only = TRUE)))))})]</code></pre>
+<p>Packratを使用しているかの判定が<code>Sys.getenv("R_PACKRAT_MODE")</code>では<code>source("packrat/init.R")</code>処理前の時点ではうまくいかないことを確認するためのコード。</p>
+<pre class="r"><code># .Rprofileに書いてもpackrat起動前なので常に&quot;Not Packrat!&quot;になってしまう
+if (!is.na(Sys.getenv(&quot;R_PACKRAT_MODE&quot;, unset = NA))) {
+  message(&quot;Packrat!&quot;)
+} else {
+  message(&quot;Not Packrat!&quot;)
+}</code></pre>
+</div>
+<div id="プロジェクトで終了時にセッション情報を記録する" class="section level3">
+<h3>プロジェクトで終了時にセッション情報を記録する</h3>
+<p><a href="https://rviews.rstudio.com/2017/04/19/r-for-enterprise-understanding-r-s-startup/">R for Enterprise: Understanding R’s Startup · R Views</a></p>
+<p>の下の方の「Record sessionInfo automatically」を元に<code>rstudioapi</code>を使わなくてもいいように改造。ただし<code>.Last</code>起動時（RStudio終了時）に<code>getwd()</code>がプロジェクトルートから変わっていないことを前提にしている。</p>
+<pre class="r"><code>.Last &lt;- function(){
+  if (interactive() &amp;&amp; !is.na(Sys.getenv(&quot;RSTUDIO&quot;, unset = NA)) &amp;&amp; as.logical(sum(grepl(&quot;.Rproj&quot;, list.files())))) {
+     ## append date + sessionInfo to a file called sessionInfoLog
+    cat(&quot;Recording session info into the project&#39;s sesionInfoLog file...&quot;)
+    info &lt;- capture.output(sessionInfo())
+    info &lt;- paste(&quot;\n----------------------------------------------&quot;,
+                  paste0(&#39;Session Info for &#39;, Sys.time()),
+                  paste(info, collapse = &quot;\n&quot;),
+                  sep  = &quot;\n&quot;)
+    f &lt;- file.path(getwd(), &quot;sessionInfoLog&quot;)
+    cat(info, file = f, append = TRUE)
+  }
+}</code></pre>
+</div>
+<div id="option" class="section level3">
+<h3><code>option()</code></h3>
+<ul>
+<li><a href="http://rstudio-pubs-static.s3.amazonaws.com/724_9a4767462a12489ba2d0fe07351f62c5.html">関数option()のscipenによって指数表記を回避する</a></li>
+<li><a href="http://cse.naro.affrc.go.jp/takezawa/r-tips/r/11.html">R-Source</a></li>
+</ul>
+</div>
+<div id="cpuコア数の設定" class="section level3">
+<h3>CPUコア数の設定</h3>
+<p><a href="https://www.r-bloggers.com/speeding-up-package-installation-3/">Speeding up package installation | R-bloggers</a> <a href="https://stackoverflow.com/questions/31351526/use-parallel-option-of-boot-function-in-r">Use <code>parallel</code> option of <code>boot</code> function in <code>R</code> - Stack Overflow</a></p>
+<p><code>parallel</code>パッケージとかもあるが、ここでは<code>install.packages()</code>と<code>boot</code>用のオプションのみ。CPUコア数は以下のコードで。</p>
+<pre class="r"><code>parallel::detectCores()</code></pre>
+<pre><code>## [1] 8</code></pre>
+<p><code>install.packages</code>の<code>Ncpus</code> Argumentの説明より</p>
+<blockquote>
+<p>the number of parallel processes to use for a parallel install of more than one source package. Values greater than one are supported if the make command specified by Sys.getenv(“MAKE”, “make”) accepts argument -k -j Ncpus.</p>
+</blockquote>
+<p><code>boot::boot</code>の<code>ncpus</code> Argumentの説明より</p>
+<blockquote>
+<p>integer: number of processes to be used in parallel operation: typically one would chose this to the number of available CPUs.</p>
+</blockquote>
+<pre class="r"><code># set CPU cores to use in install.packages and boot::boot
+# to know the number of cores in your PC, use parallel::detectCores()
+options(Ncpus=4,
+        boot.ncpus=4)
+
+# set boot parallel method
+# options(boot.parallel=&quot;multicore&quot;)</code></pre>
+</div>
+</div>
+<div id="環境変数" class="section level2">
+<h2>環境変数</h2>
+<p>一覧を見るには</p>
+<pre class="r"><code>Sys.getenv()</code></pre>
+<div id="作業スペース規模で呼び出し可能な環境変数" class="section level3">
+<h3>作業スペース規模で呼び出し可能な環境変数</h3>
+<ul>
+<li><a href="https://suryu.me/post/r_advent_calendar_day2/">configパッケージで楽々環境変数の管理</a></li>
+<li><a href="https://blog.hoxo-m.com/entry/2017/04/20/080200">ナウでヤングなRの環境変数管理方法 - 株式会社ホクソエムのブログ</a></li>
+</ul>
+</div>
+</div>
+
+<footer>
+  <p>Copyright &copy; 2019 Yuho TAMAI </p>
+</footer>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

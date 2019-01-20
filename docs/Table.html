@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Table</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="site_style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h2 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h3 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h4 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h5 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h6 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R memorandum</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    データ操作
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="readr.html">データ読み込み(readr)</a>
+    </li>
+    <li>
+      <a href="dplyr-tidyr.html">データセット操作(dplyr, tidyr)</a>
+    </li>
+    <li>
+      <a href="purrr.html">関数型プログラミング(purrr)</a>
+    </li>
+    <li>
+      <a href="stringr.html">文字列操作(stringr)</a>
+    </li>
+    <li>
+      <a href="lubridate.html">日付・時刻データ(lubridate)</a>
+    </li>
+    <li>
+      <a href="fs.html">ファイルシステム操作(fs)</a>
+    </li>
+    <li>
+      <a href="rlang.html">tidy eval (rlang)</a>
+    </li>
+    <li>
+      <a href="scraping.html">スクレイピング(rvest)</a>
+    </li>
+    <li class="dropdown-header">データベース（NDBとか色々）</li>
+    <li>
+      <a href="baseR.html">base関数メモ</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    可視化
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ggplot2.html">ggplot2</a>
+    </li>
+    <li>
+      <a href="ggplot2-color.html">ggplot2の配色</a>
+    </li>
+    <li>
+      <a href="ggplot2-grid.html">ggplot2の配置</a>
+    </li>
+    <li>
+      <a href="ggplot2-extension.html">ggplot2の拡張パッケージ</a>
+    </li>
+    <li>
+      <a href="ggplot2-practice.html">ggplot2用例</a>
+    </li>
+    <li>
+      <a href="plotly.html">plotly</a>
+    </li>
+    <li>
+      <a href="base-plot.html">base::plot</a>
+    </li>
+    <li>
+      <a href="EDA.html">探索的データ解析</a>
+    </li>
+    <li>
+      <a href="Table.html">表の可視化</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    統計
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Statistics.html">統計</a>
+    </li>
+    <li class="dropdown-header">検定・相関</li>
+    <li>
+      <a href="Stat-probability-distribution.html">確率分布</a>
+    </li>
+    <li class="dropdown-header">lm, glm</li>
+    <li>
+      <a href="Stat-GLMM.html">GLMM（一般化線形混合モデル）</a>
+    </li>
+    <li class="dropdown-header">主成分分析</li>
+    <li class="dropdown-header">RStan</li>
+    <li>
+      <a href="tidymodels.html">tidymodels</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Rmd
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Rmarkdown.html">R Markdown覚書</a>
+    </li>
+    <li>
+      <a href="Rmd-Dashboard.html">flexdashboard</a>
+    </li>
+    <li>
+      <a href="Rmd-Presentation.html">R Markdownでスライド</a>
+    </li>
+    <li>
+      <a href="Rmd-GitHubPages.html">Rmd to GitHub Pages</a>
+    </li>
+    <li>
+      <a href="Rmd-bookdown.html">Bookdown</a>
+    </li>
+    <li>
+      <a href="LaTeX.html">LaTeX</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R-Environment.html">R環境設定</a>
+    </li>
+    <li>
+      <a href="RStudio.html">RStudioの設定</a>
+    </li>
+    <li>
+      <a href="R-Package.html">パッケージ管理</a>
+    </li>
+    <li>
+      <a href="reprex.html">バグ報告・質問など(reprex)</a>
+    </li>
+    <li>
+      <a href="R-Tips.html">R雑多メモ</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Python
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R-and-Python.html">RでPython</a>
+    </li>
+    <li>
+      <a href="Python-Environment.html">Python環境構築</a>
+    </li>
+    <li>
+      <a href="Python-Jupyter.html">Jupyter Notebook</a>
+    </li>
+    <li class="dropdown-header">Pythonメモ</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    その他
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ToDo.html">頑張ろう</a>
+    </li>
+    <li>
+      <a href="mac-Environment.html">mac環境構築</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/u-4/PalmWiki/">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Table</h1>
+
+</div>
+
+
+<ul>
+<li><a href="https://kazutan.github.io/kazutanR/DT_demo.html">DTでインタラクティブな表作り</a></li>
+<li><a href="https://rstudio.github.io/DT/">DT: An R interface to the DataTables library</a></li>
+<li><a href="https://mrunadon.github.io/TableWithR/">Rで様々な表を書く。パラメータの多いStanの結果も美しい表に。 – MrUnadon – Bayesian Statistical Modelings with R and Rstan</a></li>
+</ul>
+<div id="tableone" class="section level2">
+<h2>tableone</h2>
+<p>医学論文の患者さんのcharacteristicsをまとめたいわゆる「Table 1」を簡単に作成するためのパッケージ吉田和樹さんが作られている。多分便利なのでPython版も存在する。</p>
+<p><code>finalfit</code>パッケージの方が最終的には解析も含めてできるのでお手軽そうだが、現状では</p>
+<ul>
+<li>total と stratのマージがうまくできない</li>
+<li>meanを使うかmedianを使うかが個別に設定できない</li>
+</ul>
+<p>という大きな問題点もあり、これが解決されるまではこちらを利用することになりそう。</p>
+<ul>
+<li><a href="https://github.com/kaz-yos/tableone">kaz-yos/tableone: R package to create “Table 1”, description of baseline characteristics</a></li>
+<li><a href="https://cran.r-project.org/web/packages/tableone/index.html">CRAN - Package tableone</a></li>
+<li><a href="https://rpubs.com/kaz_yos/tableone-demo-j">RPubs - tableone: 医学研究で必要な“表1”を作成するRパッケージ</a></li>
+<li><a href="http://jojoshin.hatenablog.com/entry/2016/05/24/110551">R package’tableone’のCreateTableOne関数で表1を書く - 統計学と疫学と時々、助教生活</a></li>
+</ul>
+<p><code>CreateTableOne()</code></p>
+<pre><code>CreateTableOne(
+    vars,
+    strata,
+    data,
+    factorVars,
+    includeNA = FALSE,
+    test = TRUE,
+    testApprox = chisq.test,
+    argsApprox = list(correct = TRUE),
+    testExact = fisher.test,
+    argsExact = list(workspace = 2 * 10^5),
+    testNormal = oneway.test,
+    argsNormal = list(var.equal = TRUE),
+    testNonNormal = kruskal.test,
+    argsNonNormal = list(NULL),
+    smd = TRUE)</code></pre>
+<p>全体・層別の両方を統合した表を作成する</p>
+<p>これがオプション一発とかでできるとありがたいのだが。alfredのsnipetに<code>Rtable1</code> で展開されるようにテンプレート登録済み</p>
+<ol style="list-style-type: decimal">
+<li>必要なパッケージを読み込み</li>
+<li>データ読み込み、利用する変数を<code>dplyr::select()</code>で選択、必要なら変数作成</li>
+<li><code>labelled::var_label()</code>で変数に出力用のラベルを設定</li>
+<li>各種変数リストを作成</li>
+<li><code>nonnormalVars</code>：非正規分布する変数</li>
+<li><code>factorVars</code>：数値として入っているカテゴリカル変数のリスト</li>
+<li><code>cramVars</code>：１行で表示したいカテゴリ変数のリスト</li>
+<li><code>exactVars</code>：exact testで扱いたい変数のリスト</li>
+<li><code>stratVar</code>：層別化したい変数</li>
+<li>全体および層別の<code>tableone</code>オブジェクトを生成する</li>
+<li>その<code>print</code>出力をオブジェクトに格納</li>
+<li><code>cbind</code>を用いてmatrixを結合</li>
+<li><p><code>knitr::kable()</code>と<code>kableExtra::kable_as_image</code>で<span class="math display">\[\LaTeX\]</span>的な表をpng出力</p>
+<p># 全体および層別のtableoneオブジェクトを作成 total1 &lt;- tableone::CreateTableOne(data = d1) strat1 &lt;- tableone::CreateTableOne(data = d1, strat = stratVar)</p>
+<p># print出力をオブジェクトに格納 # <a href="https://github.com/kaz-yos/tableone/issues/10" class="uri">https://github.com/kaz-yos/tableone/issues/10</a> total1.matrix &lt;- print(total1, printToggle = FALSE, noSpaces = TRUE, varLabels = TRUE, explain = TRUE, nonnormal = nonnormalVars, cramVars = cramVars)</p>
+<p>strat1.matrix &lt;- print(strat1, printToggle = FALSE, noSpaces = TRUE, varLabels = TRUE, explain = TRUE, nonnormal = nonnormalVars, cramVars = cramVars, exact = exactVars)</p>
+<p># cbindでmatrixを結合 table1 &lt;- cbind(total1.matrix, strat1.matrix) # readr::write_rds(table1, “data/table1.RDS”)</p></li>
+</ol>
+<p>tableoneでlabelの使用</p>
+<p>いちいち変数をrenameするのは大変。Ver 0.9.0で<code>labelled::var_label</code>によるラベルのサポートが開始。<code>print</code>の中で<code>varLabels = TRUE</code>としてやれば良い。</p>
+<p><a href="https://github.com/kaz-yos/tableone/releases/tag/0.9.0">Release Variable Label Support · kaz-yos/tableone</a></p>
+<p><code>var_label</code>の使い方</p>
+<p>もちろん一つずつ設定もできるが</p>
+<pre><code>var_label(iris$Sepal.Length) &lt;- &quot;Length of sepal&quot;</code></pre>
+<p>まとめて設定することもできる。</p>
+<pre><code>var_label(iris) &lt;- list(Petal.Length = &quot;Length of petal&quot;,
+                        Petal.Width = &quot;Width of Petal&quot;)</code></pre>
+<p>行名の「(mean (sd))」を消すには</p>
+<p><code>print</code>で<code>explain = FALSE</code>を指定すれば消すことができる。</p>
+</div>
+<div id="kableでlatex出力" class="section level2">
+<h2>kableでLaTeX出力</h2>
+<p><code>kable</code>や<code>kableExtra</code>を利用して表を<span class="math display">\[\LaTeX\]</span>→png出力する際のメモ</p>
+<div id="latexっぽい表をpngファイルとして出力する" class="section level3">
+<h3><span class="math display">\[\LaTeX\]</span>っぽい表をpngファイルとして出力する</h3>
+<ol style="list-style-type: decimal">
+<li><code>knitr::kable()</code>で<code>format =</code> <code>"``latex``"</code>を指定して出力
+<ol style="list-style-type: decimal">
+<li><code>row.names = FALSE</code>, <code>align = c(``"``l``"``,</code> <code>"``l``"``,</code> <code>"``r``"``,</code> <code>"``r``"``,</code> <code>"``r``"``)</code>などは適宜設定</li>
+<li><code>booktabs = TRUE</code>にするのが大抵の場合綺麗に出力される</li>
+<li>この時の５行ごとのスペースを消すには<code>linesep =</code> <code>""</code>を追加する</li>
+</ol></li>
+<li><code>kableExtra::kable_as_image()</code>でpngファイルとして出力
+<ol style="list-style-type: decimal">
+<li>基本的には<code>kable_as_image(``"``table1``"``)</code>とすれば<code>table1.png</code>として出力される</li>
+<li><span class="math display">\[\LaTeX\]</span>的にどうなっているか確認するには<code>keep_tex = TRUE</code>にして中間ファイルを確認する</li>
+</ol></li>
+</ol>
+<div id="kable" class="section level4">
+<h4><code>kable()</code></h4>
+<p><a href="https://www.rdocumentation.org/packages/knitr/versions/1.20/topics/kable">kable function | R Documentation</a></p>
+</div>
+<div id="kable_as_image" class="section level4">
+<h4><code>kable_as_image()</code></h4>
+<p><a href="https://www.rdocumentation.org/packages/kableExtra/versions/0.9.0/topics/kable_as_image">kable_as_image function | R Documentation</a></p>
+</div>
+<div id="出力例" class="section level4">
+<h4>出力例</h4>
+<pre><code>kable(x, format = &quot;latex&quot;, row.names=FALSE, align=c(&quot;l&quot;, &quot;l&quot;, &quot;r&quot;, &quot;r&quot;, &quot;r&quot;),
+     caption = &quot;Table1 in LaTeX format&quot;, booktabs = T, linesep = &quot;&quot;) %&gt;% 
+kableExtra::kable_as_image(filename = NULL, file_format = &quot;png&quot;,
+               latex_header_includes = NULL, keep_pdf = FALSE, density = 300,
+               keep_tex = FALSE)</code></pre>
+<p>実際の使用時にはこのくらいの記載で良い</p>
+<pre><code>table1 %&gt;%
+  as.data.frame() %&gt;%
+  kable(&quot;latex&quot;, row.names=FALSE, align=c(&quot;l&quot;, &quot;l&quot;, &quot;r&quot;, &quot;r&quot;, &quot;r&quot;),
+     caption = &quot;Table1 in LaTeX format&quot;, booktabs = T, linesep = &quot;&quot;) %&gt;% 
+  kable_as_image(&quot;table1&quot;)</code></pre>
+</div>
+</div>
+<div id="各種フォーマット方法" class="section level3">
+<h3>各種フォーマット方法</h3>
+<p><a href="https://haozhu233.github.io/kableExtra/awesome_table_in_pdf.pdf">Create Awesome LaTeX Table with knitr::kable and kableExtra</a> が実例を見ながら確認できる。</p>
+<div id="booktabsフォーマットスタイル" class="section level4">
+<h4>booktabsフォーマットスタイル</h4>
+<p><code>booktabs = T</code>として<code>booktabs</code>スタイルを利用すると基本的には見栄えが良くなる。この時デフォルトの<code>kable()</code>では<code>linesep = if (booktabs) c('', '', '', '', '\\addlinespace') else '\\hline'</code>が設定されており、表の中の5行ごとに少し空白が入るようになっている（これはこれで見やすいが）。これをなくすためには<code>linesep =</code> <code>""</code>などとしてしまえば良い。</p>
+<p><span class="math display">\[\LaTeX\]</span>的なフォーマットがどうなっているか確認するためには、</p>
+<pre><code>kableExtra::kable_as_image(…, keep_tex = TRUE)</code></pre>
+<p>としてやれば中間ファイルの<code>.tex</code>ファイルが残るのでそれを見て確認すれば良い。</p>
+</div>
+<div id="ヘッダーの一部の書式調節など" class="section level4">
+<h4>ヘッダーの一部の書式調節など</h4>
+<p><a href="https://stackoverflow.com/questions/50585031/set-col-names-and-headers-above-to-weird-characters-for-tables-with-knitr-kab">Set col names and headers (above) to weird characters for tables with knitr, kableExtra and Latex in R markdown - Stack Overflow</a></p>
+<p><code>escape = FALSE</code>にすると<code>$$</code>を使って数式表現できる？</p>
+</div>
+<div id="改行の調節" class="section level4">
+<h4>改行の調節</h4>
+<p><a href="http://haozhu233.github.io/kableExtra/best_practice_for_newline_in_latex_table.pdf" class="uri">http://haozhu233.github.io/kableExtra/best_practice_for_newline_in_latex_table.pdf</a></p>
+</div>
+<div id="図表のキャプション番号の手動変更" class="section level4">
+<h4>図表のキャプション番号の手動変更</h4>
+<p><span class="math display">\[\LaTeX\]</span>なので基本的には図表の番号は自動でついていくが、実際には手動で番号を変更したい場合がある（よくある）。</p>
+<ul>
+<li><a href="http://timmurphy.org/2011/07/18/latex-table-and-figure-numbering-style/">LaTeX table and figure numbering style « timmurphy.org</a></li>
+<li><a href="https://latex.org/forum/viewtopic.php?t=5852">manual numbering of tables</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+<footer>
+  <p>Copyright &copy; 2019 Yuho TAMAI </p>
+</footer>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

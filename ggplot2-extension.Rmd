@@ -1,0 +1,180 @@
+---
+title: "ggplot2 extension"
+---
+
+- ggpubr
+- cowplot
+- grid系は別
+- ['ggplot2' Based Plots with Statistical Details • ggstatsplot](https://indrajeetpatil.github.io/ggstatsplot/)
+- [IndrajeetPatil/ggstatsplot: Collection of functions to enhance ggplot2 plots with results from statistical tests.](https://github.com/IndrajeetPatil/ggstatsplot)
+- [gertstulp/ggplotgui: ggplotgui](https://github.com/gertstulp/ggplotgui)
+
+
+## GGally
+
+- [GGally](http://ggobi.github.io/ggally/)
+- [CRAN - Package GGally](https://cran.r-project.org/web/packages/GGally/index.html)
+- [GGallyパッケージのggpair関数を使いこなすための覚え書き : 厚沢部文化財日誌](https://assabu.exblog.jp/28933942/)
+
+ggpmisc
+ggplot2 に主にアノテーションや統計モデル関連の情報を表示するための機能を追加してくれるパッケージ。
+[CRAN - Package ggpmisc](https://cran.r-project.org/web/packages/ggpmisc/index.html)
+
+ggmosaic
+ggplot2 でモザイクプロットを出力するためのパッケージ
+
+[CRAN - Package ggmosaic](https://cran.r-project.org/web/packages/ggmosaic/)
+
+
+## ggpubr
+
+ggpubr
+ggplot2をベースに、より簡単に出版レベルの図を書くためのパッケージ。有意差検定まで付け加えることができる。すごすぎる。色付けについても、「ggsci」パッケージをインストールしておけば「 +ggsci 」パッケージからいくつかがデフォルトで使えるようになっている。
+
+[CRAN - Package ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html)
+['ggplot2' Based Publication Ready Plots • ggpubr](https://rpkgs.datanovia.com/ggpubr/index.html)
+
+【各関数のドキュメント】
+[ggpubr package | R Documentation](https://www.rdocumentation.org/packages/ggpubr/versions/0.2)
+
+[学会発表のためのggplot2の設定めも - Qiita](https://qiita.com/uri/items/615653e83642d7e475de)
+
+複数の図をまとめて並べる方法
+[ggplot2 - Easy Way to Mix Multiple Graphs on The Same Page - Articles - STHDA](http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/81-ggplot2-easy-way-to-mix-multiple-graphs-on-the-same-page/)
+
+【散布図】
+[Perfect Scatter Plots with Correlation and Marginal Histograms - Articles - STHDA](http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/78-perfect-scatter-plots-with-correlation-and-marginal-histograms/)
+
+plotは群別した上で回帰直線は全体で描きたい場合は「add.params」の中で回帰直線の色を別で指定すれば良い。
+
+    graftRL %>%
+      ggscatter(x = "Graft_frac", y = "PTINR_POD1",
+                # plotの色・形分けはしたいが相関係数とかは全体で出したい時の表現
+                # add.paramsで指定する
+                add = "reg.line",
+                add.params = list(color = "black", fill = "lightgray"),
+                conf.int = TRUE,
+                color = "Graft",
+                palette = "lancet",
+                shape = "Graft"
+                ) +
+      stat_cor() +
+      coord_fixed(ratio = 20 / 1) +
+      scale_y_continuous(breaks = seq(0.5, 2.0, 0.2)) +
+      scale_x_continuous(breaks = seq(30, 70, 5))
+
+散布図の軸に合わせて箱ひげ図やdensityをつけたいときは以下のように
+ggpubrで散布図とdensity/boxplotの複合図
+
+【有意差バーの付け方】
+[Add P-values and Significance Levels to ggplots - Articles - STHDA](http://www.sthda.com/english/articles/24-ggpubr-publication-ready-plots/76-add-p-values-and-significance-levels-to-ggplots/)
+
+[stat_compare_means function | R Documentation](https://www.rdocumentation.org/packages/ggpubr/versions/0.2/topics/stat_compare_means)
+[compare_means function | R Documentation](https://www.rdocumentation.org/packages/ggpubr/versions/0.2/topics/compare_means)
+
+
+【histogram + density plotでy軸を合わせる】
+
+gghistogramのadd_densityで付け加えられるdensity plotのy軸相対値がいじりたいなあ
+→通常のggplotの場合と同様、histglamのy軸はデフォルトではカウントになっているので、これをdensityにする。
+
+    gghistogram(data, x = "x var", y = "..density..", binwidth = 0.1, alpha = 0.5,
+                      add = "mean", # mean or median
+                      add_density = TRUE)
+
+      
+「"..density.."」と囲むのを忘れずに。
+
+
+
+ggpubrで散布図とdensity/boxplotの複合図
+
+[Plot Two Continuous Variables: Scatter Graph and Alternatives - Articles - STHDA](http://www.sthda.com/english/articles/32-r-graphics-essentials/131-plot-two-continuous-variables-scatter-graph-and-alternatives/)
+
+ggpubrでx軸・y軸に沿って（余白なしで）密度プロットや箱ひげ図をくっつける方法
+
+[ ] ggpubrで直接できるようになってる？ ggscatterhistをチェック @Yuho T 
+
+
+    #
+    # scatterとdensityの複合図余白なし
+    #
+    
+    # Main plot
+    pmain <- graftRL %>%
+      ggscatter(x = "Graft_frac", y = "PTINR_POD1",
+                # plotの色・形分けはしたいが相関係数とかは全体で出したい時の表現
+                # add.paramsで指定する
+                add = "reg.line",
+                add.params = list(color = "black", fill = "lightgray"),
+                conf.int = TRUE,
+                color = "Graft",
+                palette = "lancet",
+                shape = "Graft"
+                ) +
+      stat_cor() +
+      coord_fixed(ratio = 30 / 1) +
+      scale_y_continuous(breaks = seq(0.5, 2.0, 0.2)) +
+      scale_x_continuous(breaks = seq(30, 70, 5))
+    # Marginal densities along x axis
+    xdens <- axis_canvas(pmain, axis = "x") +
+      geom_density(data = graftRL, aes(x = Graft_frac, fill = Graft),
+                  alpha = 0.7, size = 0.2)+
+      ggpubr::fill_palette("lancet")
+    # Marginal densities along y axis
+    # Need to set coord_flip = TRUE, if you plan to use coord_flip()
+    ydens <- axis_canvas(pmain, axis = "y", coord_flip = TRUE)+
+      geom_density(data = graftRL, aes(x = PTINR_POD1, fill = Graft),
+                    alpha = 0.7, size = 0.2)+
+      coord_flip()+
+      ggpubr::fill_palette("lancet")
+    p1 <- insert_xaxis_grob(pmain, xdens, grid::unit(.2, "null"), position = "top")
+    p2 <- insert_yaxis_grob(p1, ydens, grid::unit(.2, "null"), position = "right")
+    ggdraw(p2)
+
+
+![](https://d2mxuefqeaa7sj.cloudfront.net/s_795C4143BA814012783B711904B80565597CBC15FC8E699030D6A5DB877546AA_1536025529605_file.png)
+
+    #
+    # scatterとboxplotの複合図余白なし
+    #
+    
+    # Main plot
+    pmain2 <- graftRL %>%
+      ggscatter(x = "Graft_frac", y = "PTINR_POD1",
+                # plotの色・形分けはしたいが相関係数とかは全体で出したい時の表現
+                # add.paramsで指定する
+                add = "reg.line",
+                add.params = list(color = "black", fill = "lightgray"),
+                conf.int = TRUE,
+                color = "Graft",
+                palette = "lancet",
+                shape = "Graft"
+                ) +
+      stat_cor() +
+      coord_fixed(ratio = 30 / 1) +
+      scale_y_continuous(breaks = seq(0.5, 2.0, 0.2)) +
+      scale_x_continuous(breaks = seq(30, 70, 5))
+    # Marginal densities along x axis
+    xbox <- axis_canvas(pmain2, axis = "x", coord_flip = TRUE) +
+      geom_boxplot(data = graftRL, aes(y = Graft_frac, x = Graft, color = Graft),
+                  alpha = 0.7, size = 0.2) +
+      scale_x_discrete() +
+      coord_flip() +
+      ggpubr::color_palette("lancet")
+    # Marginal densities along y axis
+    # Need to set coord_flip = TRUE, if you plan to use coord_flip()
+    ybox <- axis_canvas(pmain2, axis = "y") +
+      geom_boxplot(data = graftRL, aes(y = PTINR_POD1, x = Graft, color = Graft),
+                    alpha = 0.7, size = 0.2) +
+      scale_x_discrete() +
+      ggpubr::color_palette("lancet")
+    p1 <- insert_xaxis_grob(pmain2, xbox, grid::unit(.2, "null"), position = "top")
+    p2 <- insert_yaxis_grob(p1, ybox, grid::unit(.2, "null"), position = "right")
+    ggdraw(p2)
+
+
+![](https://d2mxuefqeaa7sj.cloudfront.net/s_795C4143BA814012783B711904B80565597CBC15FC8E699030D6A5DB877546AA_1536025529607_file.png)
+
+
+

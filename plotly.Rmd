@@ -1,0 +1,10 @@
+---
+title: "plotly"
+---
+
+R言語 でjavascriptベースのライブラリを用いたインタラクティブな画像を出力してくれる。論文とかで図を作成するなら ggplot2 が有利だが、普段データを見ながらいじったりるするhtmlレポートや[ダッシュボード](Rmd-Dashboard.html)を用いるならこちらの方が有利。 ggplot2 のオブジェクトを変換する関数（`plotly::ggplotly`）も存在する。
+
+- [plotly入門](https://kazutan.github.io/kazutanR/plotly_intro.html)
+- [R Graphing Library | Plotly](https://plot.ly/r/)
+- [plotly for R](https://plotly-book.cpsievert.me/)
+- [ggplotly function | R Documentation](https://www.rdocumentation.org/packages/plotly/versions/4.8.0/topics/ggplotly)

@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>R Markdown</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="site_style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h2 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h3 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h4 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h5 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h6 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R memorandum</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    データ操作
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="readr.html">データ読み込み(readr)</a>
+    </li>
+    <li>
+      <a href="dplyr-tidyr.html">データセット操作(dplyr, tidyr)</a>
+    </li>
+    <li>
+      <a href="purrr.html">関数型プログラミング(purrr)</a>
+    </li>
+    <li>
+      <a href="stringr.html">文字列操作(stringr)</a>
+    </li>
+    <li>
+      <a href="lubridate.html">日付・時刻データ(lubridate)</a>
+    </li>
+    <li>
+      <a href="fs.html">ファイルシステム操作(fs)</a>
+    </li>
+    <li>
+      <a href="rlang.html">tidy eval (rlang)</a>
+    </li>
+    <li>
+      <a href="scraping.html">スクレイピング(rvest)</a>
+    </li>
+    <li class="dropdown-header">データベース（NDBとか色々）</li>
+    <li>
+      <a href="baseR.html">base関数メモ</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    可視化
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ggplot2.html">ggplot2</a>
+    </li>
+    <li>
+      <a href="ggplot2-color.html">ggplot2の配色</a>
+    </li>
+    <li>
+      <a href="ggplot2-grid.html">ggplot2の配置</a>
+    </li>
+    <li>
+      <a href="ggplot2-extension.html">ggplot2の拡張パッケージ</a>
+    </li>
+    <li>
+      <a href="ggplot2-practice.html">ggplot2用例</a>
+    </li>
+    <li>
+      <a href="plotly.html">plotly</a>
+    </li>
+    <li>
+      <a href="base-plot.html">base::plot</a>
+    </li>
+    <li>
+      <a href="EDA.html">探索的データ解析</a>
+    </li>
+    <li>
+      <a href="Table.html">表の可視化</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    統計
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Statistics.html">統計</a>
+    </li>
+    <li class="dropdown-header">検定・相関</li>
+    <li>
+      <a href="Stat-probability-distribution.html">確率分布</a>
+    </li>
+    <li class="dropdown-header">lm, glm</li>
+    <li>
+      <a href="Stat-GLMM.html">GLMM（一般化線形混合モデル）</a>
+    </li>
+    <li class="dropdown-header">主成分分析</li>
+    <li class="dropdown-header">RStan</li>
+    <li>
+      <a href="tidymodels.html">tidymodels</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Rmd
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Rmarkdown.html">R Markdown覚書</a>
+    </li>
+    <li>
+      <a href="Rmd-Dashboard.html">flexdashboard</a>
+    </li>
+    <li>
+      <a href="Rmd-Presentation.html">R Markdownでスライド</a>
+    </li>
+    <li>
+      <a href="Rmd-GitHubPages.html">Rmd to GitHub Pages</a>
+    </li>
+    <li>
+      <a href="Rmd-bookdown.html">Bookdown</a>
+    </li>
+    <li>
+      <a href="LaTeX.html">LaTeX</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R-Environment.html">R環境設定</a>
+    </li>
+    <li>
+      <a href="RStudio.html">RStudioの設定</a>
+    </li>
+    <li>
+      <a href="R-Package.html">パッケージ管理</a>
+    </li>
+    <li>
+      <a href="reprex.html">バグ報告・質問など(reprex)</a>
+    </li>
+    <li>
+      <a href="R-Tips.html">R雑多メモ</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Python
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R-and-Python.html">RでPython</a>
+    </li>
+    <li>
+      <a href="Python-Environment.html">Python環境構築</a>
+    </li>
+    <li>
+      <a href="Python-Jupyter.html">Jupyter Notebook</a>
+    </li>
+    <li class="dropdown-header">Pythonメモ</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    その他
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ToDo.html">頑張ろう</a>
+    </li>
+    <li>
+      <a href="mac-Environment.html">mac環境構築</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/u-4/PalmWiki/">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R Markdown</h1>
+
+</div>
+
+
+<p><a href="https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf">R Markdown Cheat Sheet</a></p>
+<div id="コードチャンクのオプション" class="section level2">
+<h2>コードチャンクのオプション</h2>
+<p>よく使うもの、まとめて変更する方法、具体例</p>
+<p><a href="https://yihui.name/knitr/options/">Options - Chunk options and package options - Yihui Xie | 谢益辉</a></p>
+<div id="まとめて変更する方法" class="section level3">
+<h3>まとめて変更する方法</h3>
+<p>セットアップチャンク的に記載しておくとそのRmdファイル全体に適応される。</p>
+<pre class="r"><code>knitr::opts_chunk$set(
+  echo = FALSE,
+  prompt = TRUE
+  )</code></pre>
+</div>
+<div id="ソースコードだけを表示" class="section level3">
+<h3>ソースコードだけを表示</h3>
+<p>eval=FALSE</p>
+</div>
+<div id="ソースコードの出力を調節" class="section level3">
+<h3>ソースコードの出力を調節</h3>
+<p>echo、特定の行のみとか</p>
+</div>
+<div id="warningを表示しない" class="section level3">
+<h3>Warningを表示しない</h3>
+</div>
+<div id="html出力をそのまま渡す" class="section level3">
+<h3>html出力をそのまま渡す</h3>
+<p>asis</p>
+</div>
+</div>
+<div id="yamlフロントマター" class="section level2">
+<h2>YAMLフロントマター</h2>
+<div id="日本語見出しのおまじない" class="section level3">
+<h3>日本語見出しのおまじない</h3>
+<p>日本語（特に半角数字との組み合わせで）見出しでリンクがおかしくなるのを解決する方法。</p>
+<pre class="yaml"><code>---
+output:
+  html_document:
+    pandoc_args:
+    - --from
+    - markdown+autolink_bare_uris+tex_math_single_backslash-implicit_figures
+---</code></pre>
+<p>こっちでも良い？</p>
+<pre class="yaml"><code>---
+output:
+  html_document:
+    md_extensions: -ascii_identifiers
+---</code></pre>
+</div>
+<div id="日付を更新日に" class="section level3">
+<h3>日付を更新日に</h3>
+<p>yamlに以下を記載する</p>
+<pre class="yaml"><code>---
+  date: &quot;2019-01-20&quot;
+---</code></pre>
+<ul>
+<li><a href="http://gihyo.jp/admin/serial/01/r-markdown/0004?page=2">第4回　レポつく自由自在 ～R Markdownにまつわるエトセトラ～：R Markdownで楽々レポートづくり｜gihyo.jp … 技術評論社</a></li>
+<li><a href="https://hikaru1122.hatenadiary.jp/entry/rmarkdown">R Markdown スライドとPDF 文章（日本語含む）作成メモ - Knowledge As Practice</a></li>
+<li><a href="https://github.com/uribo/lab.note">uribo/lab.note: Create Laboratory Note and Report Using R Markdown</a></li>
+<li><a href="http://gihyo.jp/admin/serial/01/r-markdown/0004?page=3">第4回　レポつく自由自在 ～R Markdownにまつわるエトセトラ～：R Markdownで楽々レポートづくり｜gihyo.jp … 技術評論社</a></li>
+</ul>
+</div>
+</div>
+<div id="画像の表示方法" class="section level2">
+<h2>画像の表示方法</h2>
+<ul>
+<li><a href="https://keachmurakami.github.io/page/2016/08/05/knitr-figure/">knitr figure - A plant researcher</a></li>
+</ul>
+<div id="markdown記法で表示" class="section level3">
+<h3>Markdown記法で表示</h3>
+<pre class="markdown"><code># web上のファイルへのリンク
+![R logo](https://www.r-project.org/Rlogo.png)
+
+# 画像にリンクを貼っておく
+[![R logo local](img/Rlogo_low.png)](https://www.r-project.org/)</code></pre>
+<p><a href="https://www.r-project.org/"><img src="img/Rlogo_low.png" alt="R logo local" /></a></p>
+</div>
+<div id="chunk内でknitrinclude_graphicsを利用" class="section level3">
+<h3>chunk内で<code>knitr::include_graphics</code>を利用</h3>
+<pre><code>```{r fig1, fig.cap = &#39;キャプション&#39;, echo = FALSE, out.width = &quot;100px&quot;}
+knitr::include_graphics(path = &quot;img/Rlogo.png&quot;)
+```</code></pre>
+<div class="figure">
+<img src="img/Rlogo.png" alt="キャプション" width="100px" />
+<p class="caption">
+キャプション
+</p>
+</div>
+<p>チャンクラベル（この場合「fig1」）を用いた相互参照や大きさの調節ができる。</p>
+</div>
+</div>
+<div id="rmd中にrチャンクをコードブロックとして表示" class="section level2">
+<h2>Rmd中にRチャンクをコードブロックとして表示</h2>
+<p><a href="https://qiita.com/kazutan/items/fb655efd363a3d9aa865">R MarkdownでRチャンクをコードブロックとして表示したい - Qiita</a></p>
+<p>神がいらっしゃった。ちゃんと処理を理解していることが大事ということか……。<a href="https://yihui.name/knitr/faq/">公式のFAQ</a>でも解決できなかったのに。でもこのコードをこれからknitされるここに記載する方法がわからない……。<code>`r ''`</code>をコードチャンクの2箇所の<code>```</code>の前に挿入した上で、全体を1つ多い4つのbacktickで囲む。ここだけでも十分<a href="https://yihui.name/en/2017/11/knitr-verbatim-code-chunk/">トリッキー</a>だし……。表示は諦めて画像です。</p>
+<div class="figure">
+<img src="img/r-chunk-escape.png" alt="RチャンクのR Markdownでのエスケープ方法" />
+<p class="caption">RチャンクのR Markdownでのエスケープ方法</p>
+</div>
+<p><a href="https://stackoverflow.com/questions/20409172/how-to-display-verbatim-inline-r-code-with-backticks-using-rmarkdown">markdown - How to display verbatim inline r code with backticks using Rmarkdown? - Stack Overflow</a></p>
+<p>もどうしても必要になったら考慮しよう。</p>
+</div>
+<div id="その他" class="section level2">
+<h2>その他</h2>
+<div id="githubのコードを表示する" class="section level3">
+<h3>GitHubのコードを表示する</h3>
+<p>ページの内容を取得して処理してハイライトして……、とはやらずに外部サービスの力を借りる。なおGistの方なら埋め込み用のURLをそのまま取得できるので貼るだけ。通常のレポジトリのコードを埋め込みたい時用。</p>
+<p><a href="https://gist-it.appspot.com/">gist-it.appspot.com - Embed files from a github repository like a gist</a></p>
+<pre class="markdown"><code>&lt;script src=&quot;https://gist-it.appspot.com/「対象のGitHubURL」&quot;&gt;&lt;/script&gt;</code></pre>
+<p>と本文中（Markdown書式中のHTMLコードとして）に書くだけで良い。「対象のGitHubURL」は<code>https://github.com/u-4/dotfiles/blob/master/.Rprofile</code>みたいな形式で普通にGitHubでコードを見にいく時のURLママ。最後に<code>?slice=0:3</code>などとすれば表示する行を選択できる。RStudioのsnippetにも登録した。Markdownの項目に入れておき、展開は「<code>Shift+Tab</code>」（初めて知った）。</p>
+<script src="https://gist-it.appspot.com/https://github.com/u-4/dotfiles/blob/master/.Rprofile?slice=0:3"></script>
+</div>
+</div>
+<div id="論文作る" class="section level2">
+<h2>論文作る？</h2>
+<ul>
+<li><a href="https://ytake2.github.io/create.manuscript/RStudio_for_Academia.html">アカデミアのためのRSTUDIO</a></li>
+<li><a href="https://github.com/rstudio/rticles">rstudio/rticles: LaTeX Journal Article Templates for R Markdown</a></li>
+<li><a href="https://github.com/crsh/papaja">crsh/papaja: papaja (Preparing APA Journal Articles) is an R package that provides document formats and helper functions to produce complete APA manscripts from RMarkdown-files (PDF and Word documents).</a></li>
+<li><a href="https://crsh.github.io/papaja_man/">papaja: Reproducible APA manuscripts with R Markdown</a></li>
+</ul>
+</div>
+
+<footer>
+  <p>Copyright &copy; 2019 Yuho TAMAI </p>
+</footer>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

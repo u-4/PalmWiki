@@ -1,0 +1,226 @@
+---
+title: "Rのパッケージ管理"
+---
+
+- 通常のインストール方法
+- 読み込み方法
+- 一括読み込みとかは簡単に（設定などで記述済み）
+- packrat使い方整理
+
+## パッケージのインストールとロード
+
+## `devtools`
+
+## Bioconductor
+
+[Bioconductor - Install](https://bioconductor.org/install/)
+
+下の方に書いてある方法が検索するとしばしば使われているが古い方法（R < 3.5.0）
+
+## `packrat`で再現性の確保
+
+[Packrat: Reproducible package management for R](http://rstudio.github.io/packrat/)
+
+[rstudio/packrat: Packrat is a dependency management system for R](https://github.com/rstudio/packrat)
+
+- git管理するファイル、しないファイル
+- キャッシュ使用するか
+
+- [Packratの使い道を考えてみた - Qiita](https://qiita.com/uri/items/5d473a5df91954585e62)
+- [packratで人類の拡大再生産に貢献する - 盆栽日記](http://d.hatena.ne.jp/dichika/20131220/p1)
+- [Packrat Webinar](http://rstudio.github.io/packrat/webinar/packrat-webinar-2014.html#1)
+
+- packrat管理中のプロジェクトでは`.Rprofile`での追加パッケージ読み込みは適さない
+
+R言語 でのPackratパッケージを用いた環境管理。普段はあまり意味がないと思われるが、論文解析のために行なっている場合は使用したソフトやパッケージのバージョン情報が必要になるため +Rコードの再現可能性 の為にも利用することになりそう。あとメジャーアップデートでコードが動かなくなったり、図が意図と変わったりしてはまらないように（ggplot2の3.0でハマった）。
+
+基本的にはプロジェクトで使用するバージョンのパッケージを「Packratによる仮想環境」にインストールして利用する感じ。その分記憶容量もかさむことになる。 +Rで古いバージョンのパッケージをインストールする 方法で適宜その環境に適したバージョンのパッケージをインストールすることになる。
+
+初期設定は+Packrat: 初期設定 から。プロジェクト内にしようしているパッケージバージョンのソースコードが格納され、`.Renviron`でグローバルキャッシュを設定すればパッケージそのものは共用してくれるとはいえ、それなりの量のファイル数と容量を使用することに注意。とは言え再現可能性を高めるためにはパッケージ関連に関してはこれしかないか。巨大なパッケージについては特別に通常インストールの物を使うように設定することもできる。
+
+
+運用方法
+
+`packrat::init()`は終了している前提で。
+`packrat::status()`で最新のsnapshotからの変更状況を確認。`packrat::snapshot()`で現在の状態をスナップショットに、`packrat::restore()`で最新のsnapshotの状態に復元。GUIで結構やってくれる。使われていないパッケージを`packrat`管理から消すには`packrat::clean()`だが、消す方は自動でスナップショットは取ってくれないので手動で。
+
+snapshot
+private library
+restore
+
+
+初期設定
+
+同じパッケージバージョンの時用のグローバルキャッシュを設定して多少はリソースを節約、開発版を使用、プロジェクト作成時の初期設定。
+
+.Renvironの設定
+
+global cacheを使うために`R_PACKRAT_CACHE_DIR`変数を設定しておく。
+
+    R_PACKRAT_CACHE_DIR=${HOME}/Dropbox/.R/packrat
+
+に設定。ソースコードは各プロジェクト内のpackratフォルダ以下になるが、実行ファイルはこちらに集約できる模様。
+→Dropbox的にはシンボリックリンクは使って欲しくないそうなので廃止方向へ。
+
+
+.Rprofileの設定
+
+すでに対応済みだが、+R環境設定: .Rprofile にあるように読み込まれる順番が決まっており、`packrat`の初期化コードはプロジェクトのディレクトリの`.Rprofile`に書き込まれるため、+R環境設定: プロジェクトの「.Rprofile」を読み込む のようにしてこれも読み込まれるようにしてやる必要がある。
+
+開発版のpackratを使用するなら
+    devtools::install_github("rstudio/packrat")
+
+開発版でしか対応していない場合などは。目的を考えれば基本的には安定版を使うべきだろう。
+
+プロジェクト作成
+
+プロジェクトの環境設定でPackratを選択する。作成時にはあえてチェックしないほうがいい？
+基本的にはチェックボックスは全部つける。
+
+![](https://d2mxuefqeaa7sj.cloudfront.net/s_02293003AB20124CC3C229746C0DD4536A5DE1F3AA2FF3A7EEC6C6338BCFD4CB_1530793381236_+2018-07-05+21.22.39.png)
+
+
+上記のオプションでGit ignoreのチェックボックスを両方ともオンにすれば自動的にプロジェクトの「.gitignore」に以下を追記される。
+
+    packrat/lib*/
+    packrat/src/
+
+また
+
+    .Rprofile
+    packrat/init.R
+    packrat/packrat.lock
+    packrat/packrat.opts
+
+をGit管理にすることでこれらの履歴も取れる。いつそのパッケージを使い始めたかが追えるようになるか。
+
+上記チェックボックスを全てチェックして「OK」を押すと
+
+    packrat::init(options = list(auto.snapshot = TRUE, vcs.ignore.src = TRUE, use.cache = TRUE))
+
+を実行するのと同じことになる（というか実行される）。
+
+プロジェクト内の「packrat」フォルダに使用しているパッケージのソースが置かれ、グローバルキャッシュを設定していれば実際のパッケージはそのキャッシュフォルダに置かれる。.Rprofileにpackratを使用していることが記載され、`/packrat/packrat.lock`にパッケージ情報が記載される。
+
+`packrat::init()`のdetached関連エラー
+`packrat::init()` （あるいは上記オプション付きの）でdetached関連のエラーが出る場合
+`packrat`は`library(XXX)`で読み込まれているパッケージXXXを処理中に`detach(package:XXX)`で自動的にデタッチしようとする模様でそれに失敗して処理が止まって初期化できない。
+（設定していたつもりで更新とかしてなかったLDLT donorの研究用のプロジェクトで発生）
+
+
+    Error: package ‘Formula’ is required by ‘Hmisc’ so will not be detached
+
+この場合`packrat`によるパッケージインストールの際に`Hmisc`パッケージが読み込まれていて、そのために`Fomula`パッケージをデタッチできないのでインストールできません、という内容なので、`packrat`の処理中はできるだけ各種ライブラリが読み込まれていない状態にする。
+
+→と書いてあるけどやっぱりうまくいかない気がする。一番最初に設定しないとだめかなあ。やり直してみるかねえ。
+
+→何回やってもうまくいかないので新規プロジェクトを作成して必要なものだけインストールしていく方針に。次からはきちんと初期設定をしよう。
+
+
+External Packages（ユーザライブラリから使用するパッケージ）の設定
+
+`external.packages`、あるいは上記プロジェクト設定で指定する。Bioconductor annotation packagesのように巨大で複製したくないようなパッケージを指定する（もちろん指定したパッケージはプロジェクト毎のバージョン指定にはできなくなる）。
+
+## Rで古いバージョンのパッケージをインストールする
+
+パッケージのバージョン、特にメジャーバージョンアップではかなり大きく挙動が変更される場合がある。研究や論文の図ではそのための修正をいちいちやるのは現実的ではないので、Rコードの再現可能性保持を行う必要があり、`Packrat`によるプロジェクト環境の維持とともに、古いバージョンのパッケージのインストールが必要になることがある。
+
+CRANに関しては`devtools::install_version`、Githubに関しては`devtools::install_github`を利用する。`devtools`の利用にはそれぞれのOSでの開発環境の準備が必要になる。macOSでHomebrewとか使うならどうせ入っているのでこれが一番スタンダードで使い続けやすい方法になるだろう。Packratでの制御も考えると面倒でもこれでやるのが一番か。
+
+### CRANからのインストール：`devtools::install_version`を利用
+
+https://devtools.r-lib.org/reference/install_version.html
+
+```{r, eval=FALSE}
+devtools::install_version("ggplot2", version = "2.2.1")
+```
+
+レポジトリに関しては`repos = getOption("repos")`がデフォルトなので、RStudioの設定でRStudioのグローバルレポジトリにしていれば`"https://cran.rstudio.com/"`が自動的に用いられる。
+
+### GitHubからのインストール：`devtools::install_github`を利用
+
+https://devtools.r-lib.org/reference/install_github.html
+
+```{r, eval=FALSE}
+devtools::install_github(repo, ref = "master", subdir = NULL)
+```
+
+#### repo
+
+`username/repo[/subdir][@ref|#pull]`の形で他のオプションもまとめて指定できる。「””」を忘れずに。
+
+#### ref
+
+commit, tag, branch nameを指定できる。デフォルトは`"``master``"`。「`@`」を忘れずに。バージョンにタグをつけてくれていれば`v1.0.1`。特定のコミットを指定したければ（finalfitの0.7.6のようにタグついてなければ）`9438bc2d9a`。
+
+```{r, eval=FALSE}
+devtools::install_github("ewenharrison/finalfit@9438bc2d9a")
+```
+
+最新のリリースを指定したければ`*release`
+
+### 手持ちのソースコードからインストール：`devtools::install_local`を利用
+
+https://devtools.r-lib.org/reference/install_local.html
+
+公開されなくなったけど手持ちにソースはあるとかかな。あとはダウンロードしてきている場合。
+
+
+ソースコードのURL指定なら`devtools::install_url`も
+https://devtools.r-lib.org/reference/install_url.html
+
+
+
+`install.packages()`でソースからのインストールを指定
+
+手元にソースを持っていれば
+
+    install.packages("/path/to/source.tar.gz", repos=NULL, type="source")
+
+でインストール可能。
+
+いちいちダウンロードしなくても、CRANのアーカイブのように恒常的ならURL指定でも良い。
+
+    packageurl <- "http://cran.r-project.org/src/contrib/Archive/ggplot2/ggplot2_0.9.1.tar.gz"
+    install.packages(packageurl, repos=NULL, type="source")
+
+
+### `repmis`パッケージの`InstallOldPackages`を利用
+
+Reproducible Researchのためのツールと謳っており、簡単にバージョン指定のパッケージインストールができたりciteもできたりする模様。ただし2016年ごろのver. 0.5で開発が止まっている雰囲気。開発環境をインストールしてあるのなら`devtools::install_version`の方を使うべきだろう。
+
+repmis: Miscellaneous Tools for Reproducible Research
+https://cran.r-project.org/web/packages/repmis/index.html
+https://github.com/christophergandrud/repmis
+
+
+```{r, eval=FALSE}
+InstallOldPackages(pkgs = "パッケージ名", versions = "バージョン")
+```
+
+### `versions`パッケージ
+
+https://cran.r-project.org/web/packages/versions/index.html
+
+`devtools::install_version`がCRANのソースを取ってきてビルドする必要があるのに対して、MRANからバイナリを取ってきてインストールもしてくれる。`devtools`と`checkpoint`の中間的なものとのこと。CRAN版は2016くらいで止まっていそうだが、github版は開発が続けられている模様。
+
+https://github.com/goldingn/versions
+
+### `checkpoint`パッケージ
+
+https://cran.r-project.org/web/packages/checkpoint/index.html
+
+MicrosoftによるCRANにあるパッケージのバイナリも含めたスナップショット的なMRANを利用するためのパッケージ。`install.packages()`的な使い方ができないそうで、上の`versions`パッケージを利用する方が良さそう。
+
+## Rのメジャーバージョンアップ時の対応
+
+手動でパッケージリストを取り出してアップデート。ただし全部標準の`install.packages()`に投げているのでCRANからのインストールになるため、結局必要に応じてgithub分などを処理することになると思われる。
+（2018/05/02に3.5.0へのメジャーアップデート対応はこれで行った）
+
+```{r, eval=FALSE}
+# ユーザーライブラリのパスにあるパッケージ一覧を取得
+libs.name <- list.files(path=Sys.getenv("R_LIBS_USER"))
+
+# 一覧を投げて全部再インストール
+install.packages(libs.name)
+```

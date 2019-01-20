@@ -1,0 +1,15 @@
+---
+title: "R-and-Python"
+author: "Yuho TAMAI"
+date: "2019/1/6"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+- [［翻訳］reticulate vignette: RからPythonへのインターフェース - Qiita](https://qiita.com/nakamichi/items/28c7f578a558e13ebc52)
+- [reticulateパッケージでRからPythonを使う - Qiita](https://qiita.com/yamano357/items/9319d4b073d82a261ed8)
+- [Rおじさん、Pythonistaになる - cucumber flesh](https://uribo.hatenablog.com/entry/2017/07/16/100253)
+- [RPubs - R MarkdownでPythonを書こう](https://rpubs.com/nakamichi_/rmd-python)
+- [dplyr使いのためのpandas dfplyすごい編 - Qiita](https://qiita.com/T_Shinomiya/items/c039451869382e0790f4)

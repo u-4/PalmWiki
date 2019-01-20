@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Rのパッケージ管理</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="site_style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 66px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h2 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h3 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h4 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h5 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.section h6 {
+  padding-top: 71px;
+  margin-top: -71px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">R memorandum</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    データ操作
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="readr.html">データ読み込み(readr)</a>
+    </li>
+    <li>
+      <a href="dplyr-tidyr.html">データセット操作(dplyr, tidyr)</a>
+    </li>
+    <li>
+      <a href="purrr.html">関数型プログラミング(purrr)</a>
+    </li>
+    <li>
+      <a href="stringr.html">文字列操作(stringr)</a>
+    </li>
+    <li>
+      <a href="lubridate.html">日付・時刻データ(lubridate)</a>
+    </li>
+    <li>
+      <a href="fs.html">ファイルシステム操作(fs)</a>
+    </li>
+    <li>
+      <a href="rlang.html">tidy eval (rlang)</a>
+    </li>
+    <li>
+      <a href="scraping.html">スクレイピング(rvest)</a>
+    </li>
+    <li class="dropdown-header">データベース（NDBとか色々）</li>
+    <li>
+      <a href="baseR.html">base関数メモ</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    可視化
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ggplot2.html">ggplot2</a>
+    </li>
+    <li>
+      <a href="ggplot2-color.html">ggplot2の配色</a>
+    </li>
+    <li>
+      <a href="ggplot2-grid.html">ggplot2の配置</a>
+    </li>
+    <li>
+      <a href="ggplot2-extension.html">ggplot2の拡張パッケージ</a>
+    </li>
+    <li>
+      <a href="ggplot2-practice.html">ggplot2用例</a>
+    </li>
+    <li>
+      <a href="plotly.html">plotly</a>
+    </li>
+    <li>
+      <a href="base-plot.html">base::plot</a>
+    </li>
+    <li>
+      <a href="EDA.html">探索的データ解析</a>
+    </li>
+    <li>
+      <a href="Table.html">表の可視化</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    統計
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Statistics.html">統計</a>
+    </li>
+    <li class="dropdown-header">検定・相関</li>
+    <li>
+      <a href="Stat-probability-distribution.html">確率分布</a>
+    </li>
+    <li class="dropdown-header">lm, glm</li>
+    <li>
+      <a href="Stat-GLMM.html">GLMM（一般化線形混合モデル）</a>
+    </li>
+    <li class="dropdown-header">主成分分析</li>
+    <li class="dropdown-header">RStan</li>
+    <li>
+      <a href="tidymodels.html">tidymodels</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Rmd
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Rmarkdown.html">R Markdown覚書</a>
+    </li>
+    <li>
+      <a href="Rmd-Dashboard.html">flexdashboard</a>
+    </li>
+    <li>
+      <a href="Rmd-Presentation.html">R Markdownでスライド</a>
+    </li>
+    <li>
+      <a href="Rmd-GitHubPages.html">Rmd to GitHub Pages</a>
+    </li>
+    <li>
+      <a href="Rmd-bookdown.html">Bookdown</a>
+    </li>
+    <li>
+      <a href="LaTeX.html">LaTeX</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    R
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R-Environment.html">R環境設定</a>
+    </li>
+    <li>
+      <a href="RStudio.html">RStudioの設定</a>
+    </li>
+    <li>
+      <a href="R-Package.html">パッケージ管理</a>
+    </li>
+    <li>
+      <a href="reprex.html">バグ報告・質問など(reprex)</a>
+    </li>
+    <li>
+      <a href="R-Tips.html">R雑多メモ</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Python
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="R-and-Python.html">RでPython</a>
+    </li>
+    <li>
+      <a href="Python-Environment.html">Python環境構築</a>
+    </li>
+    <li>
+      <a href="Python-Jupyter.html">Jupyter Notebook</a>
+    </li>
+    <li class="dropdown-header">Pythonメモ</li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    その他
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ToDo.html">頑張ろう</a>
+    </li>
+    <li>
+      <a href="mac-Environment.html">mac環境構築</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="https://github.com/u-4/PalmWiki/">
+    <span class="fa fa-github"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Rのパッケージ管理</h1>
+
+</div>
+
+
+<ul>
+<li>通常のインストール方法</li>
+<li>読み込み方法</li>
+<li>一括読み込みとかは簡単に（設定などで記述済み）</li>
+<li>packrat使い方整理</li>
+</ul>
+<div id="パッケージのインストールとロード" class="section level2">
+<h2>パッケージのインストールとロード</h2>
+</div>
+<div id="devtools" class="section level2">
+<h2><code>devtools</code></h2>
+</div>
+<div id="bioconductor" class="section level2">
+<h2>Bioconductor</h2>
+<p><a href="https://bioconductor.org/install/">Bioconductor - Install</a></p>
+<p>下の方に書いてある方法が検索するとしばしば使われているが古い方法（R &lt; 3.5.0）</p>
+</div>
+<div id="packratで再現性の確保" class="section level2">
+<h2><code>packrat</code>で再現性の確保</h2>
+<p><a href="http://rstudio.github.io/packrat/">Packrat: Reproducible package management for R</a></p>
+<p><a href="https://github.com/rstudio/packrat">rstudio/packrat: Packrat is a dependency management system for R</a></p>
+<ul>
+<li>git管理するファイル、しないファイル</li>
+<li><p>キャッシュ使用するか</p></li>
+<li><a href="https://qiita.com/uri/items/5d473a5df91954585e62">Packratの使い道を考えてみた - Qiita</a></li>
+<li><a href="http://d.hatena.ne.jp/dichika/20131220/p1">packratで人類の拡大再生産に貢献する - 盆栽日記</a></li>
+<li><p><a href="http://rstudio.github.io/packrat/webinar/packrat-webinar-2014.html#1">Packrat Webinar</a></p></li>
+<li><p>packrat管理中のプロジェクトでは<code>.Rprofile</code>での追加パッケージ読み込みは適さない</p></li>
+</ul>
+<p>R言語 でのPackratパッケージを用いた環境管理。普段はあまり意味がないと思われるが、論文解析のために行なっている場合は使用したソフトやパッケージのバージョン情報が必要になるため +Rコードの再現可能性 の為にも利用することになりそう。あとメジャーアップデートでコードが動かなくなったり、図が意図と変わったりしてはまらないように（ggplot2の3.0でハマった）。</p>
+<p>基本的にはプロジェクトで使用するバージョンのパッケージを「Packratによる仮想環境」にインストールして利用する感じ。その分記憶容量もかさむことになる。 +Rで古いバージョンのパッケージをインストールする 方法で適宜その環境に適したバージョンのパッケージをインストールすることになる。</p>
+<p>初期設定は+Packrat: 初期設定 から。プロジェクト内にしようしているパッケージバージョンのソースコードが格納され、<code>.Renviron</code>でグローバルキャッシュを設定すればパッケージそのものは共用してくれるとはいえ、それなりの量のファイル数と容量を使用することに注意。とは言え再現可能性を高めるためにはパッケージ関連に関してはこれしかないか。巨大なパッケージについては特別に通常インストールの物を使うように設定することもできる。</p>
+<p>運用方法</p>
+<p><code>packrat::init()</code>は終了している前提で。 <code>packrat::status()</code>で最新のsnapshotからの変更状況を確認。<code>packrat::snapshot()</code>で現在の状態をスナップショットに、<code>packrat::restore()</code>で最新のsnapshotの状態に復元。GUIで結構やってくれる。使われていないパッケージを<code>packrat</code>管理から消すには<code>packrat::clean()</code>だが、消す方は自動でスナップショットは取ってくれないので手動で。</p>
+<p>snapshot private library restore</p>
+<p>初期設定</p>
+<p>同じパッケージバージョンの時用のグローバルキャッシュを設定して多少はリソースを節約、開発版を使用、プロジェクト作成時の初期設定。</p>
+<p>.Renvironの設定</p>
+<p>global cacheを使うために<code>R_PACKRAT_CACHE_DIR</code>変数を設定しておく。</p>
+<pre><code>R_PACKRAT_CACHE_DIR=${HOME}/Dropbox/.R/packrat</code></pre>
+<p>に設定。ソースコードは各プロジェクト内のpackratフォルダ以下になるが、実行ファイルはこちらに集約できる模様。 →Dropbox的にはシンボリックリンクは使って欲しくないそうなので廃止方向へ。</p>
+<p>.Rprofileの設定</p>
+<p>すでに対応済みだが、+R環境設定: .Rprofile にあるように読み込まれる順番が決まっており、<code>packrat</code>の初期化コードはプロジェクトのディレクトリの<code>.Rprofile</code>に書き込まれるため、+R環境設定: プロジェクトの「.Rprofile」を読み込む のようにしてこれも読み込まれるようにしてやる必要がある。</p>
+<p>開発版のpackratを使用するなら devtools::install_github(“rstudio/packrat”)</p>
+<p>開発版でしか対応していない場合などは。目的を考えれば基本的には安定版を使うべきだろう。</p>
+<p>プロジェクト作成</p>
+<p>プロジェクトの環境設定でPackratを選択する。作成時にはあえてチェックしないほうがいい？ 基本的にはチェックボックスは全部つける。</p>
+<p><img src="https://d2mxuefqeaa7sj.cloudfront.net/s_02293003AB20124CC3C229746C0DD4536A5DE1F3AA2FF3A7EEC6C6338BCFD4CB_1530793381236_+2018-07-05+21.22.39.png" /></p>
+<p>上記のオプションでGit ignoreのチェックボックスを両方ともオンにすれば自動的にプロジェクトの「.gitignore」に以下を追記される。</p>
+<pre><code>packrat/lib*/
+packrat/src/</code></pre>
+<p>また</p>
+<pre><code>.Rprofile
+packrat/init.R
+packrat/packrat.lock
+packrat/packrat.opts</code></pre>
+<p>をGit管理にすることでこれらの履歴も取れる。いつそのパッケージを使い始めたかが追えるようになるか。</p>
+<p>上記チェックボックスを全てチェックして「OK」を押すと</p>
+<pre><code>packrat::init(options = list(auto.snapshot = TRUE, vcs.ignore.src = TRUE, use.cache = TRUE))</code></pre>
+<p>を実行するのと同じことになる（というか実行される）。</p>
+<p>プロジェクト内の「packrat」フォルダに使用しているパッケージのソースが置かれ、グローバルキャッシュを設定していれば実際のパッケージはそのキャッシュフォルダに置かれる。.Rprofileにpackratを使用していることが記載され、<code>/packrat/packrat.lock</code>にパッケージ情報が記載される。</p>
+<p><code>packrat::init()</code>のdetached関連エラー <code>packrat::init()</code> （あるいは上記オプション付きの）でdetached関連のエラーが出る場合 <code>packrat</code>は<code>library(XXX)</code>で読み込まれているパッケージXXXを処理中に<code>detach(package:XXX)</code>で自動的にデタッチしようとする模様でそれに失敗して処理が止まって初期化できない。 （設定していたつもりで更新とかしてなかったLDLT donorの研究用のプロジェクトで発生）</p>
+<pre><code>Error: package ‘Formula’ is required by ‘Hmisc’ so will not be detached</code></pre>
+<p>この場合<code>packrat</code>によるパッケージインストールの際に<code>Hmisc</code>パッケージが読み込まれていて、そのために<code>Fomula</code>パッケージをデタッチできないのでインストールできません、という内容なので、<code>packrat</code>の処理中はできるだけ各種ライブラリが読み込まれていない状態にする。</p>
+<p>→と書いてあるけどやっぱりうまくいかない気がする。一番最初に設定しないとだめかなあ。やり直してみるかねえ。</p>
+<p>→何回やってもうまくいかないので新規プロジェクトを作成して必要なものだけインストールしていく方針に。次からはきちんと初期設定をしよう。</p>
+<p>External Packages（ユーザライブラリから使用するパッケージ）の設定</p>
+<p><code>external.packages</code>、あるいは上記プロジェクト設定で指定する。Bioconductor annotation packagesのように巨大で複製したくないようなパッケージを指定する（もちろん指定したパッケージはプロジェクト毎のバージョン指定にはできなくなる）。</p>
+</div>
+<div id="rで古いバージョンのパッケージをインストールする" class="section level2">
+<h2>Rで古いバージョンのパッケージをインストールする</h2>
+<p>パッケージのバージョン、特にメジャーバージョンアップではかなり大きく挙動が変更される場合がある。研究や論文の図ではそのための修正をいちいちやるのは現実的ではないので、Rコードの再現可能性保持を行う必要があり、<code>Packrat</code>によるプロジェクト環境の維持とともに、古いバージョンのパッケージのインストールが必要になることがある。</p>
+<p>CRANに関しては<code>devtools::install_version</code>、Githubに関しては<code>devtools::install_github</code>を利用する。<code>devtools</code>の利用にはそれぞれのOSでの開発環境の準備が必要になる。macOSでHomebrewとか使うならどうせ入っているのでこれが一番スタンダードで使い続けやすい方法になるだろう。Packratでの制御も考えると面倒でもこれでやるのが一番か。</p>
+<div id="cranからのインストールdevtoolsinstall_versionを利用" class="section level3">
+<h3>CRANからのインストール：<code>devtools::install_version</code>を利用</h3>
+<p><a href="https://devtools.r-lib.org/reference/install_version.html" class="uri">https://devtools.r-lib.org/reference/install_version.html</a></p>
+<pre class="r"><code>devtools::install_version(&quot;ggplot2&quot;, version = &quot;2.2.1&quot;)</code></pre>
+<p>レポジトリに関しては<code>repos = getOption("repos")</code>がデフォルトなので、RStudioの設定でRStudioのグローバルレポジトリにしていれば<code>"https://cran.rstudio.com/"</code>が自動的に用いられる。</p>
+</div>
+<div id="githubからのインストールdevtoolsinstall_githubを利用" class="section level3">
+<h3>GitHubからのインストール：<code>devtools::install_github</code>を利用</h3>
+<p><a href="https://devtools.r-lib.org/reference/install_github.html" class="uri">https://devtools.r-lib.org/reference/install_github.html</a></p>
+<pre class="r"><code>devtools::install_github(repo, ref = &quot;master&quot;, subdir = NULL)</code></pre>
+<div id="repo" class="section level4">
+<h4>repo</h4>
+<p><code>username/repo[/subdir][@ref|#pull]</code>の形で他のオプションもまとめて指定できる。「””」を忘れずに。</p>
+</div>
+<div id="ref" class="section level4">
+<h4>ref</h4>
+<p>commit, tag, branch nameを指定できる。デフォルトは<code>"``master``"</code>。「<code>@</code>」を忘れずに。バージョンにタグをつけてくれていれば<code>v1.0.1</code>。特定のコミットを指定したければ（finalfitの0.7.6のようにタグついてなければ）<code>9438bc2d9a</code>。</p>
+<pre class="r"><code>devtools::install_github(&quot;ewenharrison/finalfit@9438bc2d9a&quot;)</code></pre>
+<p>最新のリリースを指定したければ<code>*release</code></p>
+</div>
+</div>
+<div id="手持ちのソースコードからインストールdevtoolsinstall_localを利用" class="section level3">
+<h3>手持ちのソースコードからインストール：<code>devtools::install_local</code>を利用</h3>
+<p><a href="https://devtools.r-lib.org/reference/install_local.html" class="uri">https://devtools.r-lib.org/reference/install_local.html</a></p>
+<p>公開されなくなったけど手持ちにソースはあるとかかな。あとはダウンロードしてきている場合。</p>
+<p>ソースコードのURL指定なら<code>devtools::install_url</code>も <a href="https://devtools.r-lib.org/reference/install_url.html" class="uri">https://devtools.r-lib.org/reference/install_url.html</a></p>
+<p><code>install.packages()</code>でソースからのインストールを指定</p>
+<p>手元にソースを持っていれば</p>
+<pre><code>install.packages(&quot;/path/to/source.tar.gz&quot;, repos=NULL, type=&quot;source&quot;)</code></pre>
+<p>でインストール可能。</p>
+<p>いちいちダウンロードしなくても、CRANのアーカイブのように恒常的ならURL指定でも良い。</p>
+<pre><code>packageurl &lt;- &quot;http://cran.r-project.org/src/contrib/Archive/ggplot2/ggplot2_0.9.1.tar.gz&quot;
+install.packages(packageurl, repos=NULL, type=&quot;source&quot;)</code></pre>
+</div>
+<div id="repmisパッケージのinstalloldpackagesを利用" class="section level3">
+<h3><code>repmis</code>パッケージの<code>InstallOldPackages</code>を利用</h3>
+<p>Reproducible Researchのためのツールと謳っており、簡単にバージョン指定のパッケージインストールができたりciteもできたりする模様。ただし2016年ごろのver. 0.5で開発が止まっている雰囲気。開発環境をインストールしてあるのなら<code>devtools::install_version</code>の方を使うべきだろう。</p>
+<p>repmis: Miscellaneous Tools for Reproducible Research <a href="https://cran.r-project.org/web/packages/repmis/index.html" class="uri">https://cran.r-project.org/web/packages/repmis/index.html</a> <a href="https://github.com/christophergandrud/repmis" class="uri">https://github.com/christophergandrud/repmis</a></p>
+<pre class="r"><code>InstallOldPackages(pkgs = &quot;パッケージ名&quot;, versions = &quot;バージョン&quot;)</code></pre>
+</div>
+<div id="versionsパッケージ" class="section level3">
+<h3><code>versions</code>パッケージ</h3>
+<p><a href="https://cran.r-project.org/web/packages/versions/index.html" class="uri">https://cran.r-project.org/web/packages/versions/index.html</a></p>
+<p><code>devtools::install_version</code>がCRANのソースを取ってきてビルドする必要があるのに対して、MRANからバイナリを取ってきてインストールもしてくれる。<code>devtools</code>と<code>checkpoint</code>の中間的なものとのこと。CRAN版は2016くらいで止まっていそうだが、github版は開発が続けられている模様。</p>
+<p><a href="https://github.com/goldingn/versions" class="uri">https://github.com/goldingn/versions</a></p>
+</div>
+<div id="checkpointパッケージ" class="section level3">
+<h3><code>checkpoint</code>パッケージ</h3>
+<p><a href="https://cran.r-project.org/web/packages/checkpoint/index.html" class="uri">https://cran.r-project.org/web/packages/checkpoint/index.html</a></p>
+<p>MicrosoftによるCRANにあるパッケージのバイナリも含めたスナップショット的なMRANを利用するためのパッケージ。<code>install.packages()</code>的な使い方ができないそうで、上の<code>versions</code>パッケージを利用する方が良さそう。</p>
+</div>
+</div>
+<div id="rのメジャーバージョンアップ時の対応" class="section level2">
+<h2>Rのメジャーバージョンアップ時の対応</h2>
+<p>手動でパッケージリストを取り出してアップデート。ただし全部標準の<code>install.packages()</code>に投げているのでCRANからのインストールになるため、結局必要に応じてgithub分などを処理することになると思われる。 （2018/05/02に3.5.0へのメジャーアップデート対応はこれで行った）</p>
+<pre class="r"><code># ユーザーライブラリのパスにあるパッケージ一覧を取得
+libs.name &lt;- list.files(path=Sys.getenv(&quot;R_LIBS_USER&quot;))
+
+# 一覧を投げて全部再インストール
+install.packages(libs.name)</code></pre>
+</div>
+
+<footer>
+  <p>Copyright &copy; 2019 Yuho TAMAI </p>
+</footer>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

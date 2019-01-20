@@ -1,0 +1,79 @@
+---
+title: "purrr"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+[Functional Programming Tools • purrr](https://purrr.tidyverse.org/)
+
+[Function reference • purrr](https://purrr.tidyverse.org/reference/index.html)
+
+dplyr 0.8から`group_map`が追加されたことにより、nest()->map()->unnese()の流れからそちらに移行することになるか？
+
+
+- [Functional Programming Tools • purrr](https://purrr.tidyverse.org/)
+- [tidyverse脳になって階層構造のあるデータフレームを使いこなそう](https://suryu.me/post/r_advent_calendar_day3/)
+- [purrrの使い方](http://delta0726.web.fc2.com/packages/data/00_purrr.html)
+- [そろそろ手を出すpurrr / nekosky - Speaker Deck](https://speakerdeck.com/s_uryu/nekosky)
+- [purrr: ループ処理やapply系関数の決定版 - Heavy Watal](https://heavywatal.github.io/rstats/purrr.html)
+- [dplyr と purrrを用いたデータハンドリング](https://www.slideshare.net/SomatoriKeita/dplyr-purrr-103718147)
+- [Dropout: purrrとbroomで複数の回帰モデルを効率的に管理する](https://morishita0619.github.io/blog/posts/2019-01-01-test/)
+- [purrr の map を使って検定を繰り返す - Knowledge As Practice](https://hikaru1122.hatenadiary.jp/entry/2018/09/18/210507)
+- [purrrfect Your R Code | DataCamp](https://www.datacamp.com/courses/foundations-of-functional-programming-with-purrr)
+- [{purrr} でリストデータを操作する <1> - StatsFragments](http://sinhrks.hatenablog.com/entry/2015/11/26/220956)
+- [{purrr} でリストデータを操作する <2> - StatsFragments](http://sinhrks.hatenablog.com/entry/2015/11/28/213859)
+
+
+
+`base::split()` vs. `group_by()` and `nest()`
+
+[Pros and cons of split() vs nest() with map() workflows - tidyverse - RStudio Community](https://community.rstudio.com/t/pros-and-cons-of-split-vs-nest-with-map-workflows/6492)
+
+[ ] splitとgroup_by and nestの練習 @Yuho T 
+`map_lgl()`, `map_dbl()`, `map_int()`, `map_chr()`
+
+`map()`がリストを返すのに対し、型の決まったベクトル（論理、実数、整数、文字）を返す。`base::sapply()`,  `base::vapply()`の大体ができる。特に`sapply()`は長さがゼロだとリストを返したりするので、確実に決まった型のベクトルで操作することができる利点がある。
+
+numericな列を選択してShapiro検定で正規性を検討、p<0.05の列をリスト化
+主に`tableone`パッケージでの変数リスト作成用に。
+
+    # sapplyで添字利用
+    iris %>% .[sapply(., is.numeric)] %>%
+      purrr::map(~ broom::tidy(shapiro.test(.x))) %>% 
+      purrr::map_lgl(~ .$p.value < 0.05) %>%
+      .[. == TRUE] %>%
+      names %>%
+      dput
+
+
+    # map_lgl()利用
+    iris %>% 
+      .[purrr::map_lgl(., is.numeric)] %>% # 以下略
+
+使えるときは一番単純な手段で行うべし、的にはこの`dplyr::select_if()`がベストか。
+
+    # dplyr::select_if()利用
+    iris %>% 
+      dplyr::select_if(is.numeric) %>% # 以下略
+
+
+
+`keep()`, `discard()`
+
+[Keep or discard elements using a predicate function. — keep • purrr](https://purrr.tidyverse.org/reference/keep.html)
+
+
+
+`imap()`
+
+[purrrでdoせず楽をする - Qiita](https://qiita.com/yutannihilation/items/356be6e104b6c3a93a87)
+
+
+
+`rerun`
+
+サンプルデータ作るのに死ぬほど便利そう。
+[rerun function | R Documentation](https://www.rdocumentation.org/packages/purrr/versions/0.2.5/topics/rerun)

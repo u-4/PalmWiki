@@ -1,0 +1,89 @@
+---
+title: "Rで画像処理"
+---
+
+- [ropensci/magick: Magic, madness, heaven, sin](https://github.com/ropensci/magick)
+- [The magick package: Advanced Image-Processing in R](https://cran.r-project.org/web/packages/magick/vignettes/intro.html)
+- [magick.pdf](https://cran.r-project.org/web/packages/magick/magick.pdf)
+
+
+- [Rで解析：画像操作の進化「magick」パッケージ](https://www.karada-good.net/analyticsr/r-531)
+- [Rで画像処理～magick package - Ｒ言語による電子カルテデータの二次利用](http://r-beginner.hatenadiary.jp/entry/2016/09/11/150248)
+- [Rで数学gif作って遊ぼう！magickパッケージで簡単にできるgif作成｜なだけい｜note](https://note.mu/statstudent/n/nb7b2367336b6)
+- [SappoRoR#7 Rを用いた画像処理入門　-胸部X線の経時的差分画像-](https://www.slideshare.net/hidamasahiko/sapporor7-rx)
+
+`ImageMagick`をベースにした画像処理用のパッケージ。`ImageMagick`自体は多機能で多くの環境で使えるオープンソースなのだが、サーバで使う場合にはセキュリティの問題が無視できない模様。
+
+- [「さようなら ImageMagick」の考察 - Qiita](https://qiita.com/yoya/items/2076c1f5137d4041e3aa)
+- [ImageMagickを使うWebアプリのセキュリティ - 1. 既知の脆弱性、システム情報の漏洩 | MBSD Blog](https://www.mbsd.jp/blog/20180831.html)
+
+以下[公式vignettes](https://cran.r-project.org/web/packages/magick/vignettes/intro.html)を元にメモ。
+
+## インストール
+
+まずは`homebrew`を用いてmacに`ImageMagick@6`をインストールする。
+
+```{bash, eval=FALSE}
+brew install imagemagick@6 --with-fontconfig --with-librsvg
+brew link --force imagemagick@6
+```
+
+最新版と併用する必要があればリンクかパスのどちらかで対応が必要になるとおもわれる。`magick`パッケージはCRANにもあるので`install.packages("magick", dependencies = TRUE)`で。
+
+### 画像種類別の対応状況確認
+
+```{r}
+str(magick::magick_config())
+```
+
+### `imagemagick@6`インストール時のメッセージ
+
+`magick`パッケージの対応する`ImageMagic`のバージョンが上がった時に必要になる気がするのでメモ。
+
+```
+imagemagick@6 is keg-only, which means it was not symlinked into /usr/local,
+because this is an alternate version of another formula.
+
+If you need to have imagemagick@6 first in your PATH run:
+  echo 'export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"' >> ~/.bash_profile
+
+For compilers to find imagemagick@6 you may need to set:
+  export LDFLAGS="-L/usr/local/opt/imagemagick@6/lib"
+  export CPPFLAGS="-I/usr/local/opt/imagemagick@6/include"
+
+For pkg-config to find imagemagick@6 you may need to set:
+  export PKG_CONFIG_PATH="/usr/local/opt/imagemagick@6/lib/pkgconfig"
+```
+
+```
+$ brew link --force imagemagick@6
+Linking /usr/local/Cellar/imagemagick@6/6.9.10-14... 76 symlinks created
+
+If you need to have this software first in your PATH instead consider running:
+  echo 'export PATH="/usr/local/opt/imagemagick@6/bin:$PATH"' >> ~/.bash_profile
+```
+
+## Image IO
+
+## 画像を結合する
+
+```{r, eval=FALSE}
+img_list <- c("img/RStudio-Project-NewMenu.png",
+              "img/RStudio-Project-New-VC.png",
+              "img/RStudio-Project-New-Git.png",
+              "img/RStudio-Project-New-Clone.png")
+img_list %>% 
+  magick::image_read(.) %>% # 読み込んで
+  magick::image_scale("x512") %>% # 縦を揃えて
+  magick::image_append(.) %>% # 左→右にくっつける（stack = TRUEで上から下へ）
+  magick::image_write("img/RStudio-newVCProject.png", format = "png") # pathにformat形式で保存
+```
+
+
+## TODO
+
+- モザイク
+- ぼかしの強いの
+- 一部だけモザイク？
+- パイプと[]で一部だけ処理とかできる？
+- 

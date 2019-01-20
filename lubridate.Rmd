@@ -1,0 +1,10 @@
+---
+title: "日付・時刻データ(lubridate)"
+---
+
+- [Make Dealing with Dates a Little Easier • lubridate](https://lubridate.tidyverse.org/)
+- [Dates and times with lubridate::CHEAT SHEET](https://rawgit.com/rstudio/cheatsheets/master/lubridate.pdf)
+
+
+- [lubridateパッケージ入門 - Qiita](https://qiita.com/nozma/items/01725761d980a0110027)
+- [ログデータ処理で始めるlubridate入門](https://kazutan.github.io/SappoRoR8/01-lubridate.html)

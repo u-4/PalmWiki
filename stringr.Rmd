@@ -1,0 +1,11 @@
+---
+title: "文字列操作(stringr)"
+---
+
+[Work with Strings Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/strings.pdf)
+
+- `stringr`は`tidyverse`で読み込んでくれる。`stringi`のラッパーで、必要な時は直接`stringi`の関数を呼び出す。
+- paste0系の置き換え
+- 1個の文字列にするときの（collapse）
+- 区切りで分ける奴の置き換え
+- あとは基本的にチートシートで十分。詰まったらメモる。

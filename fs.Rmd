@@ -1,0 +1,16 @@
+---
+title: "file system operation"
+---
+
+[Cross-Platform File System Operations Based on 'libuv' • fs](https://fs.r-lib.org/)
+[Function reference • fs](https://fs.r-lib.org/reference/index.html)
+
+[baseの方法](baseR.html)も`.Rprofile`とかでは必要になる。`file.path()`とか。
+
+```{r, eval=FALSE}
+fs::file_delete(c("img/RStudio-Project-NewMenu.png",
+                  "img/RStudio-Project-New-VC.png",
+                  "img/RStudio-Project-New-Git.png",
+                  "img/RStudio-Project-New-Clone.png"))
+```
+

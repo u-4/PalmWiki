@@ -1,0 +1,16 @@
+---
+title: "Jupyter Lab"
+---
+
+Jupyter NotebookからJupyter Labへ。
+
+[JupyterLab Documentation — JupyterLab 0.35.4 documentation](https://jupyterlab.readthedocs.io/en/stable/index.html)
+
+
+- [あなたの生産性を向上させるJupyter notebook Tips | リクルートテクノロジーズ　メンバーズブログ](https://recruit-tech.co.jp/blog/2018/10/16/jupyter_notebook_tips/)
+- [データ分析に欠かせないJupyter Notebook・Jupyter Lab　より便利に使うためのNotebookバージョン管理のコツ│FORCIA CUBE│フォルシア株式会社](https://www.forcia.com/blog/001172.html)
+- [jupyter/nbdime: Tools for diffing and merging of Jupyter notebooks.](https://github.com/jupyter/nbdime)
+
+
+## Jupyter LabでRを利用する
+

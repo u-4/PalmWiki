@@ -1,0 +1,350 @@
+---
+title: "R環境設定"
+---
+
+## RとRStudioのmacOSでのインストール
+
+`Homebrew`をインストールしている前提で。[mac環境構築](mac-Environment.html)参照。
+
+```{bash, eval=FALSE}
+brew cask install r-app rstudio
+```
+
+で終了。
+
+### Rの種類
+
+macOSで`Homebrew`を用いてインストールできるのは
+
+1. `brew install r`でインストールされるR
+2. `brew cask install r-app`でインストールされる[R for Mac OS X](https://cran.r-project.org/bin/macosx/)と基本的に同じもの
+
+の2種類になる。1. の`brew install r`版は`openblas`などでカスタムができること、`brew doctor`でWarningが出ないメリットがあるが、CRAN的には非公式ビルド扱いのために**パッケージのインストールの際に毎回ソースからビルドすることになる**。という大きなデメリットがある。またtcl/tkサポートがない？ため[EZR](http://www.jichi.ac.jp/saitama-sct/SaitamaHP.files/statmed.html)がうまく動かなかったような記憶がある。EZRに関してはplotの出力の問題もあり、仮想マシンを使うなどしてWindows版を利用するのがスムーズではある。
+
+一方2. の`brew cask install r-app`でインストールされる方は基本的には公式ビルドのためパッケージのインストールなどで問題は生じない。代わりに一緒にインストールされるtcl/tkなどがあまりお行儀が良くないらしく、以下のような`brew doctor`でのWarningがでるようになってしまう。Warningを消すにはこれらのファイルを削除するしかないが、消さなくてもとりあえず気づけるような問題は生じていないのでそのままにしている。
+
+```{bash, eval=FALSE}
+$ brew doctor
+Please note that these warnings are just used to help the Homebrew maintainers
+with debugging if you file an issue. If everything you use Homebrew for is
+working fine: please don't worry or file an issue; just ignore this. Thanks!
+
+Warning: Unbrewed dylibs were found in /usr/local/lib.
+If you didn't put them there on purpose they could cause problems when
+building Homebrew formulae, and may need to be deleted.
+
+Unexpected dylibs:
+  /usr/local/lib/libtcl8.6.dylib
+  /usr/local/lib/libtk8.6.dylib
+
+Warning: Unbrewed header files were found in /usr/local/include.
+If you didn't put them there on purpose they could cause problems when
+building Homebrew formulae, and may need to be deleted.
+
+Unexpected header files:
+  /usr/local/include/fakemysql.h
+  /usr/local/include/fakepq.h
+  /usr/local/include/fakesql.h
+  /usr/local/include/itcl.h
+  /usr/local/include/itcl2TclOO.h
+  /usr/local/include/itclDecls.h
+  /usr/local/include/itclInt.h
+  /usr/local/include/itclIntDecls.h
+  /usr/local/include/itclMigrate2TclCore.h
+  /usr/local/include/itclTclIntStubsFcn.h
+  /usr/local/include/mysqlStubs.h
+  /usr/local/include/odbcStubs.h
+  /usr/local/include/pqStubs.h
+  /usr/local/include/tcl.h
+  /usr/local/include/tclDecls.h
+  /usr/local/include/tclOO.h
+  /usr/local/include/tclOODecls.h
+  /usr/local/include/tclPlatDecls.h
+  /usr/local/include/tclThread.h
+  /usr/local/include/tclTomMath.h
+  /usr/local/include/tclTomMathDecls.h
+  /usr/local/include/tdbc.h
+  /usr/local/include/tdbcDecls.h
+  /usr/local/include/tdbcInt.h
+  /usr/local/include/tk.h
+  /usr/local/include/tkDecls.h
+  /usr/local/include/tkPlatDecls.h
+
+Warning: Unbrewed .pc files were found in /usr/local/lib/pkgconfig.
+If you didn't put them there on purpose they could cause problems when
+building Homebrew formulae, and may need to be deleted.
+
+Unexpected .pc files:
+  /usr/local/lib/pkgconfig/tcl.pc
+  /usr/local/lib/pkgconfig/tk.pc
+
+Warning: Unbrewed static libraries were found in /usr/local/lib.
+If you didn't put them there on purpose they could cause problems when
+building Homebrew formulae, and may need to be deleted.
+
+Unexpected static libraries:
+  /usr/local/lib/libtclstub8.6.a
+  /usr/local/lib/libtkstub8.6.a
+```
+
+
+## Rの起動手順と設定ファイル
+
+```{r, eval=FALSE}
+help("Startup")
+```
+
+1. `.Renviron`（`--no-environ`でスキップ）
+    1. `$R_ENVIRON`
+    2. `$R_HOME/etc/Renviron.site`
+    3. `$R_ENVIRON_USER`
+    4. `./.Renviron`
+    5. `~/.Renviron` ←これを用意している
+2. `Rprofile.site`（あれば。`--no-site-file`でスキップ）
+    1. `$R_PROFILE`
+    2. `$R_HOME/etc/Rprofile.site`
+3. `.Rprofile`（`--no-init-file`でスキップ）
+    1. `$R_PROFILE_USER` ←`.Renviron`で設定しているとこれが優先される
+    2. `./.Rprofile`  ←するとプロジェクト毎のこれが読み込まれていなかった
+        - このプロジェクト`.Rprofile`中で`source("packrat/init.R")`により`packrat`が起動
+    3. `~/.Rprofile`
+4. `./*.RData`の読み込み（あれば。`--no-restore-data`でスキップ）
+5. `.First`関数が定義されていれば実行される
+6. （baseの）`.First.sys()`関数が実行される
+    - `options("defaultPackages")`のパッケージ群を`require`する
+    - `methods`パッケージが含まれていると先に`.OptRequireMethods()`で読み込まれてnamespaceの初期化が正しく行われる、らしい
+
+なお`R --vanilla`とすると`--no-site-file, --no-init-file, --no-environ and (except for R CMD) --no-restore`の扱いになるので問題の切り分けをしたいときに。
+
+## .Renviron
+
+R起動時に読み込まれ、環境変数を設定するファイル。
+
+読み込まれる順番は上記のようになっており、プロジェクト（カレントディレクトリ）では通常は作られないので最後の`~/.Renviron`が読み込まれることになる模様。この後に`.Rprofile`の読み込みになり、その際にはこのファイル内で`R_PROFILE_USER`を設定していると優先される。
+
+<script src="https://gist-it.appspot.com/https://github.com/u-4/dotfiles/blob/master/.Renviron"></script>
+
+## .Rprofile
+
+- [dotfiles/.Rprofile at master · heavywatal/dotfiles](https://github.com/heavywatal/dotfiles/blob/master/.R/.Rprofile)
+
+や各所を参考に作っている。
+
+<script src="https://gist-it.appspot.com/https://github.com/u-4/dotfiles/blob/master/.Rprofile?slice=0:10"></script>
+
+### `.Rprofile`の読み込み確認
+
+最初と最後にメッセージを表示させることで、こっそりエラーになって止まっていても気づけるようにしておく。
+
+```{r loading message and source project .Rprofile, eval=FALSE}
+message("\n*** Loading user .Rprofile (~/.Rprofile) ***\n")
+
+...
+
+message("*** Successfully loaded user .Rprofile ***\n")
+
+```
+
+### パッケージのインストールパス
+
+`.Renviron`の`R_LIBS_USER`とともに`.libPaths`を設定する。「パッケージのインストール先」と「インストールされたパッケージの読込先」を両方とも設定しておく必要がある模様。`R_LIBS_USER`は読込先、`.libPaths`はインストール先の指定になる？。これらの設定は`packrat`管理の初期化処理で上書きされるため、プロジェクトの`.Rprofile`との読み込み順に注意が必要になる。`.Renviron`の設定にも依存するが、自分の設定では`R_PROFILE_USER`が設定されているため、その中でこのインストールパス処理してから下記のプロジェクトの`.Rprofile`読み込みが行われるようにしている。
+
+[install.packagesでインストールするpathを変更する - Qiita](https://qiita.com/ysk24ok/items/66a4c4ca637952f3f540)
+
+なんか設定してもうまくいかないと思ったらあらかじめディレクトリは作っておく必要がある（存在しないディレクトリは読み込まない）のが原因だった。エラーは出してくれない。`.Renviron`で`$R_LIBS_USER`を、`.Rprofile`で`.libPaths()`を設定。
+
+```{r, eval=FALSE}
+# set .libPaths to "~/.R_LIBS"
+if (dir.exists(file.path("~", ".R_LIBS")) || dir.create(file.path("~", ".R_LIBS"))) {
+  .libPaths(file.path("~", ".R_LIBS"))
+} else {
+  warning("\n******* .libPaths was undefined !!! *******\n")
+}
+```
+
+なおこっそり`.bashrc`にも入れている。ついでにaliasもここに記載。
+
+```{bash, eval=FALSE}
+# create directory for installed packages
+if [ ! -d ~/.R_LIBS ]; then
+    mkdir ~/.R_LIBS
+    echo "Created '~/.R_LIBS' for R_LIBS_USER."
+fi
+
+alias R='R --no-save --no-restore-data'
+```
+
+### CRANのレポジトリ設定
+
+`brew cask install r-app`の方を使っている分には基本的には問題なくCRANのバイナリが利用できるはずだが、それだけでは足りないものもあるようで、`bookdown`パッケージほか多くのパッケージ作者でもあるYihui Xie氏の用意してくているCRANextra用のサーバーがあるようなのでそちらも設定。
+
+- [A CRANextra Repository for Homebrew and R Users on macOS - Installing rattle on macOS? No more struggles! - Yihui Xie | 谢益辉](https://yihui.name/en/2018/07/cranextra-macos/)
+- [Extra Binary R packages for the Homebrew R (Cask)](https://macos.rbind.org/)
+
+```{r ,eval=FALSE}
+# CRAN repos from rstudio and extra from macos.rbind.org by Yihui Xie
+options(repos = c(
+  CRAN = 'https://cran.rstudio.com',
+  CRANextra = 'https://macos.rbind.org'
+))
+```
+
+### プロジェクトの`.Rprofile`読み込み設定
+
+`~/.Renviron`で`$R_PROFILE_USER`を`~/.Rprofile`に設定し、カレントディレクトリの`./.Rprofile`よりも優先して読み込むようにしているため、プロジェクトの`.Rprofile`が存在しても`~/.Rprofile`が常に読み込まれることになる。特に`Packrat`で管理しているプロジェクトでは`（プロジェクトのルート）/.Rprofile`に
+
+```{r, eval=FALSE}
+#### -- Packrat Autoloader (version 0.4.9-8) -- ####
+source("packrat/init.R")
+#### -- End Packrat Autoloader -- ####
+```
+
+のような初期化処理が追記されているため、気づかずにいると`Packrat`管理しているつもりで何もしていなかったということになりかねない（なった）。そのため以下のコードを`$R_PROFILE_USER`（実質`~/.Rprofile`）のインストールパスの設定よりあとかつ起動時のパッケージ追加処理より前に入れてプロジェクトの`.Rprofile`を読み込むようにしている。また`R --vanilla`環境では`Sys.getenv("R_USER")`は`""`を返すため、無限ループにハマらないように`unset = getwd()`を入れている。
+
+```{r, eval=FALSE}
+# source projectdir/.Rprofile
+# R --vanilla returns "" to Sys.getenv("R_USER")
+if ((Sys.getenv("R_USER", unset = getwd()) != getwd()) && (file.exists(file.path(getwd(), ".Rprofile")))) {
+  message("* Project .Rprofile is detected. *\nLoading Project .Rprofile...")
+  source(file.path(getwd(), ".Rprofile"))
+  message("Successfully loaded Project .Rprofile\n")
+}
+```
+
+### 起動時に追加でパッケージを読み込む
+
+- [R for Enterprise: Understanding R’s Startup · R Views](https://rviews.rstudio.com/2017/04/19/r-for-enterprise-understanding-r-s-startup/)
+- [R起動時にpackageを自動ロードする - J's blog](http://jundoll.hatenablog.com/entry/2014/03/05/150437)
+
+.Rprofileに`library(tidyverse)`とすると、
+
+1. .Rprofileでtidyverseを読み込む
+2. `.First.sys()`で`options("defaultPackages")`のパッケージをロードする
+
+の順になるため`base::search()`でのパスの順番が変わり、`dplyr::filter()`ではなく`stats::filter()`が優先されてしまったりする。そのため、"defaultPakcages"に追記する形をとる必要がある。
+
+```{r, eval=FALSE}
+options(defaultPackages = c(getOption("defaultPackages"), "tidyverse"))
+```
+
+ただしこれだと`Packrat`を利用するプロジェクトなど、指定したパッケージがインストールされていない場合にはエラーが出てしまう。これを抑制するために`requireNamespace(x, quietly = TRUE)`を用いてインストールされているか判定し、存在するものだけを加えるようにしていたが、`requireNamespace`では`Packrat`管理下のプロジェクトにパッケージがインストールされていなくても`TRUE`が返ってしまう。
+`require()`は`suppressWarnings()`と`suppressMessages()`を使えば余分な表示は消せるが、結局`.First.sys()`で外部パッケージを読み込ませていると、そのあとに立ち上がる`packrat`環境ではインストールされていないので`afterPackratModeOn -> cleanSearchPath -> forceUnload -> unloadNamespace`のようなエラーが出る……。しかも先に`require`を呼び出してしまうせいか結局元々の`"defaultPackages"`よりも先に追加パッケージが`search()`のパスに入ってしまう。
+
+- `requreNamespace`だと`packrat`環境でのみ問題が生じる
+    - `.Rprofile`を実行している時点ではインストールされていると判断される
+    - その後の`packrat`が読み込まれた環境ではインストールされていないのでエラー
+- もしかしたらこの処理の前にプロジェクトの`.Rprofile`を読み込んで`packrat`の読み込み処理をさせるとうまくいく？
+    
+
+解決方法として
+
+1. Packrat環境の時は何も追加しない
+2. Packrat環境でなければ`requireNamespace`を利用して（も問題ないので）`require`の順番を崩さずにインストールされているかだけチェックして追加
+
+の処理にすることで解決できる。
+
+Packrat環境かどうかを確認するには`!is.na(Sys.getenv("R_PACKRAT_MODE", unset = NA))`が使えるはずなのだが、これはpackratが開始してからしかわからない。packratの読み込みはプロジェクトの`.Rprofile`中の`source("packrat/init.R")`で行われるので、先にプロジェクトの`.Rprofile`読み込みを行っておけば正しく判定可能になる。読み込み前だと常に`FALSE`になってしまう。代替手段としては`getwd()/packrat/init.R`か`packrat.lock`が存在するかどうかで判定する。Packrat環境の場合は`defaultPakages`はいじらずに、プロジェクトの中でインストールおよび読みこむパッケージを管理するようにする。Packratの使用目的からもこの方が道理にかなっているだろう。大人しくセットアップファイルでも作って管理することにする。先にプロジェクトの`.Rprofile`を読み込んでいる前提なので、そちらか`.Renviron`で`Sys.setenv("NO_ADDITIONAL_PACKAGES" = TRUE)`（`NA`以外なら何でも）を設定しておけば追加処理をスキップできるようにしてある。
+
+```{r eval=FALSE}
+if (!is.na(Sys.getenv("R_PACKRAT_MODE", unset = NA))) {
+  message("* This project is under control of packrat. No additional packages will be loaded in global .Rprofile. *\n")
+} else if (!is.na(Sys.getenv("NO_ADDITIONAL_PACKAGES", unset = NA))) {
+  message("* This project is set to use 'defaultPackages'. No additional packages will be loaded in global .Rprofile. *\n")
+} else {
+  local({
+  original_default <- getOption("defaultPackages")
+  pkgs <- c("tidyverse", "magrittr", "skimr")
+  pkgs <- pkgs[sapply(pkgs, function(x) {return(ifelse((requireNamespace(x, quietly = TRUE)), TRUE, FALSE))})]
+  options(defaultPackages = c(original_default, pkgs))
+  message(paste0("* These additional packages will be loaded. *\n", paste(pkgs, collapse = ", "), "\n"))
+})
+}
+```
+
+一応`require`版もメモとして取っておく。こちらだと`getOption("defaultPackages")`で得られるリストは全く同じものになるが、先に`require()`してしまうせいか`namespace initialization`がうまく行かず、`filter()`で`dplyr::filter()`ではなく`stats::filter()`が呼び出される状態になってしまう。
+
+```{r eval=FALSE}
+pkgs[sapply(pkgs, function(x) {return((suppressMessages(suppressWarnings(require(x, character.only = TRUE)))))})]
+```
+
+Packratを使用しているかの判定が`Sys.getenv("R_PACKRAT_MODE")`では`source("packrat/init.R")`処理前の時点ではうまくいかないことを確認するためのコード。
+
+```{r is.Packrat does not work in .Rprofile, eval=FALSE}
+# .Rprofileに書いてもpackrat起動前なので常に"Not Packrat!"になってしまう
+if (!is.na(Sys.getenv("R_PACKRAT_MODE", unset = NA))) {
+  message("Packrat!")
+} else {
+  message("Not Packrat!")
+}
+```
+
+### プロジェクトで終了時にセッション情報を記録する
+
+[R for Enterprise: Understanding R’s Startup · R Views](https://rviews.rstudio.com/2017/04/19/r-for-enterprise-understanding-r-s-startup/)
+
+の下の方の「Record sessionInfo automatically」を元に`rstudioapi`を使わなくてもいいように改造。ただし`.Last`起動時（RStudio終了時）に`getwd()`がプロジェクトルートから変わっていないことを前提にしている。
+
+```{r, eval=FALSE}
+.Last <- function(){
+  if (interactive() && !is.na(Sys.getenv("RSTUDIO", unset = NA)) && as.logical(sum(grepl(".Rproj", list.files())))) {
+     ## append date + sessionInfo to a file called sessionInfoLog
+    cat("Recording session info into the project's sesionInfoLog file...")
+    info <- capture.output(sessionInfo())
+    info <- paste("\n----------------------------------------------",
+                  paste0('Session Info for ', Sys.time()),
+                  paste(info, collapse = "\n"),
+                  sep  = "\n")
+    f <- file.path(getwd(), "sessionInfoLog")
+    cat(info, file = f, append = TRUE)
+  }
+}
+```
+
+### `option()`
+
+- [関数option()のscipenによって指数表記を回避する](http://rstudio-pubs-static.s3.amazonaws.com/724_9a4767462a12489ba2d0fe07351f62c5.html)
+- [R-Source](http://cse.naro.affrc.go.jp/takezawa/r-tips/r/11.html)
+
+### CPUコア数の設定
+
+[Speeding up package installation | R-bloggers](https://www.r-bloggers.com/speeding-up-package-installation-3/)
+[Use `parallel` option of `boot` function in `R` - Stack Overflow](https://stackoverflow.com/questions/31351526/use-parallel-option-of-boot-function-in-r)
+
+`parallel`パッケージとかもあるが、ここでは`install.packages()`と`boot`用のオプションのみ。CPUコア数は以下のコードで。
+
+```{r}
+parallel::detectCores()
+```
+
+`install.packages`の`Ncpus` Argumentの説明より
+
+> the number of parallel processes to use for a parallel install of more than one source package. Values greater than one are supported if the make command specified by Sys.getenv("MAKE", "make") accepts argument -k -j Ncpus.
+
+`boot::boot`の`ncpus` Argumentの説明より
+
+> integer: number of processes to be used in parallel operation: typically one would chose this to the number of available CPUs.
+
+```{r, eval = FALSE}
+# set CPU cores to use in install.packages and boot::boot
+# to know the number of cores in your PC, use parallel::detectCores()
+options(Ncpus=4,
+        boot.ncpus=4)
+
+# set boot parallel method
+# options(boot.parallel="multicore")
+```
+
+
+
+## 環境変数
+
+一覧を見るには
+
+```{r, eval=FALSE}
+Sys.getenv()
+```
+
+### 作業スペース規模で呼び出し可能な環境変数
+
+- [configパッケージで楽々環境変数の管理](https://suryu.me/post/r_advent_calendar_day2/)
+- [ナウでヤングなRの環境変数管理方法 - 株式会社ホクソエムのブログ](https://blog.hoxo-m.com/entry/2017/04/20/080200)

@@ -1,0 +1,13 @@
+---
+title: "tidymodels"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+- [tidymodels/tidymodels: Easily Install and Load the 'Tidymodels' Packages](https://github.com/tidymodels/tidymodels)
+- [The tidymodels Package - Tidyverse](https://www.tidyverse.org/articles/2018/08/tidymodels-0-0-1/)
+- [tidymodelsによるtidyな機械学習フロー（その1） - Dropout](https://dropout009.hatenablog.com/entry/2019/01/06/124932)
+- [モデルで扱うデータの前処理をrecipesで行う - 株式会社ホクソエムのブログ](https://blog.hoxo-m.com/entry/2018/08/26/161144)

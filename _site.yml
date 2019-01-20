@@ -1,0 +1,125 @@
+name: "R memorandum"
+navbar:
+  title: "R memorandum"
+  left:
+    - text: "データ操作"
+      menu:
+        - text: "データ読み込み(readr)"
+          href: readr.html
+        - text: "データセット操作(dplyr, tidyr)"
+          href: dplyr-tidyr.html
+        - text: "関数型プログラミング(purrr)"
+          href: purrr.html
+        - text: "文字列操作(stringr)"
+          href: stringr.html
+        - text: "日付・時刻データ(lubridate)"
+          href: lubridate.html
+        - text: "ファイルシステム操作(fs)"
+          href: fs.html
+        - text: "tidy eval (rlang)"
+          href: rlang.html
+        - text: "スクレイピング(rvest)"
+          href: scraping.html
+        - text: "データベース（NDBとか色々）"
+          href: 
+        - text: "base関数メモ"
+          href: baseR.html
+    - text: "可視化"
+      menu:
+        - text: "ggplot2"
+          href: ggplot2.html
+        - text: "ggplot2の配色"
+          href: ggplot2-color.html
+        - text: "ggplot2の配置"
+          href: ggplot2-grid.html
+        - text: "ggplot2の拡張パッケージ"
+          href: ggplot2-extension.html
+        - text: "ggplot2用例"
+          href: ggplot2-practice.html
+        - text: "plotly"
+          href: plotly.html
+        - text: "base::plot"
+          href: base-plot.html
+        - text: "探索的データ解析"
+          href: EDA.html
+        - text: "表の可視化"
+          href: Table.html
+        - text: "Rで画像処理(magick)"
+          href: magick.html
+    - text: "統計"
+      menu:
+        - text: "統計"
+          href: Statistics.html
+        - text: "検定・相関"
+          href: 
+        - text: "確率分布"
+          href: Stat-probability-distribution.html
+        - text: "lm, glm"
+          href: 
+        - text: "GLMM（一般化線形混合モデル）"
+          href: Stat-GLMM.html
+        - text: "主成分分析"
+          href: 
+        - text: "RStan"
+          href: 
+        - text: "tidymodels"
+          href: tidymodels.html
+    - text: "Rmd"
+      menu:
+        - text: "R Markdown覚書"
+          href: Rmarkdown.html
+        - text: "flexdashboard"
+          href: Rmd-Dashboard.html
+        - text: "R Markdownでスライド"
+          href: Rmd-Presentation.html
+        - text: "Rmd to GitHub Pages"
+          href: Rmd-GitHubPages.html
+        - text: "Bookdown"
+          href: Rmd-bookdown.html
+        - text: "LaTeX"
+          href: LaTeX.html
+    - text: "R"
+      menu:
+        - text: "R環境設定"
+          href: R-Environment.html
+        - text: "RStudioの設定"
+          href: RStudio.html
+        - text: "パッケージ管理"
+          href: R-Package.html
+        - text: "バグ報告・質問など(reprex)"
+          href: reprex.html
+        - text: "R雑多メモ"
+          href: R-Tips.html
+    - text: "Python"
+      menu:
+        - text: "RでPython"
+          href: R-and-Python.html
+        - text: "Python環境構築"
+          href: Python-Environment.html
+        - text: "Jupyter Notebook"
+          href: Python-Jupyter.html
+        - text: "Pythonメモ"
+          href: 
+    - text: "その他"
+      menu:
+        - text: "頑張ろう"
+          href: ToDo.html
+        - text: "mac環境構築"
+          href: mac-Environment.html
+  right:
+    - icon: fa-github
+      href: https://github.com/u-4/PalmWiki/
+output:
+  html_document:
+    md_extensions: -ascii_identifiers
+    theme: readable
+    highlight: textmate
+    toc: true
+    toc_float:
+      collapse: false
+    df_print: "tibble"
+    include:
+      after_body: footer.html
+    css: site_style.css
+output_dir: "docs"
+

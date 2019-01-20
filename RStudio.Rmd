@@ -1,0 +1,87 @@
+---
+title: "R and RStudio"
+---
+
+- [RStudio IDE Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/rstudio-ide.pdf)
+
+## ToDo
+
+- terminalでのU.S.かabcか
+- BTTでTouch Bar
+- [Spelling Dictionaries – RStudio Support](https://support.rstudio.com/hc/en-us/articles/200551916#custom?version=1.1.463&mode=desktop)
+- [glutanimate/hunspell-en-med-glut: Hunspell dictionary of English medical terms](https://github.com/glutanimate/hunspell-en-med-glut)
+
+## RStudioの設定
+
+General
+再現可能性を高めるため、.RDataなどの自動保存は使わず、.RDSの単体データファイルで保存するようにする。
+
+Code
+テーマはSolaraizedテーマの通りに設定。フォントはRicty Discord。エディタはVimキーバインドに。
+毎回「:imap jj <Esc>」とすればそのセッション中は「jj」でEscの代わりになるがこの設定を保存できない？
+
+システム環境設定（ショートカット）
+macOSのデフォルト日本語入力の変更できないショートカットで「⌃+1」「⌃+2」が使用されてしまっているので、システム環境設定のショートカットでRStudioのメニューを別途設定してやる必要がある。
+→毎回これやるの大変なのと、デフォルトから変えないために +BetterTouchTool でRStudioの時だけ上書きする方針に。
+
+カスタムキーボードショートカット
+メニュー項目になく、かつもともとショートカットが設定されていないものについては残念ながらBetterTouchToolでは設定できないので個別に手動設定。
+・⌘+⇧+, ：Insert Assignment Operator （`<-`をうまく入力してくれる）
+
+### RStudio環境かどうかの判定
+
+`Sys.getenv("RSTUDIO")`はRStudioでは"1"、それ以外では""を返すので、`!is.na(Sys.getenv("RSTUDIO", unset = NA))`で判定可能
+
+あるいは`rstudioapi::isAvailable()`でも行けるか？ただこちらは`R --vanilla`では`loadNamespace(name)`エラーが出て動かない。
+
+### macの標準日本語変換とのショートカット被り対策
+
+### RStudioのTerminalでキー入力が効かない
+
+macOSのターミナルやRStudioの他のウインドウでは全く問題ないのに、ターミナルでだけ効かなくなる。入力方法を「U.S.」と「ひらがな」の組み合わせにすることでひとまずは解決する。「日本語」の「英字」と「ひらがな」にしていたため起こった模様。「英字」でも他のアプリケーションで問題になったことはなかったが……。報告は一応した。
+[Terminal in RStudio doesn't accept key input from Japanese Romaji input source (normally works like U.S. mode) · Issue #2243 · rstudio/rstudio](https://github.com/rstudio/rstudio/issues/2243)
+
+
+
+## R Project
+
+RStudio で利用できるプロジェクト管理。Rのメモや学会発表・論文ごとに区切ることで雑多になりすぎずに管理できそう。またRStudioをプロジェクトごとに別プロセスで立ち上げることができる。
+
+特に学会発表や論文用では再現性の確保のためにも
+
+- Gitによるバージョン管理＠RStudio
+- Packrat によるプロジェクト内でのパッケージバージョン管理
+
+が可能なのは大きい。
+
+
+    .Rprofile     ## プロジェクト用の設定
+    .gitignore    ## バージョン管理しないファイルやフォルダを指定
+    data          ## 元データファイルや整形したR用のデータファイル
+    img           ## 説明などに使う外部イメージなど
+    plot          ## 出力したグラフなどの図
+    packrat       ## パッケージバージョン管理用（自動作成）
+    プロジェクト名.Rproj
+    各分析用ファイルなど.Rmd
+    その結果表示用.nb.html
+
+のような構成になる。packratはそれなりに容量を食うので学会発表・論文用のものに限った方がよさそう。
+
+[解析のためのフォルダ構成 - Qiita](https://qiita.com/sshojiro/items/2f2720ba7697e8758855)が一番良さそう？
+
+Pythonメインになるが資料
+
+- [Home - Cookiecutter Data Science](https://drivendata.github.io/cookiecutter-data-science/)
+- [RStudioを使ってKaggleコンペティションをやっていくためのプロジェクトテンプレートを作っています - cucumber flesh](https://uribo.hatenablog.com/entry/2017/07/25/073200)
+- [データサイエンスプロジェクトのディレクトリ構成どうするか問題 | takuti.me](https://takuti.me/note/data-science-project-structure/)
+
+### GitHubとの連携
+
+#### 既存のGitHubレポジトリをRStudioで扱う場合
+
+`File > New Project`で出てくるダイアログで`Version Control`、`Git`と選択してGitHubのgitアドレスを入力、どのディレクトリの下にプロジェクトディレクトリを作るかを決めるだけ。
+
+```{r}
+knitr::include_graphics(c("img/RStudio-newVCProject.png"))
+```
+

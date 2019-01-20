@@ -1,0 +1,12 @@
+---
+title: "バグ報告・質問"
+---
+
+- [Get help! - Tidyverse](https://www.tidyverse.org/help/#reprex)
+- [reprexパッケージの使い方、あるいは羽鳥に怒られる前に知るべき4つのこと - Technically, technophobic.](https://notchained.hatenablog.com/entry/2017/03/15/215020)
+- [yutannihilation/how-to-ask-questions](https://github.com/yutannihilation/how-to-ask-questions)
+
+
+- [tokyor/r-wakalang: Just chat or Q&A conversation related to R](https://github.com/tokyor/r-wakalang)
+- [Rおじさんの異常な即回答または私は如何にして心配するのを止めてr-wakalangで質問するようになったか / how-i-learned-to-stop-worrying-and-ask - Speaker Deck](https://speakerdeck.com/yutannihilation/how-i-learned-to-stop-worrying-and-ask-1)
+- [Rおじさんの異常な即回答または私は如何にして心配するのを止めてr-wakalangで回答するようになったか / how-i-learned-to-stop-worrying-and-answer - Speaker Deck](https://speakerdeck.com/yutannihilation/how-i-learned-to-stop-worrying-and-answer-1)

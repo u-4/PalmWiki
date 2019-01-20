@@ -1,0 +1,12 @@
+---
+title: "R Markdownでスライド作成"
+---
+
+
+[R Markdownによるスライド生成](https://kazutan.github.io/SappoRoR6/rmd_slide.html#/)
+[yihui/xaringan: Presentation Ninja 幻灯忍者 · 写轮眼](https://github.com/yihui/xaringan)
+
+
+Beamer
+
+[RStudioからLaTeXを使ってPDFやHTMLでプレゼンテーション資料として出力したい時の設定について - 広告／統計／アニメ／映画　等に関するブログ](http://yyhhyy.hatenablog.com/entry/2016/10/29/203000)

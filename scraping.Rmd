@@ -1,0 +1,14 @@
+---
+title: "スクレイピング"
+---
+
+[hadley/rvest: Simple web scraping for R](https://github.com/hadley/rvest)
+[Parse XML • xml2](http://xml2.r-lib.org/)
+
+
+- [ウェブスクレイピングによるデータ取得](https://cfes-project.eco.u-toyama.ac.jp/wp-content/uploads/2017/04/3_scraping.html)
+- 
+
+
+- [R Bindings for 'Selenium WebDriver' • RSelenium](http://ropensci.github.io/RSelenium/index.html)
+- [RSelenium vignette: RSeleniumの基本 - Qiita](https://qiita.com/nakamichi/items/ad186633ae249b26d032)

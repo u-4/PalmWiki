@@ -1,0 +1,109 @@
+---
+title: "統計一般"
+---
+
+臨床研究や基礎研究で統計処理をするための勉強。また論文を読むためにも理解が必要。
+解析手法としてはR言語やPythonを用いることになる。
+
+私のための統計学
+http://www.shiga-med.ac.jp/~koyama/stat/s-index.html
+
+ソフトウェアのための統計学
+http://postd.cc/statistics-for-software/
+http://postd.cc/statistics-for-software-2/
+
+バイオインフォマティクス入門
+http://bio-info.biz/statistics.html
+
+生物統計学
+[biostatistics | バイオスタティスティクス | 生物統計学](https://stats.biopapyrus.jp/)
+
+
+[Generalized Linear Model: Logistic Regression Part2 ~ Tempest](http://testblog234wfhb.blogspot.com/2014/06/generalized-linear-modellogistic_22.html)
+[Bayesian generalized linear models via Stan — stan_glm • rstanarm](http://mc-stan.org/rstanarm/reference/stan_glm.html)
+
+統計的方法のしくみ 正しく理解するための30の急所 
+
+### Σの記号
+
+統計的方法のしくみ 正しく理解するための30の急所 
+統計学 で多用されるΣ（総和、summation）について。シグマ、sigma。
+ついでにΠ（総乗、product）
+
+
+$\displaystyle \sum_{i=1}^{n}$の基本的な性質
+![](https://www.dropbox.com/s/xbmb3nqbzwjaz4h/%CE%A3%E3%81%AE%E5%9F%BA%E6%9C%AC%E7%9A%84%E3%81%AA%E6%80%A7%E8%B3%AA.png?raw=1)
+
+LaTeX（$\LaTeX$）での書き方
+
+シグマだけど「`\Sigma`」ではなく「`\sum`」なのと、Rmdでは「`\displaystyle`」を最初に宣言する。総乗のパイも「`\Pi`」ではなく「`\prod`」で。
+
+| 出力                                | 書き方                                   |
+| --------------------------------- | ------------------------------------- |
+| $\displaystyle \sum_{i=1}^{n}$  | `\displaystyle \sum_{i=1}^{n}`だときちんとかける |
+| $\sum_{i=1}^{n}$                | `\sum_{i=1}^{n}`だとこうなる                  |
+| $\displaystyle \prod_{i=1}^{n}$ | `\displaystyle \prod_{i=1}^{n}`         |
+| $\prod_{i=1}^{n}$               | `\prod_{i=1}^{n}`                       |
+
+
+### ギリシャ文字
+
+統計的方法のしくみ 正しく理解するための30の急所 
+統計学 などでもよく出てくるギリシャ文字の一覧や読み方、慣例としての用いられ方など。その他^（ハット）などの特殊文字についても。
+
+
+統計学でよく出てくる使い方
+
+| 文字               | 読み方    | macOS | LaTeX        | 使い方                             |
+| ---------------- | ------ | ----- | ------------ | ------------------------------- |
+| α                | アルファ   |       | `\alpha`  | 有意水準                            |
+| β                | ベータ    |       | `\beta`        | 第2種の誤りの確率、回帰係数                  |
+| δ                | デルタ    |       | `\delta`       | 母平均の差                           |
+| ε                | イプシロン  |       | `\epsilon`     | 誤差項                             |
+| λ                | ラムダ    |       | `\lambda`      | 母欠点数                            |
+| μ                | ミュー    | ⌥+m   | `\mu`          | 母平均                             |
+| π                | パイ     |       | `\pi`          | 円周率                             |
+| ρ                | ロー     |       | `\rho`         | 母相関係数                           |
+| σ                | シグマ    |       | `\sigma`       | 母標準偏差                           |
+| φ                | ファイ    |       | `\phi`         | 自由度                             |
+| θ                | シータ    |       | `\theta`       | 母数（を一般的に表すことが多い）                |
+| χ                | カイ     |       | `\chi`         | カイ2乗分布                          |
+| Σ                | シグマ    |       | `\Sigma`       | 総和                              |
+| Π                | パイ     |       | `\Pi`          | 総乗                              |
+| $\hat{\mu}$    | ミューハット |       | `\hat{\mu}`    | 母平均の推定量、（標本）平均である$\bar{x}$と同じ |
+| $\hat{\sigma}$ | シグマハット |       | `\hat{\sigma}` | 母標準偏差の推定量、（標本）標準偏差である$s$と同じ   |
+
+
+
+ギリシャ文字一覧表
+![](https://www.dropbox.com/s/xmo5ab3e45q022e/%E3%82%AE%E3%83%AA%E3%82%B7%E3%83%A3%E6%96%87%E5%AD%97%E4%B8%80%E8%A6%A7%E8%A1%A8%E3%83%BB%E8%AA%AD%E3%81%BF%E6%96%B9.png?raw=1)
+
+
+## 回帰モデル
+
+- [https://mrunadon.github.io/RStanで12種類の線形非線形回帰ベイズ統計モデリングーーラブライブ!サンシャイン回帰!!/](https://mrunadon.github.io/RStan%E3%81%A712%E7%A8%AE%E9%A1%9E%E3%81%AE%E7%B7%9A%E5%BD%A2%E9%9D%9E%E7%B7%9A%E5%BD%A2%E5%9B%9E%E5%B8%B0%E3%83%99%E3%82%A4%E3%82%BA%E7%B5%B1%E8%A8%88%E3%83%A2%E3%83%87%E3%83%AA%E3%83%B3%E3%82%B0%E3%83%BC%E3%83%BC%E3%83%A9%E3%83%96%E3%83%A9%E3%82%A4%E3%83%96!%E3%82%B5%E3%83%B3%E3%82%B7%E3%83%A3%E3%82%A4%E3%83%B3%E5%9B%9E%E5%B8%B0!!/)
+- [一般化線形モデルの日陰の部分 | |](http://rtokei.tech/memo/%E4%B8%80%E8%88%AC%E5%8C%96%E7%B7%9A%E5%BD%A2%E3%83%A2%E3%83%87%E3%83%AB%E3%81%AE%E6%97%A5%E9%99%B0%E3%81%AE%E9%83%A8%E5%88%86/)
+
+## 多重比較
+
+- [Rによるチューキー・クレーマー検定](https://data-science.gr.jp/implementation/ist_r_tukey_kramer_test.html)
+- [【R】多重比較（TukeyHSD） - Qiita](https://qiita.com/hfu62/items/f9f4803828fd7e1a5cec)
+- [多重比較 Steel-Dwass 正規近似と正確検定： U 検定が基準](https://biolab.sakura.ne.jp/steel-dwass.html)
+- [フリードマン検定 | KOTA's Lab.](http://kota.xyz/2017/12/23/friedmans-test/)
+
+
+## 反復測定分散分析
+
+これをGLMMに持ち込む？
+
+- [How to do Repeated Measures ANOVAs in R | R-bloggers](https://www.r-bloggers.com/how-to-do-repeated-measures-anovas-in-r/)
+- [2015医学統計勉強会→GLMMまで](http://www.cardio.med.tohoku.ac.jp/newmember/pdf/ms/15_6S.pdf)
+
+## LASSO・スパース推定
+
+[スパース推定 | スパースモデリングによる高次元小標本データの解析](https://stats.biopapyrus.jp/sparse-modeling/)
+
+- [LASSO, Ridge regression, erastic netをRで実行 - Qiita](https://qiita.com/sugiyama34/items/2512e7a1edce277fa93f)
+- [リッジ/Ridge回帰、Lasso回帰、Elastic Net (R - glmnet) - 東京に棲む日々](http://highschoolstudent.hatenablog.com/entry/2015/02/08/142354)
+- [Rでスパースモデリング：Adaptive Lasso - データサイエンティスト(仮)](http://tekenuko.hatenablog.com/entry/2017/11/02/014859)
+- [glmnet | R の glmnet パッケージを利用した LASSO 推定と Elastic Net 推定](https://stats.biopapyrus.jp/sparse-modeling/glmnet.html)
