@@ -17,9 +17,7 @@ http://k-shogo.github.io/article/2014/07/23/gitconfig/
 
 ## .gitignore_global
 
-設定しておくとOSXでの.DS_store的なのを全部入れつつ個別のプロジェクトやリポジトリの（共用になるかもしれない）.gitignoreには書かなくて済む。.gitconfigに記載してdotfilesでの管理に移行済み。R言語の設定
-https://github.com/github/gitignore
-を参考に追加ずみ（自分でR Notebook用の*.nb.htmlを追加）
+設定しておくとOSXでの.DS_store的なのを全部入れつつ個別のプロジェクトやリポジトリの（共用になるかもしれない）.gitignoreには書かなくて済む。.gitconfigに記載して[dotfilesでの管理に移行済み](https://github.com/u-4/dotfiles/blob/master/.gitignore_global)。R言語の設定は[テンプレート集](https://github.com/github/gitignore)を参考に追加ずみ（自分でR Notebook用の*.nb.htmlを追加）
 
     [core]
       excludesfile = ~/.gitignore_global
@@ -69,8 +67,8 @@ https://github.com/github/gitignore
 3行目：変更した理由
 
 コミットの確認のための`git log`のオプションについては以下に詳しい。
-Git - コミット履歴の閲覧
 
+[Git - コミット履歴の閲覧](https://git-scm.com/book/ja/v1/Git-%E3%81%AE%E5%9F%BA%E6%9C%AC-%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%B1%A5%E6%AD%B4%E3%81%AE%E9%96%B2%E8%A6%A7)
 
     # コミット記録の確認
     $ git log
