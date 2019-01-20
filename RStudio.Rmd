@@ -41,8 +41,6 @@ macOSのデフォルト日本語入力の変更できないショートカット
 macOSのターミナルやRStudioの他のウインドウでは全く問題ないのに、ターミナルでだけ効かなくなる。入力方法を「U.S.」と「ひらがな」の組み合わせにすることでひとまずは解決する。「日本語」の「英字」と「ひらがな」にしていたため起こった模様。「英字」でも他のアプリケーションで問題になったことはなかったが……。報告は一応した。
 [Terminal in RStudio doesn't accept key input from Japanese Romaji input source (normally works like U.S. mode) · Issue #2243 · rstudio/rstudio](https://github.com/rstudio/rstudio/issues/2243)
 
-
-
 ## R Project
 
 RStudio で利用できるプロジェクト管理。Rのメモや学会発表・論文ごとに区切ることで雑多になりすぎずに管理できそう。またRStudioをプロジェクトごとに別プロセスで立ち上げることができる。
@@ -54,6 +52,8 @@ RStudio で利用できるプロジェクト管理。Rのメモや学会発表�
 
 が可能なのは大きい。
 
+Gitによる管理については[RStudioではじめるGitによるバージョン管理 - Qiita](https://qiita.com/uri/items/6b94609f156173ed43ed)に全てまとまっている。
+
 
     .Rprofile     ## プロジェクト用の設定
     .gitignore    ## バージョン管理しないファイルやフォルダを指定
@@ -63,7 +63,8 @@ RStudio で利用できるプロジェクト管理。Rのメモや学会発表�
     packrat       ## パッケージバージョン管理用（自動作成）
     プロジェクト名.Rproj
     各分析用ファイルなど.Rmd
-    その結果表示用.nb.html
+    その結果表示用.html
+
 
 のような構成になる。packratはそれなりに容量を食うので学会発表・論文用のものに限った方がよさそう。
 
@@ -75,9 +76,18 @@ Pythonメインになるが資料
 - [RStudioを使ってKaggleコンペティションをやっていくためのプロジェクトテンプレートを作っています - cucumber flesh](https://uribo.hatenablog.com/entry/2017/07/25/073200)
 - [データサイエンスプロジェクトのディレクトリ構成どうするか問題 | takuti.me](https://takuti.me/note/data-science-project-structure/)
 
+### Gitによるバージョン管理
+
+```{r}
+knitr::include_graphics("img/RStudio-GitPanel.png")
+```
+
+
+
+
 ### GitHubとの連携
 
-[RStudioではじめるGitによるバージョン管理 - Qiita](https://qiita.com/uri/items/6b94609f156173ed43ed)
+[RStudioではじめるGitによるバージョン管理：リモートリポジトリを設定する](https://qiita.com/uri/items/6b94609f156173ed43ed#%E3%83%AA%E3%83%A2%E3%83%BC%E3%83%88%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B)をよく読む。
 
 #### 既存のGitHubレポジトリをRStudioで扱う場合
 
@@ -89,3 +99,25 @@ knitr::include_graphics(c("img/RStudio-newVCProject.png"))
 
 #### git管理しているプロジェクトをGitHubへ
 
+
+Gitタブの`歯車アイコン > Shell`かターミナルでプロジェクトディレクトリに`cd`してから
+
+```{bash, eval=FALSE}
+git remote add origin https://github.com/"GitHubのユーザ名"/"リポジトリ名".git
+```
+
+で登録される。`git remote -v`で設定を確認できる。
+
+### TODO: 使用するGitコマンドの設定
+
+RStudioのデフォルトでは`/usr/bin/git`が設定されている。Homebrewを使ってインストールしていると`/usr/local/bin/git`に最新版があるが、これはシンボリックリンクなので実体は`/usr/local/Cellar/git/2.20.1/bin/git`のようになっている。RStudioの設定から`/usr/local/bin/git`を選択すると、`/usr/local/Cellar/git/2.20.1/bin/git`に設定されてしまう。これだとHomebrewでアップデートした際に問題が生じそう。とりあえずmacOS mojaveのプリインストール版でも問題はなさそうなのでそのままにすることにする。
+
+```{r}
+knitr::include_graphics("img/RStudio-GitSetting.png")
+```
+
+
+```{bash, eval=FALSE}
+$ /usr/bin/git --version
+git version 2.17.2 (Apple Git-113)
+```
