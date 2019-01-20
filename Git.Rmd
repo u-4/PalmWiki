@@ -15,9 +15,13 @@ GitHubが共同作業用のサーバー（共用リポジトリ置き場）と�
 もっと詳しく見たくなったら以下を参照。
 http://k-shogo.github.io/article/2014/07/23/gitconfig/
 
+<script src="https://gist-it.appspot.com/https://github.com/u-4/dotfiles/blob/master/.gitconfig"></script>
+
 ## .gitignore_global
 
 設定しておくとOSXでの.DS_store的なのを全部入れつつ個別のプロジェクトやリポジトリの（共用になるかもしれない）.gitignoreには書かなくて済む。.gitconfigに記載して[dotfilesでの管理に移行済み](https://github.com/u-4/dotfiles/blob/master/.gitignore_global)。R言語の設定は[テンプレート集](https://github.com/github/gitignore)を参考に追加ずみ（自分でR Notebook用の*.nb.htmlを追加）
+
+<script src="https://gist-it.appspot.com/https://github.com/u-4/dotfiles/blob/master/.gitignore_global?slice=0:10"></script>
 
     [core]
       excludesfile = ~/.gitignore_global
