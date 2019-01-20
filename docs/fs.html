@@ -450,6 +450,9 @@ div.tocify {
     <li>
       <a href="Table.html">表の可視化</a>
     </li>
+    <li>
+      <a href="magick.html">Rで画像処理(magick)</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -560,6 +563,9 @@ div.tocify {
     <li>
       <a href="mac-Environment.html">mac環境構築</a>
     </li>
+    <li>
+      <a href="Git.html">GitとGitHub</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -584,8 +590,12 @@ div.tocify {
 </div>
 
 
-<p><a href="https://fs.r-lib.org/">Cross-Platform File System Operations Based on ‘libuv’ • fs</a></p>
+<p><a href="https://fs.r-lib.org/">Cross-Platform File System Operations Based on ‘libuv’ • fs</a> <a href="https://fs.r-lib.org/reference/index.html">Function reference • fs</a></p>
 <p><a href="baseR.html">baseの方法</a>も<code>.Rprofile</code>とかでは必要になる。<code>file.path()</code>とか。</p>
+<pre class="r"><code>fs::file_delete(c(&quot;img/RStudio-Project-NewMenu.png&quot;,
+                  &quot;img/RStudio-Project-New-VC.png&quot;,
+                  &quot;img/RStudio-Project-New-Git.png&quot;,
+                  &quot;img/RStudio-Project-New-Clone.png&quot;))</code></pre>
 
 <footer>
   <p>Copyright &copy; 2019 Yuho TAMAI </p>

@@ -563,6 +563,9 @@ div.tocify {
     <li>
       <a href="mac-Environment.html">mac環境構築</a>
     </li>
+    <li>
+      <a href="Git.html">GitとGitHub</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -589,14 +592,99 @@ div.tocify {
 
 <ul>
 <li><a href="https://github.com/ropensci/magick">ropensci/magick: Magic, madness, heaven, sin</a></li>
-<li><p><a href="https://cran.r-project.org/web/packages/magick/vignettes/intro.html">The magick package: Advanced Image-Processing in R</a></p></li>
+<li><a href="https://cran.r-project.org/web/packages/magick/vignettes/intro.html">The magick package: Advanced Image-Processing in R</a></li>
+<li><p><a href="https://cran.r-project.org/web/packages/magick/magick.pdf">magick.pdf</a></p></li>
 <li><a href="https://www.karada-good.net/analyticsr/r-531">Rで解析：画像操作の進化「magick」パッケージ</a></li>
 <li><a href="http://r-beginner.hatenadiary.jp/entry/2016/09/11/150248">Rで画像処理～magick package - Ｒ言語による電子カルテデータの二次利用</a></li>
-<li><p><a href="https://note.mu/statstudent/n/nb7b2367336b6">Rで数学gif作って遊ぼう！magickパッケージで簡単にできるgif作成｜なだけい｜note</a></p></li>
+<li><a href="https://note.mu/statstudent/n/nb7b2367336b6">Rで数学gif作って遊ぼう！magickパッケージで簡単にできるgif作成｜なだけい｜note</a></li>
+<li><p><a href="https://www.slideshare.net/hidamasahiko/sapporor7-rx">SappoRoR#7 Rを用いた画像処理入門　-胸部X線の経時的差分画像-</a></p></li>
 </ul>
-<p><code>ImageMagick</code>をベースにした画像処理用のパッケージ。</p>
-<pre class="bash"><code>brew reinstall imagemagick@6 --with-fontconfig --with-librsvg 
+<p><code>ImageMagick</code>をベースにした画像処理用のパッケージ。<code>ImageMagick</code>自体は多機能で多くの環境で使えるオープンソースなのだが、サーバで使う場合にはセキュリティの問題が無視できない模様。</p>
+<ul>
+<li><a href="https://qiita.com/yoya/items/2076c1f5137d4041e3aa">「さようなら ImageMagick」の考察 - Qiita</a></li>
+<li><a href="https://www.mbsd.jp/blog/20180831.html">ImageMagickを使うWebアプリのセキュリティ - 1. 既知の脆弱性、システム情報の漏洩 | MBSD Blog</a></li>
+</ul>
+<p>以下<a href="https://cran.r-project.org/web/packages/magick/vignettes/intro.html">公式vignettes</a>を元にメモ。</p>
+<div id="インストール" class="section level2">
+<h2>インストール</h2>
+<p>まずは<code>homebrew</code>を用いてmacに<code>ImageMagick@6</code>をインストールする。</p>
+<pre class="bash"><code>brew install imagemagick@6 --with-fontconfig --with-librsvg
 brew link --force imagemagick@6</code></pre>
+<p>最新版と併用する必要があればリンクかパスのどちらかで対応が必要になるとおもわれる。<code>magick</code>パッケージはCRANにもあるので<code>install.packages("magick", dependencies = TRUE)</code>で。</p>
+<div id="画像種類別の対応状況確認" class="section level3">
+<h3>画像種類別の対応状況確認</h3>
+<pre class="r"><code>str(magick::magick_config())</code></pre>
+<pre><code>## List of 21
+##  $ version           :Class &#39;numeric_version&#39;  hidden list of 1
+##   ..$ : int [1:4] 6 9 9 39
+##  $ modules           : logi FALSE
+##  $ cairo             : logi TRUE
+##  $ fontconfig        : logi TRUE
+##  $ freetype          : logi TRUE
+##  $ fftw              : logi FALSE
+##  $ ghostscript       : logi FALSE
+##  $ jpeg              : logi TRUE
+##  $ lcms              : logi TRUE
+##  $ libopenjp2        : logi TRUE
+##  $ lzma              : logi TRUE
+##  $ pangocairo        : logi TRUE
+##  $ pango             : logi TRUE
+##  $ png               : logi TRUE
+##  $ rsvg              : logi TRUE
+##  $ tiff              : logi TRUE
+##  $ webp              : logi TRUE
+##  $ wmf               : logi FALSE
+##  $ x11               : logi FALSE
+##  $ xml               : logi TRUE
+##  $ zero-configuration: logi TRUE</code></pre>
+</div>
+<div id="imagemagick6インストール時のメッセージ" class="section level3">
+<h3><code>imagemagick@6</code>インストール時のメッセージ</h3>
+<p><code>magick</code>パッケージの対応する<code>ImageMagic</code>のバージョンが上がった時に必要になる気がするのでメモ。</p>
+<pre><code>imagemagick@6 is keg-only, which means it was not symlinked into /usr/local,
+because this is an alternate version of another formula.
+
+If you need to have imagemagick@6 first in your PATH run:
+  echo &#39;export PATH=&quot;/usr/local/opt/imagemagick@6/bin:$PATH&quot;&#39; &gt;&gt; ~/.bash_profile
+
+For compilers to find imagemagick@6 you may need to set:
+  export LDFLAGS=&quot;-L/usr/local/opt/imagemagick@6/lib&quot;
+  export CPPFLAGS=&quot;-I/usr/local/opt/imagemagick@6/include&quot;
+
+For pkg-config to find imagemagick@6 you may need to set:
+  export PKG_CONFIG_PATH=&quot;/usr/local/opt/imagemagick@6/lib/pkgconfig&quot;</code></pre>
+<pre><code>$ brew link --force imagemagick@6
+Linking /usr/local/Cellar/imagemagick@6/6.9.10-14... 76 symlinks created
+
+If you need to have this software first in your PATH instead consider running:
+  echo &#39;export PATH=&quot;/usr/local/opt/imagemagick@6/bin:$PATH&quot;&#39; &gt;&gt; ~/.bash_profile</code></pre>
+</div>
+</div>
+<div id="image-io" class="section level2">
+<h2>Image IO</h2>
+</div>
+<div id="画像を結合する" class="section level2">
+<h2>画像を結合する</h2>
+<pre class="r"><code>img_list &lt;- c(&quot;img/RStudio-Project-NewMenu.png&quot;,
+              &quot;img/RStudio-Project-New-VC.png&quot;,
+              &quot;img/RStudio-Project-New-Git.png&quot;,
+              &quot;img/RStudio-Project-New-Clone.png&quot;)
+img_list %&gt;% 
+  magick::image_read(.) %&gt;% # 読み込んで
+  magick::image_scale(&quot;x512&quot;) %&gt;% # 縦を揃えて
+  magick::image_append(.) %&gt;% # 左→右にくっつける（stack = TRUEで上から下へ）
+  magick::image_write(&quot;img/RStudio-newVCProject.png&quot;, format = &quot;png&quot;) # pathにformat形式で保存</code></pre>
+</div>
+<div id="todo" class="section level2">
+<h2>TODO</h2>
+<ul>
+<li>モザイク</li>
+<li>ぼかしの強いの</li>
+<li>一部だけモザイク？</li>
+<li>パイプと[]で一部だけ処理とかできる？</li>
+<li></li>
+</ul>
+</div>
 
 <footer>
   <p>Copyright &copy; 2019 Yuho TAMAI </p>

@@ -450,6 +450,9 @@ div.tocify {
     <li>
       <a href="Table.html">表の可視化</a>
     </li>
+    <li>
+      <a href="magick.html">Rで画像処理(magick)</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -560,6 +563,9 @@ div.tocify {
     <li>
       <a href="mac-Environment.html">mac環境構築</a>
     </li>
+    <li>
+      <a href="Git.html">GitとGitHub</a>
+    </li>
   </ul>
 </li>
       </ul>
@@ -584,6 +590,38 @@ div.tocify {
 </div>
 
 
+<div id="不要なrオブジェクトを削除する" class="section level2">
+<h2>不要なRオブジェクトを削除する</h2>
+<p><code>rm()</code>ないし<code>remove()</code>でオブジェクトを指定する。オブジェクト1つを直接指定するなら<code>rm(x)</code>で、複数指定するなら<code>list = c("x", "y")</code>。<code>c(x, y)</code>だと<code>x</code>と<code>y</code>をくっつけたベクトルになるので注意。</p>
+<pre class="r"><code>x &lt;- c(1, 2)
+y &lt;- c(3, 4)
+
+# rm(list = c(x, y))
+#&gt; Warning in rm(list = c(x, y)) : object &#39;1&#39; not found
+#&gt; Warning in rm(list = c(x, y)) : object &#39;2&#39; not found
+#&gt; Warning in rm(list = c(x, y)) : object &#39;3&#39; not found
+#&gt; Warning in rm(list = c(x, y)) : object &#39;4&#39; not found
+
+rm(list = c(&quot;x&quot;, &quot;y&quot;))</code></pre>
+<p>現在のオブジェクトの一覧は<code>ls()</code>か<code>objects()</code>で得られる。どちらもbase関数で<a href="https://stackoverflow.com/questions/29602761/difference-between-ls-and-objects">全く同じもの</a>なので、短い<code>ls()</code>を使えば良さそう。</p>
+<pre class="r"><code>all.equal(body(objects), body(ls))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p>また、デフォルトでは<code>all.names = FALSE</code>となっているため、<code>.</code>で始まる隠しオブジェクトは出力されない。</p>
+<pre class="r"><code>x &lt;- c(1, 2)
+y &lt;- c(3, 4)
+
+ls()</code></pre>
+<pre><code>## [1] &quot;x&quot; &quot;y&quot;</code></pre>
+<pre class="r"><code>ls(all.names = TRUE)</code></pre>
+<pre><code>## [1] &quot;.Last&quot;        &quot;.Random.seed&quot; &quot;x&quot;            &quot;y&quot;</code></pre>
+<p>オブジェクトを全部消したければ、通常は<code>rm(list = ls())</code>で良い。</p>
+<pre class="r"><code>rm(list = ls())
+
+ls()</code></pre>
+<pre><code>## character(0)</code></pre>
+<pre class="r"><code>ls(all.names = TRUE)</code></pre>
+<pre><code>## [1] &quot;.Last&quot;        &quot;.Random.seed&quot;</code></pre>
+</div>
 <div id="文字列を関数として評価するr" class="section level2">
 <h2>文字列を関数として評価する＠R</h2>
 <p>2018年9月9日 調べるのにめちゃめちゃハマった。 fig1a, fig1b, fig1c, fig1dみたいなグラフオブジェクトがある時に、これらをまとめて</p>
@@ -666,29 +704,55 @@ do.call(paste0, Map(stri_rand_strings, n=5, length=c(5, 4, 1),
 <pre><code>brew tap caskroom/fonts
 brew cask install font-fontawesome</code></pre>
 <p><a href="https://qiita.com/izumin5210/items/83839616b149c907c3c3">ご注文はFont Awesomeですか？ 第1羽「ひと目で尋常でないスライドだと見抜いたよ」 - Qiita</a> のようにLaTeXに限らずちょっとしたスライドなんかにも使えそう。</p>
-header-includes: -
-
-<ul>
-<li><ul>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
-<li></li>
-<li><h1 id="comment-out-when-using-japanese.">Comment out when using Japanese.</h1></li>
-<li> # Set for Japanese font.</li>
-<li> </li>
-<li><h1 id="require-installed-fontawesome">require installed FontAwesome</h1></li>
-<li>output: pdf_document: latex_engine: xelatex toc: yes toc_depth: 3 highlight: tango fig_caption: yes # bibliography: bibliography.bib ## ref) <a href="http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html" class="uri">http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html</a> mainfont: Times New Roman # mathfont: monofont: Ricty</li>
-</ul></li>
-</ul>
-<hr />
+<pre><code>header-includes:
+  - \usepackage{natbib}
+  - \usepackage{fancyhdr}
+  - \usepackage{fourier-orns}
+  - \usepackage{lscape}
+  - \usepackage{soul}
+  - \pagestyle{fancy}
+  - \usepackage{rotating}
+  - \usepackage{scrextend}
+  - \changefontsizes{12pt}
+  - \usepackage{zxjatype} # Comment out when using Japanese.
+  - \setjamainfont{Hiragino Kaku Gothic Pro} # Set for Japanese font.
+  - \lhead{\slshape \rightmark} \rhead{\slshape \today}
+  - \usepackage{fontspec, fontawesome} # require installed FontAwesome
+  - \newcommand{\onmline}{{\LARGE \decofourleft \hspace{0.1cm} \hrulefill\hspace{0.2cm} \floweroneleft \floweroneright \hspace{0.2cm} \hrulefill \hspace{0.1cm} \decofourright}}
+output:
+  pdf_document:
+    latex_engine: xelatex
+    toc: yes
+    toc_depth: 3
+    highlight: tango
+    fig_caption: yes
+# bibliography: bibliography.bib ## ref) http://rmarkdown.rstudio.com/authoring_bibliographies_and_citations.html
+mainfont: Times New Roman
+# mathfont:
+monofont: Ricty</code></pre>
 <p>以下はなくても行けてそう。</p>
 <p>日本語文章の折り返しがうまくいかない XeLaTeXは単語間のスペースを折り返し（改行）候補とするらしく、日本語だとうまくいかない。意図的に改行したい場合には半角スペースを2つ重ねる方法もあるとのことだが実用的ではない。</p>
 <p>ヘッダーで改行の様式を指定することでうまく行く模様。</p>
 <p><a href="https://qiita.com/Atsushi776/items/9ef1e5d744e2b91c61ee">Rmarkdownで日本語PDFを出力する - Qiita</a></p>
+<pre><code>---
+output:
+  pdf_document:
+    latex_engine: xelatex
+documentclass: bxjsarticle
+classoption: xelatex,ja=standard
+geometry: no
+---
+
+---
+output:
+  pdf_document:
+    latex_engine: xelatex
+header-includes:
+  - \usepackage{bookmark}
+  - \usepackage{xltxtra}
+  - \usepackage{zxjatype}
+  - \usepackage[ipa]{zxjafont}
+---</code></pre>
 <p>bxjsarticle <a href="https://www.ctan.org/pkg/bxjscls">CTAN: Package BXjscls</a> CTAN: Package BXjsclsというXeLaTeXを含む多くのパッケージで日本語をうまく扱うためのパッケージに含まれる「bxjsarticle」を用いるのが良さそうだが、2016あたりからの記事では「subtitle」コマンドが二重に定義されていてエラーが出るとの記載が多い。</p>
 <p><a href="https://www.trifields.jp/how-to-resolve-if-an-error-occurs-in-the-subtitle-when-using-bxjsarticle-1936">R,knitPDF bxjsarticleを用いた際にサブタイトルでエラーが出る場合の対処法 | トライフィールズ</a> <a href="https://miyazakikenji.wordpress.com/2016/05/03/rstudio-%E3%81%A7-rmd-%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%81%8B%E3%82%89%E6%97%A5%E6%9C%AC%E8%AA%9E-pdf-%E3%82%92%E4%BD%9C%E6%88%90%E3%81%99%E3%82%8B%E6%96%B9%E6%B3%95/">RStudio で Rmd ファイルから日本語 PDF を作成する方法 | miyazakikenji</a></p>
 <p>ZXjatypeパッケージ <a href="http://zrbabbler.sp.land.to/zxjatype.html">ZXjatype パッケージ ～XeLaTeX でまともな日本語組版を～ [電脳世界の奥底にて]</a></p>

@@ -11,7 +11,7 @@
 
 
 
-<title>Importing &amp; Cleaning Data with R</title>
+<title>GitとGitHub</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -585,115 +585,142 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Importing &amp; Cleaning Data with R</h1>
+<h1 class="title toc-ignore">GitとGitHub</h1>
 
 </div>
 
 
-<p><a href="https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf">Data Import Cheat Sheet</a></p>
-<ul>
-<li>readrでの読み込み</li>
-<li>excelも一応</li>
-<li>google spreadsheet, form</li>
-<li>データベースやAPIからの取得は別で</li>
-<li>データクリーニング実例もここに入れてしまうか
-<ul>
-<li><a href="https://datumstudio.jp/blog/r%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E3%82%AF%E3%83%AC%E3%83%B3%E3%82%B8%E3%83%B3%E3%82%B0">Rでデータクレンジング | DATUM STUDIO株式会社</a></li>
-<li><a href="https://heavywatal.github.io/slides/esj65/">ESJ65-W07 それもRにやらせよう — 整然データの下ごしらえ</a></li>
-</ul></li>
-<li>DataCampで実習あればそれもこちら？</li>
-<li><a href="https://keachmurakami.github.io/page/2016/04/30/r%E3%81%A7dropbox%E3%81%8B%E3%82%89%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80-r/">RでDropboxからファイルを読み込む</a></li>
-</ul>
-<div id="rでのデータファイルの種類" class="section level2">
-<h2>Rでのデータファイルの種類</h2>
-<p>R言語ではデータを格納する独自形式として、「.RDS」と「.RData」の2つがあり、</p>
-<table>
-<thead>
-<tr class="header">
-<th>形式</th>
-<th>格納オブジェクト</th>
-<th>特徴</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>.RDS</td>
-<td>1個のRオブジェクトを格納</td>
-<td>再現性の高いコードを書くには推奨される。読み込み時にオブジェクト名を指定できる/しなくてはいけない</td>
-</tr>
-<tr class="even">
-<td>.RData</td>
-<td>複数のRオブジェクトを格納</td>
-<td>読み込みなどは楽だが、中身が何なのかわかりにくく、格納しているオブジェクトの名前を忘れると面倒。</td>
-</tr>
-</tbody>
-</table>
-<p>という特徴がある。RStudioの本では「<code>.RDS</code>」の使用が推奨されている。「<code>.RData</code>」が自動で保存されないようにaliasや<a href="RStudio.html">RStudio</a>を設定しておく。</p>
-<p>Rファイルとして保存することで、ファイルが自動で圧縮され、R関連のメタデータがオブジェクトとともに保存されることになる。特にデータがファクタ、日付・時刻情報、クラス属性などを持つ場合に有効。</p>
-<div id="base関数からreadrへ" class="section level3">
-<h3><code>base</code>関数から<code>readr</code>へ</h3>
-<p><code>saveRDS</code>、<code>readRDS</code>の代わりにreadrの関数を使用する方針に。</p>
-<pre class="r"><code>readr::read_rds(path)
-readr::write_rds(x, path, compress = c(&quot;none&quot;, &quot;gz&quot;, &quot;bz2&quot;, &quot;xz&quot;), ...)</code></pre>
+<p>バージョン管理システムの一つ。</p>
+<p><a href="http://www.backlog.jp/git-guide/">サルでもわかるGit入門</a> <a href="http://www.atmarkit.co.jp/ait/articles/1307/05/news028.html">5分でわかる分散型バージョン管理システムGit</a></p>
+<p>GitHubが共同作業用のサーバー（共用リポジトリ置き場）として用いられる。Publicは無料、Privateは有料。学生の間はタダで使える。dotfilesもここに置いている。</p>
+<div id="初期設定ファイル-.gitconfig" class="section level2">
+<h2>初期設定ファイル ~/.gitconfig</h2>
+<p>「~/.gitconfig」で、<a href="https://github.com/u-4/dotfiles/blob/master/.gitconfig">dotfilesで管理中</a>。 もっと詳しく見たくなったら以下を参照。 <a href="http://k-shogo.github.io/article/2014/07/23/gitconfig/" class="uri">http://k-shogo.github.io/article/2014/07/23/gitconfig/</a></p>
 </div>
-<div id="rdsファイルの書き込み" class="section level3">
-<h3>「.RDS」ファイルの書き込み</h3>
-<p>書き込み（保存）は<del>「<code>saveRDS</code>」</del>「<code>readr::write_rds</code>」を使用する。ディスクスペースの問題が以前より少ないため、デフォルトでは圧縮しないようになっている。 オブジェクト「x」を「data」フォルダ内の「x.rds」に保存したければ以下のように記載（混乱を避けるためにオブジェクト名とファイル名は一致させておく方が良さそう）</p>
-<pre class="r"><code>readr::write_rds(x, &quot;data/x.rds&quot;)</code></pre>
+<div id="gitignore_global" class="section level2">
+<h2>.gitignore_global</h2>
+<p>設定しておくとOSXでの.DS_store的なのを全部入れつつ個別のプロジェクトやリポジトリの（共用になるかもしれない）.gitignoreには書かなくて済む。.gitconfigに記載して<a href="https://github.com/u-4/dotfiles/blob/master/.gitignore_global">dotfilesでの管理に移行済み</a>。R言語の設定は<a href="https://github.com/github/gitignore">テンプレート集</a>を参考に追加ずみ（自分でR Notebook用の*.nb.htmlを追加）</p>
+<pre><code>[core]
+  excludesfile = ~/.gitignore_global</code></pre>
 </div>
-<div id="rdsファイルの読み込み" class="section level3">
-<h3>「.RDS」ファイルの読み込み</h3>
-<p>読み込みは<del>「<code>readRDS</code>」</del>「<code>readr::read_rds</code>」を使用する。</p>
-<pre class="r"><code>poker &lt;- readr::read_rds(&quot;pocker.RDS&quot;)</code></pre>
-<p>オブジェクトをロードする時に名前をつけるため、たまたま同じ名前をつけていたRオブジェクトを上書きする心配もない。</p>
+<div id="基本的なワークフロー" class="section level2">
+<h2>基本的なワークフロー</h2>
+<p>これが一番わかりにくいところか。</p>
+<ol style="list-style-type: decimal">
+<li>ファイルの変更をステージングエリアに「追加」</li>
+<li>ローカルリポジトリに「コミット」</li>
+<li>リモートリポジトリに「プッシュ」</li>
+</ol>
+<div id="状況を確認" class="section level3">
+<h3>状況を確認</h3>
+<p>これをこまめに行うことで最後のcommitからの差分状況がわかる。また複数の作業を行った際にもどのファイルをaddすべきかがわかる。</p>
+<pre><code>$ git status</code></pre>
+<p><code>origin/master</code>：リモートリポジトリ上のoriginのmasterブランチ</p>
+</div>
+<div id="新規ファイルやファイルの変更をステージングエリアに追加" class="section level3">
+<h3>1. 新規ファイルやファイルの変更をステージングエリアに「追加」</h3>
+<p>様々な変更をした場合にステージングエリアに送るファイルを選ぶことができ、コミットの内容をシンプルにすることができる。</p>
+<pre><code># バージョン管理するファイルを追加
+$ git add [ファイル名]
+
+# フォルダ内のファイルを全て追加
+$ git add .
+
+# ファイルを削除したことをステージングエリアに追加
+$ git rm [ファイル名]</code></pre>
+</div>
+<div id="ローカルリポジトリにコミット" class="section level3">
+<h3>2. ローカルリポジトリに「コミット」</h3>
+<p>これで変更がリポジトリ内に時系列で記録される。1つの作業で1コミットすることで多人数での作業や自分での見返しに役立つことになる。</p>
+<pre><code># 通常はこれで行う（変更内容が表示される）
+$ git commit -v
+
+# シンプルなコミットメッセージを追加
+$ git commit -m &quot;コミットメッセージ&quot;</code></pre>
+<p>コミットメッセージの書き方 1行目：変更内容の要約 2行目：空行 3行目：変更した理由</p>
+<p>コミットの確認のための<code>git log</code>のオプションについては以下に詳しい。</p>
+<p><a href="https://git-scm.com/book/ja/v1/Git-%E3%81%AE%E5%9F%BA%E6%9C%AC-%E3%82%B3%E3%83%9F%E3%83%83%E3%83%88%E5%B1%A5%E6%AD%B4%E3%81%AE%E9%96%B2%E8%A6%A7">Git - コミット履歴の閲覧</a></p>
+<pre><code># コミット記録の確認
+$ git log
+
+# 変更内容を1行で表示
+$ git log --oneline
+
+# ファイルの差分を表示
+$ git log -p [ファイル名（省略可）]
+
+# 最新n行だけ表示
+$ git log -n 3
+
+# 最新２行だけ表示
+$ git log -2
+
+# 最近2週間のだけ表示
+$ git log --since=2.week</code></pre>
+</div>
+<div id="リモートリポジトリにプッシュ" class="section level3">
+<h3>3. リモートリポジトリに「プッシュ」</h3>
+<pre><code>$ git push origin master</code></pre>
+<p>“origin”はリモートリポジトリのエイリアス、“master”はデフォルトのブランチ名。リモートの“origin”にローカルの“master”を送信するということ。“master”以外のブランチを送りたい場合はそのブランチ名を指定する。“origin”の設定は下の方に。</p>
+<p>ブランチ名などを「-u」オプションで指定すると、次から「git push」だけで同じブランチへのpushになる</p>
+<pre><code>$ git push -u origin branch</code></pre>
 </div>
 </div>
-<div id="readrによる読み込み" class="section level2">
-<h2><code>readr</code>による読み込み</h2>
+<div id="その他のコマンド" class="section level2">
+<h2>その他のコマンド</h2>
+<div id="ローカルリポジトリの作成" class="section level3">
+<h3>ローカルリポジトリの作成</h3>
+<pre><code># .gitディレクトリが作成される
+$ git init
+
+$ git checkout</code></pre>
 </div>
-<div id="excelファイルの処理" class="section level2">
-<h2>Excelファイルの処理</h2>
-<p>R言語でexcelファイルを読み込むためのパッケージ。tidyverseの一部のため原則としてこれを用いる。 <a href="https://github.com/tidyverse/readxl" class="uri">https://github.com/tidyverse/readxl</a> readxl 1.0の解説 <a href="http://uribo.hatenablog.com/entry/2017/05/04/122524" class="uri">http://uribo.hatenablog.com/entry/2017/05/04/122524</a> col_namesとかcol_typesの指定はreadrと同じ。 <a href="https://heavywatal.github.io/rstats/readr.html" class="uri">https://heavywatal.github.io/rstats/readr.html</a></p>
-<p>ではなさそう <a href="https://readxl.tidyverse.org/articles/cell-and-column-types.html">Cell and Column Types • readxl</a></p>
-<p>tidyverseをインストールしてあれば同時にインストールされている。</p>
-<pre><code>readxl::read_excel(path, sheet=1, col_names=TRUE, col_types=NULL, na=&#39;&#39;, skip=0)</code></pre>
-<ul>
-<li>read_excel()でxlsもxlsxも読み込める（拡張子で判断）</li>
-<li>excel_sheets()でシート名を表示できる</li>
-<li>read_excel()で読み込む時のシート指定はsheet引数で
-<ul>
-<li>sheet = “シート名”</li>
-<li>sheet = シート番号</li>
-</ul></li>
-<li>読み込むセルの範囲を指定する方法は様々で、excel的な表現も可能
-<ul>
-<li>n_max = 3
-<ul>
-<li>ヘッダ行がある場合はそれを除いた行数で</li>
-</ul></li>
-<li>range = “C1:E4”</li>
-<li>range = cell_rows(1:4)</li>
-<li>range = cell_cols(“B:D”)</li>
-<li>range = “mtcars!B1:D5”</li>
-<li>skipもある</li>
-</ul></li>
-<li>空白セルが<NA>として扱われる。他を指定するならna = “文字列”</li>
-<li>列（変数）の名前とタイプはデフォルトでは自動的に決まる。col_namesとcol_typesで指定もできる</li>
-<li>tibbleとして読み込まれる</li>
-<li>JavaとかPerlのような外部ライブラリ不要</li>
-<li>non-ASCIIはUTF-8にエンコードされる タイプの自動推定がうまくいかない場合</li>
-</ul>
+<div id="変更差分を表示addcommitの前にその変更が本当に必要か確認する" class="section level3">
+<h3>変更差分を表示（add、commitの前にその変更が本当に必要か確認する）</h3>
+<pre><code># ローカルとステージングエリアとの差分
+$ git diff
+
+# ステージエリアとコミットの差分
+$ git diff HEAD</code></pre>
 </div>
-<div id="google-spreadsheet" class="section level2">
-<h2>Google Spreadsheet</h2>
-<p><a href="https://cran.r-project.org/web/packages/googlesheets/vignettes/basic-usage.html">googlesheets Basic Usage</a></p>
-<p>R言語でGoogle Spreadsheetと連携する方法あれこれ。 <a href="https://speakerdeck.com/jennybc/googlesheets-talk-at-user2015" class="uri">https://speakerdeck.com/jennybc/googlesheets-talk-at-user2015</a> <a href="http://hacknote.jp/archives/10712/" class="uri">http://hacknote.jp/archives/10712/</a> <a href="http://qiita.com/uri/items/2e108d6fcbd80ef58444" class="uri">http://qiita.com/uri/items/2e108d6fcbd80ef58444</a> <a href="https://github.com/jennybc/googlesheets" class="uri">https://github.com/jennybc/googlesheets</a></p>
+<div id="リモートリポジトリにローカルリポジトリを登録" class="section level3">
+<h3>リモートリポジトリにローカルリポジトリを登録</h3>
+<pre><code># &quot;origin&quot;という名前でGitHubリポジトリにアクセスできるようにする
+# &quot;origin&quot;はデフォルトで使われるリモートリポジトリの名称（aliasみたいなもの）
+
+$ git remote add origin https://github.com/u-4/repo.git</code></pre>
 </div>
-<div id="google-forms" class="section level2">
-<h2>Google Forms</h2>
+<div id="リモートリポジトリはどちらに設定していましたっけ" class="section level3">
+<h3>リモートリポジトリはどちらに設定していましたっけ？</h3>
+<p>そもそも設定していましたっけ？とか。</p>
+<pre><code>$ git remote -v
+origin  git@github.com:u-4/PalmWiki.git (fetch)
+origin  git@github.com:u-4/PalmWiki.git (push)</code></pre>
 </div>
-<div id="データクレンジング実習" class="section level2">
-<h2>データクレンジング実習</h2>
+</div>
+<div id="gitのバージョン管理から外したいファイルを指定する" class="section level2">
+<h2>Gitのバージョン管理から外したいファイルを指定する</h2>
+<p>.gitignoreファイルに指定する。gitignore.ioで共有されている推奨設定を簡単に利用できるように、あらかじめ<code>.gitconfig</code>でaliasを以下のように設定済み</p>
+<pre><code>[alias]
+    ignore = !&quot;f() { local s=$1; shift; \
+      while [ $# -gt 0 ]; do s=\&quot;$s,$1\&quot;; shift; done;\
+      curl \&quot;https://www.gitignore.io/api/$s\&quot;; }; f&quot;</code></pre>
+<p><code>git ignore osx r</code>とすると標準出力にテンプレートが出力される。<code>git ignore list</code>でサポートしているタイプの一覧が得られる。</p>
+<pre><code>git ignore osx r &gt; .gitignore</code></pre>
+<p>とするだけでテンプレート完成。</p>
+<p>個別に省くべきもの ・自動生成されるファイル ・パスワードが記載されているファイル ・Rなら<code>*.nb.html</code>とか<code>*.html</code>も入れて良いかな。htmlは気をつけなくてはいけなさそう。</p>
+<p>すでにコミットしてしまったファイルをGitの管理から削除したい場合は</p>
+<pre><code># ファイルごと削除する
+$ git rm [ファイル名]
+$ git rm -r [ディレクトリ名]
+
+# ファイルは残す場合（その後.gitignoreに追記する）
+$ git rm --cached [ファイル名]</code></pre>
+<p>さらに’git rm’したファイルを戻したい場合には</p>
+<pre><code># Gitの管理に戻す
+$ git reset HEAD [ファイル名]
+# ローカルからは消えたままなのでファイルも戻す
+$ git checkout [ファイル名]</code></pre>
 </div>
 
 <footer>
