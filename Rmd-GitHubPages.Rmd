@@ -45,3 +45,12 @@ output:
 ```
 
 としてやるだけで良い。
+
+## GitHubレポジトリでの設定
+
+`_site.yml`で出力先を`docs/`にしていれば、レポジトリの設定から選んでセーブするだけ。Descriptionのところにもアドレスを入れておくと良い。
+
+```{r}
+knitr::include_graphics("img/GitHub-PagesSetting.png")
+```
+
