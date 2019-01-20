@@ -77,6 +77,8 @@ Pythonメインになるが資料
 
 ### GitHubとの連携
 
+[RStudioではじめるGitによるバージョン管理 - Qiita](https://qiita.com/uri/items/6b94609f156173ed43ed)
+
 #### 既存のGitHubレポジトリをRStudioで扱う場合
 
 `File > New Project`で出てくるダイアログで`Version Control`、`Git`と選択してGitHubのgitアドレスを入力、どのディレクトリの下にプロジェクトディレクトリを作るかを決めるだけ。
@@ -84,4 +86,6 @@ Pythonメインになるが資料
 ```{r}
 knitr::include_graphics(c("img/RStudio-newVCProject.png"))
 ```
+
+#### git管理しているプロジェクトをGitHubへ
 
