@@ -41,6 +41,15 @@ paste0(month.abb, letters)
 stringr::str_c(month.abb, letters)
 ```
 
+## ファイルオペレーション関連
+
+主に[fs](fs.html)で置き換える形になる。ただし`.Rprofile`などでは必要になる。
+
+### file.exists()からfs::file_exists()
+
+### file.path()からfs::path()
+
+
 ## ifelse()からdplyr::if_else()
 
 通常のif, elseの組み合わせと違ってベクトル化されているらしく、また標準のifelse()より厳密で、ただしベクトルを受け取った時の返り値が特殊らしく、注意が必要とのこと。速度的には最高の方法ではないが通常のforループなどよりは早い模様。
