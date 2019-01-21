@@ -13,20 +13,21 @@ title: "R and RStudio"
 
 ## RStudioの設定
 
-General
+### General
+
 再現可能性を高めるため、.RDataなどの自動保存は使わず、.RDSの単体データファイルで保存するようにする。
 
-Code
+### Code
+
 テーマはSolaraizedテーマの通りに設定。フォントはRicty Discord。エディタはVimキーバインドに。
 毎回「:imap jj <Esc>」とすればそのセッション中は「jj」でEscの代わりになるがこの設定を保存できない？
 
-システム環境設定（ショートカット）
-macOSのデフォルト日本語入力の変更できないショートカットで「⌃+1」「⌃+2」が使用されてしまっているので、システム環境設定のショートカットでRStudioのメニューを別途設定してやる必要がある。
-→毎回これやるの大変なのと、デフォルトから変えないために +BetterTouchTool でRStudioの時だけ上書きする方針に。
 
-カスタムキーボードショートカット
+### カスタムキーボードショートカット
+
 メニュー項目になく、かつもともとショートカットが設定されていないものについては残念ながらBetterTouchToolでは設定できないので個別に手動設定。
-・⌘+⇧+, ：Insert Assignment Operator （`<-`をうまく入力してくれる）
+
+- `⌘+⇧+, `：Insert Assignment Operator （`<-`をうまく入力してくれる）
 
 ### RStudio環境かどうかの判定
 
@@ -36,10 +37,43 @@ macOSのデフォルト日本語入力の変更できないショートカット
 
 ### macの標準日本語変換とのショートカット被り対策
 
+`View > Move Focus to Source`と`View > Move Focus to Console`のショートカットキーがそれぞれ`Ctrl + 1`, `Ctrl + 2`になっており、これがmacOSの標準日本語入力の「関連文字に変換」と「部品の共通な漢字を検索」と被ってしまっているため利用できない。
+
+```{r, echo=FALSE}
+knitr::include_graphics("img/mac-rstudio-and-ime-shortcut.png")
+```
+
+解決策としては
+
+1. 「システム環境設定 > キーボード > ショートカット > アプリケーション」からショートカットを追加
+2. BetterTouchToolでRStudioでショートカットを上書き
+
+の2通りがあるが、1.の方法では使用するmac毎に設定の必要がある上にいまいち挙動が不安定な印象があることから、2.の方法を採用している。
+
+#### 1. ショートカット追加
+
+```{r, echo=FALSE}
+knitr::include_graphics("img/mac-SysPref-Keyboard-Shortcut.png")
+```
+
+#### 2. BetterTouchToolでショートカット上書き
+
+こちらの方が確実に動作し、かつ同期機能を使えば設定1回で済むため採用。
+
+```{r, echo=FALSE}
+knitr::include_graphics("img/mac-BTT-RStudio-Kenboard.png")
+```
+
+
 ### RStudioのTerminalでキー入力が効かない
 
 macOSのターミナルやRStudioの他のウインドウでは全く問題ないのに、ターミナルでだけ効かなくなる。入力方法を「U.S.」と「ひらがな」の組み合わせにすることでひとまずは解決する。「日本語」の「英字」と「ひらがな」にしていたため起こった模様。「英字」でも他のアプリケーションで問題になったことはなかったが……。報告は一応した。
 [Terminal in RStudio doesn't accept key input from Japanese Romaji input source (normally works like U.S. mode) · Issue #2243 · rstudio/rstudio](https://github.com/rstudio/rstudio/issues/2243)
+
+```{r, echo=FALSE}
+knitr::include_graphics("img/mac-SysPref-InputSource.png")
+```
+
 
 ## R Project
 
@@ -54,17 +88,17 @@ RStudio で利用できるプロジェクト管理。Rのメモや学会発表�
 
 Gitによる管理については[RStudioではじめるGitによるバージョン管理 - Qiita](https://qiita.com/uri/items/6b94609f156173ed43ed)に全てまとまっている。
 
-
-    .Rprofile     ## プロジェクト用の設定
-    .gitignore    ## バージョン管理しないファイルやフォルダを指定
-    data          ## 元データファイルや整形したR用のデータファイル
-    img           ## 説明などに使う外部イメージなど
-    plot          ## 出力したグラフなどの図
-    packrat       ## パッケージバージョン管理用（自動作成）
-    プロジェクト名.Rproj
-    各分析用ファイルなど.Rmd
-    その結果表示用.html
-
+```
+.Rprofile     ## プロジェクト用の設定
+.gitignore    ## バージョン管理しないファイルやフォルダを指定
+data          ## 元データファイルや整形したR用のデータファイル
+img           ## 説明などに使う外部イメージなど
+plot          ## 出力したグラフなどの図
+packrat       ## パッケージバージョン管理用（自動作成）
+プロジェクト名.Rproj
+各分析用ファイルなど.Rmd
+その結果表示用.html
+```
 
 のような構成になる。packratはそれなりに容量を食うので学会発表・論文用のものに限った方がよさそう。
 
@@ -78,12 +112,10 @@ Pythonメインになるが資料
 
 ### Gitによるバージョン管理
 
+
 ```{r}
 knitr::include_graphics("img/RStudio-GitPanel.png")
 ```
-
-
-
 
 ### GitHubとの連携
 
@@ -93,7 +125,7 @@ knitr::include_graphics("img/RStudio-GitPanel.png")
 
 `File > New Project`で出てくるダイアログで`Version Control`、`Git`と選択してGitHubのgitアドレスを入力、どのディレクトリの下にプロジェクトディレクトリを作るかを決めるだけ。
 
-```{r}
+```{r, echo=FALSE}
 knitr::include_graphics(c("img/RStudio-newVCProject.png"))
 ```
 
@@ -112,7 +144,7 @@ git remote add origin https://github.com/"GitHubのユーザ名"/"リポジト�
 
 RStudioのデフォルトでは`/usr/bin/git`が設定されている。Homebrewを使ってインストールしていると`/usr/local/bin/git`に最新版があるが、これはシンボリックリンクなので実体は`/usr/local/Cellar/git/2.20.1/bin/git`のようになっている。RStudioの設定から`/usr/local/bin/git`を選択すると、`/usr/local/Cellar/git/2.20.1/bin/git`に設定されてしまう。これだとHomebrewでアップデートした際に問題が生じそう。とりあえずmacOS mojaveのプリインストール版でも問題はなさそうなのでそのままにすることにする。
 
-```{r}
+```{r, echo=FALSE}
 knitr::include_graphics("img/RStudio-GitSetting.png")
 ```
 
@@ -120,4 +152,7 @@ knitr::include_graphics("img/RStudio-GitSetting.png")
 ```{bash, eval=FALSE}
 $ /usr/bin/git --version
 git version 2.17.2 (Apple Git-113)
+
+$ /usr/local/bin/git --version
+git version 2.20.1
 ```
