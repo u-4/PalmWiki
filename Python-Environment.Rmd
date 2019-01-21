@@ -2,8 +2,6 @@
 title: "Python-Environment"
 ---
 
-[macOSにPython環境を構築する（Python＋Pipenv） - Qiita](https://qiita.com/tanuk1647/items/cad362af79f528a5c348)
-
 - pip環境の削除
 - condaでのパッケージ管理方法
 - condaでの環境アップデート方法
@@ -24,8 +22,9 @@ macOSで[Homebrew](https://brew.sh/)を利用してのPython環境構築。
 
 ## 2018年現在のPython状況
 
-[wheelのありがたさとAnacondaへの要望 - YAMAGUCHI::weblog](https://ymotongpoo.hatenablog.com/entry/2017/02/02/182647)
-[Pythonの仮想環境構築 2017.01版 - YAMAGUCHI::weblog](https://ymotongpoo.hatenablog.com/entry/2017/01/29/002039)
+- [wheelのありがたさとAnacondaへの要望 - YAMAGUCHI::weblog](https://ymotongpoo.hatenablog.com/entry/2017/02/02/182647)
+- [Pythonの仮想環境構築 2017.01版 - YAMAGUCHI::weblog](https://ymotongpoo.hatenablog.com/entry/2017/01/29/002039)
+- [Pythonのパッケージ周りのベストプラクティスを理解する（2019年現在） - エムスリーテックブログ](https://www.m3tech.blog/entry/python-packaging)
 
 - Python3が主流になりつつあるが、Python2依存のものもまだまだ残っている
 - パッケージインストーラは事実上`pip`
