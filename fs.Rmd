@@ -2,15 +2,82 @@
 title: "file system operation"
 ---
 
-[Cross-Platform File System Operations Based on 'libuv' • fs](https://fs.r-lib.org/)
-[Function reference • fs](https://fs.r-lib.org/reference/index.html)
+## fs：tidyverseのファイル操作パッケージ
+
+- [Cross-Platform File System Operations Based on 'libuv' • fs](https://fs.r-lib.org/)
+- [Function reference • fs](https://fs.r-lib.org/reference/index.html)
 
 [baseの方法](baseR.html)も`.Rprofile`とかでは必要になる。`file.path()`とか。
 
-```{r, eval=FALSE}
-fs::file_delete(c("img/RStudio-Project-NewMenu.png",
-                  "img/RStudio-Project-New-VC.png",
-                  "img/RStudio-Project-New-Git.png",
-                  "img/RStudio-Project-New-Clone.png"))
+## baseRの関数との比較
+
+### OS非依存でパスを表現
+
+デリミタは常に`/`、OSに合わせて実際の操作をしてくれる。
+
+### 関数がベクトル化されている
+
+全ての関数がベクトル化されていて、複数のpathを入力として受けることができる（baseRは全部ではない）
+
+```{r}
+c("docs", "img") %>% 
+  fs::dir_info() %>% 
+  dplyr::sample_n(10)
 ```
+
+### 常にpathを伝える予測しやすい返り値を戻す
+
+pathはcharacterベクトル、`*_info`だとtibbleで返って来る。
+
+```{r}
+fs::dir_ls() %>% 
+  dplyr::glimpse()
+```
+
+```{r}
+fs::dir_info() %>% 
+  dplyr::sample_n(10)
+```
+
+```{r}
+fs::dir_info() %>% 
+  names()
+```
+
+```{r}
+fs::dir_info() %>% 
+  dplyr::glimpse()
+```
+
+### はっきりfailしてくれる
+
+`fs`による操作が失敗した場合は常にerrorを返す。baseRはwarningとOS依存のエラーコードを返すことが多く、エラーを見逃しやすい。
+
+```{r, eval=FALSE}
+fs::dir_ls("does_not_exist")
+#> Error: [ENOENT] Failed to search directory 'does_not_exist': no such file or directory
+```
+
+```{r}
+dir("does_not_exist")
+```
+
+あ、これはかなり大きい。
+
+### どんな時でもUTF-8
+
+baseRはOSのエンコードに依存する。
+
+### 関数名がわかりやすい
+
+- `path_*`はpath関連の操作
+- `file_*`はファイル操作
+- `dir_*`はディレクトリの操作
+- `link_*`はリンクの操作
+
+## `path`系関数
+
+## 存在確認系
+
+存在、アクセスなど
 
