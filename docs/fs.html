@@ -590,12 +590,133 @@ div.tocify {
 </div>
 
 
-<p><a href="https://fs.r-lib.org/">Cross-Platform File System Operations Based on ‘libuv’ • fs</a> <a href="https://fs.r-lib.org/reference/index.html">Function reference • fs</a></p>
+<div id="fstidyverseのファイル操作パッケージ" class="section level2">
+<h2>fs：tidyverseのファイル操作パッケージ</h2>
+<ul>
+<li><a href="https://fs.r-lib.org/">Cross-Platform File System Operations Based on ‘libuv’ • fs</a></li>
+<li><a href="https://fs.r-lib.org/reference/index.html">Function reference • fs</a></li>
+</ul>
 <p><a href="baseR.html">baseの方法</a>も<code>.Rprofile</code>とかでは必要になる。<code>file.path()</code>とか。</p>
-<pre class="r"><code>fs::file_delete(c(&quot;img/RStudio-Project-NewMenu.png&quot;,
-                  &quot;img/RStudio-Project-New-VC.png&quot;,
-                  &quot;img/RStudio-Project-New-Git.png&quot;,
-                  &quot;img/RStudio-Project-New-Clone.png&quot;))</code></pre>
+</div>
+<div id="baserの関数との比較" class="section level2">
+<h2>baseRの関数との比較</h2>
+<div id="os非依存でパスを表現" class="section level3">
+<h3>OS非依存でパスを表現</h3>
+<p>デリミタは常に<code>/</code>、OSに合わせて実際の操作をしてくれる。</p>
+</div>
+<div id="関数がベクトル化されている" class="section level3">
+<h3>関数がベクトル化されている</h3>
+<p>全ての関数がベクトル化されていて、複数のpathを入力として受けることができる（baseRは全部ではない）</p>
+<pre class="r"><code>c(&quot;docs&quot;, &quot;img&quot;) %&gt;% 
+  fs::dir_info() %&gt;% 
+  dplyr::sample_n(10)</code></pre>
+<pre><code>## # A tibble: 10 x 18
+##    path                            type    size permissions
+##    &lt;fs::path&gt;                      &lt;fct&gt; &lt;fs::&gt; &lt;fs::perms&gt;
+##  1 img/ggplot2-3.0.0-jitter.png    file  100.7K rw-r--r--  
+##  2 docs/EDA.html                   file     14K rw-r--r--  
+##  3 img/RStudio-GitSetting.png      file    112K rw-r--r--  
+##  4 docs/footer.html                file      61 rw-r--r--  
+##  5 docs/R-and-Python.html          file   14.2K rw-r--r--  
+##  6 docs/LaTeX.html                 file   13.6K rw-r--r--  
+##  7 docs/R-Development.html         file   14.3K rw-r--r--  
+##  8 img/mac-SysPref-InputSource.png file  263.7K rw-r--r--  
+##  9 docs/RStan.html                 file   14.9K rw-r--r--  
+## 10 docs/lubridate.html             file     14K rw-r--r--  
+## # … with 14 more variables: modification_time &lt;dttm&gt;, user &lt;chr&gt;,
+## #   group &lt;chr&gt;, device_id &lt;dbl&gt;, hard_links &lt;dbl&gt;,
+## #   special_device_id &lt;dbl&gt;, inode &lt;dbl&gt;, block_size &lt;dbl&gt;, blocks &lt;dbl&gt;,
+## #   flags &lt;int&gt;, generation &lt;dbl&gt;, access_time &lt;dttm&gt;, change_time &lt;dttm&gt;,
+## #   birth_time &lt;dttm&gt;</code></pre>
+</div>
+<div id="常にpathを伝える予測しやすい返り値を戻す" class="section level3">
+<h3>常にpathを伝える予測しやすい返り値を戻す</h3>
+<p>pathはcharacterベクトル、<code>*_info</code>だとtibbleで返って来る。</p>
+<pre class="r"><code>fs::dir_ls() %&gt;% 
+  dplyr::glimpse()</code></pre>
+<pre><code>##  &#39;fs_path&#39; Named chr [1:76] &quot;EDA.Rmd&quot; &quot;EDA.html&quot; &quot;Git.Rmd&quot; &quot;Git.html&quot; ...
+##  - attr(*, &quot;names&quot;)= chr [1:76] &quot;EDA.Rmd&quot; &quot;EDA.html&quot; &quot;Git.Rmd&quot; &quot;Git.html&quot; ...</code></pre>
+<pre class="r"><code>fs::dir_info() %&gt;% 
+  dplyr::sample_n(10)</code></pre>
+<pre><code>## # A tibble: 10 x 18
+##    path                              type     size permissions
+##    &lt;fs::path&gt;                        &lt;fct&gt; &lt;fs::b&gt; &lt;fs::perms&gt;
+##  1 site_libs                         dire…     288 rwxr-xr-x  
+##  2 RMarkdown.Rmd                     file    5.68K rw-r--r--  
+##  3 tidymodels.Rmd                    file      627 rw-r--r--  
+##  4 PalmWiki.Rproj                    file      239 rw-r--r--  
+##  5 Stat-probability-distribution.Rmd file      320 rw-r--r--  
+##  6 RStan.html                        file   14.91K rw-r--r--  
+##  7 Git.Rmd                           file     6.8K rw-r--r--  
+##  8 LICENSE                           file    1.03K rw-r--r--  
+##  9 ggplot2-grid.Rmd                  file    2.58K rw-r--r--  
+## 10 plotly.Rmd                        file      761 rw-r--r--  
+## # … with 14 more variables: modification_time &lt;dttm&gt;, user &lt;chr&gt;,
+## #   group &lt;chr&gt;, device_id &lt;dbl&gt;, hard_links &lt;dbl&gt;,
+## #   special_device_id &lt;dbl&gt;, inode &lt;dbl&gt;, block_size &lt;dbl&gt;, blocks &lt;dbl&gt;,
+## #   flags &lt;int&gt;, generation &lt;dbl&gt;, access_time &lt;dttm&gt;, change_time &lt;dttm&gt;,
+## #   birth_time &lt;dttm&gt;</code></pre>
+<pre class="r"><code>fs::dir_info() %&gt;% 
+  names()</code></pre>
+<pre><code>##  [1] &quot;path&quot;              &quot;type&quot;              &quot;size&quot;             
+##  [4] &quot;permissions&quot;       &quot;modification_time&quot; &quot;user&quot;             
+##  [7] &quot;group&quot;             &quot;device_id&quot;         &quot;hard_links&quot;       
+## [10] &quot;special_device_id&quot; &quot;inode&quot;             &quot;block_size&quot;       
+## [13] &quot;blocks&quot;            &quot;flags&quot;             &quot;generation&quot;       
+## [16] &quot;access_time&quot;       &quot;change_time&quot;       &quot;birth_time&quot;</code></pre>
+<pre class="r"><code>fs::dir_info() %&gt;% 
+  dplyr::glimpse()</code></pre>
+<pre><code>## Observations: 76
+## Variables: 18
+## $ path              &lt;fs::path&gt; &quot;EDA.Rmd&quot;, &quot;EDA.html&quot;, &quot;Git.Rmd&quot;, &quot;Git.ht…
+## $ type              &lt;fct&gt; file, file, file, file, file, file, file, file…
+## $ size              &lt;fs::bytes&gt; 540, 14.03K, 6.8K, 22K, 1.03K, 152, 13.6…
+## $ permissions       &lt;fs::perms&gt; rw-r--r--, rw-r--r--, rw-r--r--, rw-r--r…
+## $ modification_time &lt;dttm&gt; 2019-01-10 11:25:00, 2019-01-21 10:02:17, 201…
+## $ user              &lt;chr&gt; &quot;ytamai&quot;, &quot;ytamai&quot;, &quot;ytamai&quot;, &quot;ytamai&quot;, &quot;ytama…
+## $ group             &lt;chr&gt; &quot;staff&quot;, &quot;staff&quot;, &quot;staff&quot;, &quot;staff&quot;, &quot;staff&quot;, &quot;…
+## $ device_id         &lt;dbl&gt; 16777220, 16777220, 16777220, 16777220, 167772…
+## $ hard_links        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
+## $ special_device_id &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+## $ inode             &lt;dbl&gt; 19455000, 21062516, 20971576, 21062634, 193580…
+## $ block_size        &lt;dbl&gt; 4096, 4096, 4096, 4096, 4096, 4096, 4096, 4096…
+## $ blocks            &lt;dbl&gt; 8, 32, 16, 48, 8, 8, 32, 8, 32, 72, 8, 32, 8, …
+## $ flags             &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+## $ generation        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
+## $ access_time       &lt;dttm&gt; 2019-01-21 10:02:17, 2019-01-21 10:02:22, 201…
+## $ change_time       &lt;dttm&gt; 2019-01-10 11:25:00, 2019-01-21 10:02:21, 201…
+## $ birth_time        &lt;dttm&gt; 2019-01-06 20:24:18, 2019-01-21 10:02:17, 201…</code></pre>
+</div>
+<div id="はっきりfailしてくれる" class="section level3">
+<h3>はっきりfailしてくれる</h3>
+<p><code>fs</code>による操作が失敗した場合は常にerrorを返す。baseRはwarningとOS依存のエラーコードを返すことが多く、エラーを見逃しやすい。</p>
+<pre class="r"><code>fs::dir_ls(&quot;does_not_exist&quot;)
+#&gt; Error: [ENOENT] Failed to search directory &#39;does_not_exist&#39;: no such file or directory</code></pre>
+<pre class="r"><code>dir(&quot;does_not_exist&quot;)</code></pre>
+<pre><code>## character(0)</code></pre>
+<p>あ、これはかなり大きい。</p>
+</div>
+<div id="どんな時でもutf-8" class="section level3">
+<h3>どんな時でもUTF-8</h3>
+<p>baseRはOSのエンコードに依存する。</p>
+</div>
+<div id="関数名がわかりやすい" class="section level3">
+<h3>関数名がわかりやすい</h3>
+<ul>
+<li><code>path_*</code>はpath関連の操作</li>
+<li><code>file_*</code>はファイル操作</li>
+<li><code>dir_*</code>はディレクトリの操作</li>
+<li><code>link_*</code>はリンクの操作</li>
+</ul>
+</div>
+</div>
+<div id="path系関数" class="section level2">
+<h2><code>path</code>系関数</h2>
+</div>
+<div id="存在確認系" class="section level2">
+<h2>存在確認系</h2>
+<p>存在、アクセスなど</p>
+</div>
 
 <footer>
   <p>Copyright &copy; 2019 Yuho TAMAI </p>

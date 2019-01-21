@@ -604,10 +604,21 @@ div.tocify {
 </div>
 <div id="rstudioの設定" class="section level2">
 <h2>RStudioの設定</h2>
-<p>General 再現可能性を高めるため、.RDataなどの自動保存は使わず、.RDSの単体データファイルで保存するようにする。</p>
-<p>Code テーマはSolaraizedテーマの通りに設定。フォントはRicty Discord。エディタはVimキーバインドに。 毎回「:imap jj <Esc>」とすればそのセッション中は「jj」でEscの代わりになるがこの設定を保存できない？</p>
-<p>システム環境設定（ショートカット） macOSのデフォルト日本語入力の変更できないショートカットで「⌃+1」「⌃+2」が使用されてしまっているので、システム環境設定のショートカットでRStudioのメニューを別途設定してやる必要がある。 →毎回これやるの大変なのと、デフォルトから変えないために +BetterTouchTool でRStudioの時だけ上書きする方針に。</p>
-<p>カスタムキーボードショートカット メニュー項目になく、かつもともとショートカットが設定されていないものについては残念ながらBetterTouchToolでは設定できないので個別に手動設定。 ・⌘+⇧+, ：Insert Assignment Operator （<code>&lt;-</code>をうまく入力してくれる）</p>
+<div id="general" class="section level3">
+<h3>General</h3>
+<p>再現可能性を高めるため、.RDataなどの自動保存は使わず、.RDSの単体データファイルで保存するようにする。</p>
+</div>
+<div id="code" class="section level3">
+<h3>Code</h3>
+<p>テーマはSolaraizedテーマの通りに設定。フォントはRicty Discord。エディタはVimキーバインドに。 毎回「:imap jj <Esc>」とすればそのセッション中は「jj」でEscの代わりになるがこの設定を保存できない？</p>
+</div>
+<div id="カスタムキーボードショートカット" class="section level3">
+<h3>カスタムキーボードショートカット</h3>
+<p>メニュー項目になく、かつもともとショートカットが設定されていないものについては残念ながらBetterTouchToolでは設定できないので個別に手動設定。</p>
+<ul>
+<li><code>⌘+⇧+,</code>：Insert Assignment Operator （<code>&lt;-</code>をうまく入力してくれる）</li>
+</ul>
+</div>
 <div id="rstudio環境かどうかの判定" class="section level3">
 <h3>RStudio環境かどうかの判定</h3>
 <p><code>Sys.getenv("RSTUDIO")</code>はRStudioでは“1”、それ以外では""を返すので、<code>!is.na(Sys.getenv("RSTUDIO", unset = NA))</code>で判定可能</p>
@@ -615,10 +626,28 @@ div.tocify {
 </div>
 <div id="macの標準日本語変換とのショートカット被り対策" class="section level3">
 <h3>macの標準日本語変換とのショートカット被り対策</h3>
+<p><code>View &gt; Move Focus to Source</code>と<code>View &gt; Move Focus to Console</code>のショートカットキーがそれぞれ<code>Ctrl + 1</code>, <code>Ctrl + 2</code>になっており、これがmacOSの標準日本語入力の「関連文字に変換」と「部品の共通な漢字を検索」と被ってしまっているため利用できない。</p>
+<p><img src="img/mac-rstudio-and-ime-shortcut.png" /><!-- --></p>
+<p>解決策としては</p>
+<ol style="list-style-type: decimal">
+<li>「システム環境設定 &gt; キーボード &gt; ショートカット &gt; アプリケーション」からショートカットを追加</li>
+<li>BetterTouchToolでRStudioでショートカットを上書き</li>
+</ol>
+<p>の2通りがあるが、1.の方法では使用するmac毎に設定の必要がある上にいまいち挙動が不安定な印象があることから、2.の方法を採用している。</p>
+<div id="ショートカット追加" class="section level4">
+<h4>1. ショートカット追加</h4>
+<p><img src="img/mac-SysPref-Keyboard-Shortcut.png" /><!-- --></p>
+</div>
+<div id="bettertouchtoolでショートカット上書き" class="section level4">
+<h4>2. BetterTouchToolでショートカット上書き</h4>
+<p>こちらの方が確実に動作し、かつ同期機能を使えば設定1回で済むため採用。</p>
+<p><img src="img/mac-BTT-RStudio-Kenboard.png" /><!-- --></p>
+</div>
 </div>
 <div id="rstudioのterminalでキー入力が効かない" class="section level3">
 <h3>RStudioのTerminalでキー入力が効かない</h3>
 <p>macOSのターミナルやRStudioの他のウインドウでは全く問題ないのに、ターミナルでだけ効かなくなる。入力方法を「U.S.」と「ひらがな」の組み合わせにすることでひとまずは解決する。「日本語」の「英字」と「ひらがな」にしていたため起こった模様。「英字」でも他のアプリケーションで問題になったことはなかったが……。報告は一応した。 <a href="https://github.com/rstudio/rstudio/issues/2243">Terminal in RStudio doesn’t accept key input from Japanese Romaji input source (normally works like U.S. mode) · Issue #2243 · rstudio/rstudio</a></p>
+<p><img src="img/mac-SysPref-InputSource.png" /><!-- --></p>
 </div>
 </div>
 <div id="r-project" class="section level2">
@@ -630,6 +659,7 @@ div.tocify {
 <li>Packrat によるプロジェクト内でのパッケージバージョン管理</li>
 </ul>
 <p>が可能なのは大きい。</p>
+<p>Gitによる管理については<a href="https://qiita.com/uri/items/6b94609f156173ed43ed">RStudioではじめるGitによるバージョン管理 - Qiita</a>に全てまとまっている。</p>
 <pre><code>.Rprofile     ## プロジェクト用の設定
 .gitignore    ## バージョン管理しないファイルやフォルダを指定
 data          ## 元データファイルや整形したR用のデータファイル
@@ -638,7 +668,7 @@ plot          ## 出力したグラフなどの図
 packrat       ## パッケージバージョン管理用（自動作成）
 プロジェクト名.Rproj
 各分析用ファイルなど.Rmd
-その結果表示用.nb.html</code></pre>
+その結果表示用.html</code></pre>
 <p>のような構成になる。packratはそれなりに容量を食うので学会発表・論文用のものに限った方がよさそう。</p>
 <p><a href="https://qiita.com/sshojiro/items/2f2720ba7697e8758855">解析のためのフォルダ構成 - Qiita</a>が一番良さそう？</p>
 <p>Pythonメインになるが資料</p>
@@ -647,14 +677,35 @@ packrat       ## パッケージバージョン管理用（自動作成）
 <li><a href="https://uribo.hatenablog.com/entry/2017/07/25/073200">RStudioを使ってKaggleコンペティションをやっていくためのプロジェクトテンプレートを作っています - cucumber flesh</a></li>
 <li><a href="https://takuti.me/note/data-science-project-structure/">データサイエンスプロジェクトのディレクトリ構成どうするか問題 | takuti.me</a></li>
 </ul>
+<div id="gitによるバージョン管理" class="section level3">
+<h3>Gitによるバージョン管理</h3>
+<pre class="r"><code>knitr::include_graphics(&quot;img/RStudio-GitPanel.png&quot;)</code></pre>
+<p><img src="img/RStudio-GitPanel.png" /><!-- --></p>
+</div>
 <div id="githubとの連携" class="section level3">
 <h3>GitHubとの連携</h3>
+<p><a href="https://qiita.com/uri/items/6b94609f156173ed43ed#%E3%83%AA%E3%83%A2%E3%83%BC%E3%83%88%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA%E3%82%92%E8%A8%AD%E5%AE%9A%E3%81%99%E3%82%8B">RStudioではじめるGitによるバージョン管理：リモートリポジトリを設定する</a>をよく読む。</p>
 <div id="既存のgithubレポジトリをrstudioで扱う場合" class="section level4">
 <h4>既存のGitHubレポジトリをRStudioで扱う場合</h4>
 <p><code>File &gt; New Project</code>で出てくるダイアログで<code>Version Control</code>、<code>Git</code>と選択してGitHubのgitアドレスを入力、どのディレクトリの下にプロジェクトディレクトリを作るかを決めるだけ。</p>
-<pre class="r"><code>knitr::include_graphics(c(&quot;img/RStudio-newVCProject.png&quot;))</code></pre>
 <p><img src="img/RStudio-newVCProject.png" /><!-- --></p>
 </div>
+<div id="git管理しているプロジェクトをgithubへ" class="section level4">
+<h4>git管理しているプロジェクトをGitHubへ</h4>
+<p>Gitタブの<code>歯車アイコン &gt; Shell</code>かターミナルでプロジェクトディレクトリに<code>cd</code>してから</p>
+<pre class="bash"><code>git remote add origin https://github.com/&quot;GitHubのユーザ名&quot;/&quot;リポジトリ名&quot;.git</code></pre>
+<p>で登録される。<code>git remote -v</code>で設定を確認できる。</p>
+</div>
+</div>
+<div id="todo-使用するgitコマンドの設定" class="section level3">
+<h3>TODO: 使用するGitコマンドの設定</h3>
+<p>RStudioのデフォルトでは<code>/usr/bin/git</code>が設定されている。Homebrewを使ってインストールしていると<code>/usr/local/bin/git</code>に最新版があるが、これはシンボリックリンクなので実体は<code>/usr/local/Cellar/git/2.20.1/bin/git</code>のようになっている。RStudioの設定から<code>/usr/local/bin/git</code>を選択すると、<code>/usr/local/Cellar/git/2.20.1/bin/git</code>に設定されてしまう。これだとHomebrewでアップデートした際に問題が生じそう。とりあえずmacOS mojaveのプリインストール版でも問題はなさそうなのでそのままにすることにする。</p>
+<p><img src="img/RStudio-GitSetting.png" /><!-- --></p>
+<pre class="bash"><code>$ /usr/bin/git --version
+git version 2.17.2 (Apple Git-113)
+
+$ /usr/local/bin/git --version
+git version 2.20.1</code></pre>
 </div>
 </div>
 
