@@ -12,3 +12,4 @@ title: "スクレイピング"
 
 - [R Bindings for 'Selenium WebDriver' • RSelenium](http://ropensci.github.io/RSelenium/index.html)
 - [RSelenium vignette: RSeleniumの基本 - Qiita](https://qiita.com/nakamichi/items/ad186633ae249b26d032)
+- [RSelenium のすヽめ - Qiita](https://qiita.com/yutarogollila/items/5e0933eda59d67d4b39e)

@@ -19,3 +19,4 @@ title: "GLMM（一般化線形混合モデル）"
 - [GLMMをやるパッケージを二つほど。](https://rstudio-pubs-static.s3.amazonaws.com/131524_18559e83a61848b1946bc8fcb1ebcbc7.html#/)
 
 - [My notepad: lmerTestパッケージを使って、混合モデルで反復測定の一元配置分散分析をやってみる（多重比較も）。](http://satoshilab.blogspot.com/2018/10/lmertest.html)
+- [混合効果モデル（変量効果モデル、mixed effect model）について](https://ianalysis.jp/blog-article.php?title=%E6%B7%B7%E5%90%88%E5%8A%B9%E6%9E%9C%E3%83%A2%E3%83%87%E3%83%AB%EF%BC%88%E5%A4%89%E9%87%8F%E5%8A%B9%E6%9E%9C%E3%83%A2%E3%83%87%E3%83%AB%E3%80%81mixed%20effect%20model%EF%BC%89%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6&date=20110413)

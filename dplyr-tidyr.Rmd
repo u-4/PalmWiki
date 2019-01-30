@@ -17,6 +17,7 @@ tidyrはreadrとまとめるべきか？
 - 行操作：slice, filter
 - 列操作：select、列選択のための関数
 - 列作成：mutate rename
+    - [mutateの途中にbrowser()でデバッグ](https://twitter.com/_ColinFay/status/1088022736117645314)
 - 結合：join
 - グループ化：group_by
 - gather / spread

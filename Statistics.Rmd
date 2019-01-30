@@ -19,10 +19,31 @@ http://bio-info.biz/statistics.html
 [biostatistics | バイオスタティスティクス | 生物統計学](https://stats.biopapyrus.jp/)
 
 
+[Tutorials on Advanced Stats and Machine Learning With R](http://r-statistics.co/)
+
 [Generalized Linear Model: Logistic Regression Part2 ~ Tempest](http://testblog234wfhb.blogspot.com/2014/06/generalized-linear-modellogistic_22.html)
 [Bayesian generalized linear models via Stan — stan_glm • rstanarm](http://mc-stan.org/rstanarm/reference/stan_glm.html)
 
 統計的方法のしくみ 正しく理解するための30の急所 
+
+線形計画法
+[RでLinear Programming | 分析のおはなし。](http://www.housecat442.com/?p=417)
+
+不連続回帰デザイン
+[不連続回帰デザイン - Speaker Deck](https://speakerdeck.com/tanaka_marimo/bu-lian-sok-hui-gui-dezain)
+
+### 康永秀生先生の連載
+
+- [第1回　傾向スコア分析（その1）](https://www.m3.com/clinical/news/597737)
+- [第2回　傾向スコア分析（その2）](https://www.m3.com/clinical/news/598423)
+- [第3回　実践！正しい多変量回帰分析](https://www.m3.com/clinical/news/604122)
+- [第4回　操作変数法を理解する！](https://www.m3.com/clinical/news/608172?from=openClinicalNews)
+- [第5回　欠損値の取り扱いと多重代入法](https://www.m3.com/clinical/news/615715)
+- [第6回　マルチレベル分析を使いこなす！](https://www.m3.com/clinical/news/623539)
+- [第7回　ショック患者に早期経腸栄養は有効か？](https://www.m3.com/clinical/news/630040)：周辺構造モデル（marginal structural model：MSM）
+- [第8回　重症熱傷への気管切開で死亡率は低下するか？](https://www.m3.com/clinical/news/636569)：傾向スコア分析＋MSM
+- [第9回　インフルエンザ感染後の急性心筋梗塞](https://www.m3.com/clinical/news/642562)：自己対照ケースシリーズ
+- [第10回　小児心臓手術後の早期抜管で入院医療費が減少](https://www.m3.com/clinical/news/648352)：差の差分析（difference-in-difference）
 
 ### Σの記号
 

@@ -34,6 +34,8 @@ ggplot2をベースに、より簡単に出版レベルの図を書くための�
 [CRAN - Package ggpubr](https://cran.r-project.org/web/packages/ggpubr/index.html)
 ['ggplot2' Based Publication Ready Plots • ggpubr](https://rpkgs.datanovia.com/ggpubr/index.html)
 
+- [stat_compare_means comparisons with multiple groups · Issue #65 · kassambara/ggpubr](https://github.com/kassambara/ggpubr/issues/65)
+
 【各関数のドキュメント】
 [ggpubr package | R Documentation](https://www.rdocumentation.org/packages/ggpubr/versions/0.2)
 

@@ -2,13 +2,18 @@
 title: "mac環境構築"
 ---
 
-## Docker
+## 普段のメンテナンス
 
+- homebrew, cask
+- dump
+- tex
+- dotfiles
+- iMacと同期
 
+## Docker for Macについて
 
-Docker for Macについて
+Docker for macOSは以前はVirtualboxを利用する必要があったが、現在（2018-07頃）は（実際には仮想環境が内包されているようだが）単一のインストールで済む模様。Homebrewでインストールする場合は`brew cask install docker`でcaskの物をインストールすれば良い。`brew search docker`で検索するといっぱい出てくるが、過去の個別インストールが必要だった頃の名残な模様。
 
-Docker for macOSは以前はVirtualboxを利用する必要があったが、現在（2018-07頃）は（実際には仮想環境が内包されているようだが）単一のインストールで済む模様。Homebrewでインストールする場合は`brew cask install docker`でcaskの物をインストールすれば良い。検索するといっぱい出てくるが、基本的には過去の個別インストールが必要だった頃の名残な模様。
-
+## mac環境構築
 
 
