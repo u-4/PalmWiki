@@ -2,7 +2,87 @@
 title: "LaTeX"
 ---
 
+- [Overleaf v2 で日本語を使用する方法 - TeX Alchemist Online](http://doratex.hatenablog.jp/entry/20180503/1525338512)
+
+
 [latexsheet](https://wch.github.io/latexsheet/)
 
 - macでの日本語LaTeX環境構築とアップデート
 - よく使う表現
+
+- [LaTeXコマンド集](http://www.latex-cmd.com/)
+
+## macOSで$\LaTeX$
+
+macOSで$$\LaTeX$$
+macで $$\LaTeX$$（LaTeX）を利用するための設定方法。MacTeX2018で日本語周りが変更になったのに対応。
+`ghostscript`と`mactex`はmacOS環境構築でdotfiles を用いてインストール済みのはず。
+
+
+[MacTeX 2018 のインストール＆日本語環境構築法 - TeX Alchemist Online](http://doratex.hatenablog.jp/entry/20180501/1525144736)を参考（丸パクリ）にして作成。(u)pLaTeX + dvipdfmxで日本語文書を出力できるようになる。
+
+Rでの日本語出力あれこれでも利用することになるLaTeX実行環境のmacOSでのセットアップ。まあTeXとしてではなくRStudioからXeLaTeXだけ使う時にどこまで設定が必要なのかはよくわかっていない。少なくともTeX Liveのアップデートまではいるだろうけど。
+
+homebrewでTeXを探すと以下のようなメッセージが出てMacTeXの利用を推奨される
+
+```
+If you meant "tex" specifically:
+Installing TeX from source is weird and gross, requires a lot of patches,
+and only builds 32-bit (and thus can't use Homebrew dependencies)
+
+We recommend using a MacTeX distribution: https://www.tug.org/mactex/
+
+You can install it with Homebrew-Cask:
+ brew cask install mactex
+```
+
+### tlmgrで最新版にアップデート
+
+インストール済みの環境のアップデートは
+
+```
+sudo tlmgr update --self --all
+```
+
+### TLContribでの追加インストール
+
+ヒラギノフォントなど商用フォントなどの設定がTLContribに移動したので登録とインストール
+
+```
+sudo tlmgr repository add http://contrib.texlive.info/current tlcontrib
+sudo tlmgr pinning add tlcontrib '*'
+sudo tlmgr install japanese-otf-nonfree japanese-otf-uptex-nonfree ptex-fontmaps-macos cjk-gs-integrate-macos
+```
+
+### ヒラギノフォントの準備
+
+`/usr/local/texlive/texmf-local/fonts/`にmacOSの標準フォント（ヒラギノフォント）のシンボリックリンクが貼られる。
+
+```
+sudo cjk-gs-integrate --link-texmf --cleanup --force
+sudo cjk-gs-integrate-macos --link-texmf --force
+sudo mktexlsr
+```
+
+### ヒラギノフォントの埋め込み設定@High Sierra
+
+```
+sudo kanji-config-updmap-sys --jis2004 hiragino-highsierra-pron
+```
+
+### TeXShopのアップデート
+
+
+### TeX Liveユーティリティーのアップデート
+
+
+### LaTeXiTのアップデート
+
+
+### BibDeskのアップデート
+
+### 用紙をA4に
+
+```
+sudo tlmgr paper a4
+```
