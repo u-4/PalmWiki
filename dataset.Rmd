@@ -1,0 +1,22 @@
+---
+title: "データセット"
+---
+
+パッケージ内のデータセットから外部データベースまで取得とか特徴とか実習とか。
+
+
+### e-Stat
+
+- [Rからe-Stat APIを使う - Qiita](https://qiita.com/nozma/items/f88f5cc60ab63461deae)
+- [estatapiパッケージで簡単にe-Statのデータ取得 - Qiita](https://qiita.com/kazutan/items/9c0b2dd0f055fde45cda)
+- [e-Stat APIバージョン2.1をRから使う - Technically, technophobic.](https://notchained.hatenablog.com/entry/2016/07/17/000530)
+
+
+- [Rによるデータクリーニング実践――政府統計からのグラフ作成を例として｜Colorless Green Ideas](http://id.fnshr.info/2018/04/23/r-data-cleaning-school/)
+- [e-Stat APIをRから使うパッケージを作りました - Technically, technophobic.](https://notchained.hatenablog.com/entry/2015/11/01/084909)
+
+
+### NDB
+
+- [R歴1ヶ月の俺がtidyverseを使ってNDBオープンデータから尿蛋白検査の地域差を検証してみた件について #1 - Qiita](https://qiita.com/renwood_aoba/items/977229fda4cbd8cfc02a)
+- [Microsoft Word - 第３回ＮＤＢオープンデータ解説編（①前編）.docx](https://www.mhlw.go.jp/content/12400000/000346720.pdf)

@@ -1,0 +1,10 @@
+---
+title: "マルチレベル分析"
+---
+
+- [第６回　マルチレベル分析を使いこなす！](https://www.m3.com/clinical/news/623539)
+- [GEE(一般化推定方程式)の理論](https://www.slideshare.net/koichirogibo/gee-54771134)
+- [マルチレベル分析の必要性](http://tarohmaru.web.fc2.com/R/multilevel/Mulitilevel1.html)
+- [GEE vs Mixed Models in R : statistics](https://www.reddit.com/r/statistics/comments/6n5yy8/gee_vs_mixed_models_in_r/)
+- [回帰分析②：線形回帰が使えないときに用いる高度な回帰分析方法 – 医療政策学×医療経済学](https://healthpolicyhealthecon.com/2016/09/08/regression-2/)
+- 

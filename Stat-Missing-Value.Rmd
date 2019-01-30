@@ -1,0 +1,95 @@
+---
+title: "欠測値の取り扱い"
+---
+
+## 欠測データ・欠測値補完
+
+- [欠測データ処理 ―Rによる単一代入法と多重代入法― / 高橋 将宜　渡辺 美智子　著 | 共立出版](https://www.kyoritsu-pub.co.jp/bookdetail/9784320112568)
+- [Missing Value Treatment](http://r-statistics.co/Missing-Value-Treatment-With-R.html)
+
+
+単純に欠損値を除去するのではなく、欠損値が生じている背景や欠損値の種類を踏まえた上での対応方法。
+
+Rでの欠損値の取り扱い：NAなどの取り扱い方法は[こちら](R-Tips.html)に。
+
+Rで利用できる多重代入法の主なパッケージとしてはmiceとAmeliaがある。多重代入法で作ったデータセットを解析に投げる方法が少し限られそう。
+
+- [R 欠損値の対応（missing value treatment） - 統計学と疫学と時々、助教生活](http://jojoshin.hatenablog.com/entry/2017/02/03/220118)
+- [Rで実践！欠損データ分析入門【1】 | NHN テコラス Tech Blog | AWS、機械学習、IoTなどの技術ブログ](https://techblog.nhn-techorus.com/archives/6309)
+- [Rで実践！欠損データ分析入門【2】 | NHN テコラス Tech Blog | AWS、機械学習、IoTなどの技術ブログ](https://techblog.nhn-techorus.com/archives/6573)
+- [RPubs - R in Action: Chapter 15 Advanced methods for missing data](https://rpubs.com/kaz_yos/mice-amelia)
+- [Rで多重代入法：Ameliaパッケージ | 英語教育0.2](https://tam07pb915.wordpress.com/2016/01/01/r-mi_amelia/)
+- [https://stat.ethz.ch/~maechler/adv_topics_compstat/MissingData_Imputation.html](https://stat.ethz.ch/~maechler/adv_topics_compstat/MissingData_Imputation.html)
+- [cogpsy.educ.kyoto-u.ac.jp/personal/Kusumi/datasem17.htm](http://cogpsy.educ.kyoto-u.ac.jp/personal/Kusumi/datasem17.htm)
+- [slide.pdf](https://home.hiroshima-u.ac.jp/~wakaki/lecture/probstattopicB12/slide.pdf)
+
+[様々な多重代入法アルゴリズムの比較～大規模経済系データを用いた分析～](http://www.stat.go.jp/training/2kenkyu/ihou/71/pdf/2-2-713.pdf)
+
+[MA_Jagdhuber.pdf](https://epub.ub.uni-muenchen.de/28835/1/MA_Jagdhuber.pdf)
+
+[Combining bootstrapping with multiple imputation – The Stats Geek](http://thestatsgeek.com/2016/03/12/combining-bootstrapping-with-multiple-imputation/)
+
+### 実際の論文での報告に際して
+
+[多重代入法の書き方 公開用](https://www.slideshare.net/koichirogibo/ss-32418161)より
+
+```{r, echo=FALSE}
+knitr::include_graphics("img/Stat-MI-report.jpg")
+```
+
+
+hmiscパッケージの一部でも？
+[CRAN - Package Hmisc](https://cran.r-project.org/web/packages/Hmisc/index.html)
+[Hmisc < Main < Vanderbilt Biostatistics Wiki](http://biostat.mc.vanderbilt.edu/wiki/Main/Hmisc)
+[aregImpute function | R Documentation](https://www.rdocumentation.org/packages/Hmisc/versions/4.1-1/topics/aregImpute)
+
+MCARかどうかの検証にLittleのMCARテスト（[BaylorEdPsych](https://cran.r-project.org/web/packages/BaylorEdPsych/index.html)パッケージ、ちょっと古い）
+[A Test of Missing Completely at Random for Multivariate Data with Missing Values: Journal of the American Statistical Association: Vol 83, No 404](https://www.tandfonline.com/doi/abs/10.1080/01621459.1988.10478722)
+[LittleMCAR function | R Documentation](https://www.rdocumentation.org/packages/BaylorEdPsych/versions/0.5/topics/LittleMCAR)
+
+[hypothesis testing - Interpretation of Little's MCAR test - Cross Validated](https://stats.stackexchange.com/questions/105233/interpretation-of-littles-mcar-test/105238)
+
+## miceパッケージ
+
+Rでの欠損データ解析のための多重代入法の一つであるmultiple imputation by chain equation; MICEを提供してくれるパッケージ。オランダのユトレヒト大学の Stef van Buuren (2012)を中心としたチームにより開発された。完全条件付き指定（FCSS: Fully Conditional Specification）連鎖方程式（Chained Equations）
+
+- 各々の不完全な変数に対して補定モデルを構築
+- 周辺分布を利用して、単純無作為抽出を行う
+- 条件付で指定した補定モデルを使用して、補定を繰り返す
+
+[欠損値の種類と補完とRでのワークフロー - Note of Pediatric Surgery](https://www.pediatricsurgery.site/entry/2016/11/20/233217)
+
+[Handling missing data with MICE package; a simple approach | DataScience+](https://datascienceplus.com/handling-missing-data-with-mice-package-a-simple-approach/)
+[Imputing Missing Data with R; MICE package | DataScience+](https://datascienceplus.com/imputing-missing-data-with-r-mice-package/)
+
+```{r, eval=FALSE}
+imp <- mice(data, m = 数字, seed = 数字, meth = "norm")
+```
+
+上記で生成した補定済データは imp の名称で保存されており、with 関数を用いて回帰分析を行うことができる。統合後の結果を見るには、pool 関数を用いる。methには多くの補定モデルが準備されている。
+
+```{r, eval=FALSE}
+fit <- with(imp, lm(変数 1~変数 2+変数 3))
+summary(pool(fit))
+```
+
+### miceによる擬似完全データ（midsクラスオブジェクト）の扱い
+
+glm.midsは教科書などでは広く使われているが、現在は後方互換のために残されているだけで、「[with.mids](https://www.rdocumentation.org/packages/mice/versions/2.46.0/topics/with.mids)」を利用すれば任意の式を当てはめることができる。
+
+## Ameliaパッケージ
+
+Rでの欠損データ解析に用いるパッケージ。EMBアルゴリズムを用いている。miceに比べて早いらしい。
+Expectation-Maximization with Bootstrapping。伝統的な期待値最大化法(EM: Expectation-Maximization)にノン
+パラメトリック・ブートストラップ法を応用したものらしい(Honaker and King, 2010)。
+
+- 伝統的な期待値最大化法(EM: ExpectationMaximization)
+- ノンパラメトリック・ブートストラップ
+
+[CRAN - Package Amelia](https://cran.r-project.org/web/packages/Amelia/)
+[Rで多重代入法：Ameliaパッケージ | 英語教育0.2](https://tam07pb915.wordpress.com/2016/01/01/r-mi_amelia/)
+
+Ameliaを用いて欠損値対応を行なった場合、その解析にはZeligパッケージを用いることになりそう。
+
+[r - lmer with multiply imputed data - Cross Validated](https://stats.stackexchange.com/questions/117605/lmer-with-multiply-imputed-data)
+

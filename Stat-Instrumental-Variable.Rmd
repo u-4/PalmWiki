@@ -1,0 +1,7 @@
+---
+title: "操作変数法"
+---
+
+- [第4回　操作変数法を理解する！](https://www.m3.com/clinical/news/608172?from=openClinicalNews)
+- [PRRISMコラム: 操作変数法（IV法）について](http://prrismcolumn.blogspot.com/2016/06/iv.html)
+- [医療から宇宙へ トップ分析会社 | iAnalysis(アイアナ)](https://ianalysis.jp/blog-article.php?title=%E6%93%8D%E4%BD%9C%E5%A4%89%E6%95%B0%EF%BC%88instrumental%20variable,%20IV%EF%BC%89%E3%81%A7%E3%81%AE%E4%BA%A4%E7%B5%A1%E8%AA%BF%E6%95%B4&date=20110520)

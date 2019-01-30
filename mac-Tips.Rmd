@@ -1,0 +1,97 @@
+---
+title: "macあれこれ"
+---
+
+
+
+## 再起動オプション関連
+
+## スクリーンショット
+
+## メンテナンススクリプト
+
+## 特殊文字など関連
+
+
+## heicのjpg変換
+
+iOS11からデフォルトになった画像形式であるHEICファイルをmacOSでJPEGファイルに変換する方法。
+
+[MacOSで、ディレクトリ内部の.heicファイルを一括で.jpgファイルに変換する方法 - the industrial](https://omiend.hatenablog.jp/entry/8599973812322110081)
+
+    find . -name '*.heic' | xargs -IT basename T .heic | xargs -IT sips --setProperty format jpeg ./T.heic --out ./T.jpg
+
+[HEICファイルをJPGファイルに変換する - Qiita](https://qiita.com/1coin178/items/83098b1be474db3e8bda)
+
+    sips --setProperty format jpeg input.heic --out output.jpg
+
+娘の0歳イヤーアルバム作るときにキタムラのWindows専用ソフトがJPEGしか受け入れてくれないので利用した。
+
+## Solarizedテーマ＠macOS
+
+コントラストが強すぎず目に優しいテーマ。広く使われているため設定ファイルが用意されており楽。アップルメモアプリにもテーマが設定できれば良いのに。
+
+http://ethanschoonover.com/solarized
+
+### ターミナルでの設定
+
+https://github.com/tomislav/osx-terminal.app-colors-solarized
+からダウンロード（`~/Dropbox/.sync/macOS`以下に置いてある。iCloudのsyncにも）
+
+- ターミナル.appの`環境設定 > プロファイル > 歯車 > 読み込む`で読み込む
+- デフォルトのプロファイルに設定する。
+- 点滅カーソル
+- Ricty Discord Regular 14pt
+- ウインドウサイズ100x30に変更
+- 「テキスト」タブの背景のカラーとエフェクトで不透明率を95%程度に
+
+### `ls`コマンドの設定
+
+https://github.com/seebi/dircolors-solarized
+GNUのls（gls）でないと一発設定ができない模様。BSD系のmacOSのデフォルトコマンドよりはGNU Linux系に統一した方が楽なのでそれも設定してしまう。
+
+    $ brew install coreutils
+
+（dotfilesでインストール設定済み）
+「dircolors.ansi-universal」を「.dircolors-solarized」としてコピーしておいてそれを読み込む。
+「.bashrc」に
+
+    alias ls='gls --color=auto'
+    if [ -f ~/.dircolors-solarized ];then
+    eval `/usr/local/opt/coreutils/libexec/gnubin/dircolors ~/.dircolors-solarized`
+    fi
+
+を追記する（.dotfilesで設定済み）
+
+
+### Vimでの設定
+
+https://github.com/altercation/vim-colors-solarized
+「solarized.vim」を「~/.vim/colors/」以下に置いておく
+「.vimrc」で
+
+    syntax enable
+    set background=dark
+    colorscheme solarized
+    let g:solarized_termcolors=256
+
+を設定。いずれもdotfilesで設定済み。
+
+
+### RStudioの設定
+
+テーマの選択肢にあるのでフォントだけ変更
+
+
+### lessの設定
+
+solarizedではないけれど。
+https://qiita.com/HeRo/items/363b2aa18e7f225a8069
+
+    $ brew install less source-highlight
+
+.bash_profile に追加。aliasは行番号も表示etcの設定。お好みで。
+
+    export LESSOPEN="| /usr/local/bin/src-hilite-lesspipe.sh %s"
+    export LESS=" -R -X -F"
+    alias less='less -m -N -g -i -J --underline-special --SILENT'

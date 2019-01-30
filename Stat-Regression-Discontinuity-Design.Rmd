@@ -1,0 +1,6 @@
+---
+title: "回帰不連続デザイン"
+---
+
+- [Regression discontinuities with covariate interactions in the rdd package | James E. Pustejovsky](https://www.jepusto.com/rdd-interactions/)
+- 
