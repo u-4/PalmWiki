@@ -1,6 +1,9 @@
 ---
-title: "Jupyter Lab"
+title: "Jupyter Lab / Jupyter Notebook"
 ---
+
+
+- [Google Developers Japan: Google Colaboratory を用いた機械学習・深層学習の入門教材を無料公開（健康・医療向けデータを用いた実践編も含む）](https://developers-jp.googleblog.com/2019/01/medical-ai-course-materials.html)
 
 Jupyter NotebookからJupyter Labへ。
 
@@ -14,3 +17,74 @@ Jupyter NotebookからJupyter Labへ。
 
 ## Jupyter LabでRを利用する
 
+## Jupyter Notebookのインストールと設定（古いの）
+
+OSX環境でHomebrew->pyenv->anacondaとやっている状況でのJupyter Notebookの設定など。
+
+Pythonのインストール
+Homebrewを利用したPython環境のインストール
+
+Jupyter Notebookのインストール
+インストール自体はanacondaのインストールに伴って行われている。
+
+初期設定ファイルの作成
+
+    jupyter notebook --generate-config
+
+で「`/.jupyter/jupyter_notebook_config.py` 」に初期設定ファイルができる。
+
+パスワード生成
+
+    python -c "from notebook.auth import passwd;print(passwd())"
+
+ででてきたhashを
+
+    vi ~/.jupyter/jupyter_notebook_config.py
+
+で「c.NotebookApp.password」のcomment outを外して入力(d)。
+
+
+    c.NotebookApp.notebook_dir = '/Users/ytamai/Dropbox/03_Personal/notebook/'
+
+などとしておけば立ち上げた時のデフォルトのディレクトリが設定できる。
+
+公式：http://jupyter-notebook.readthedocs.io/en/latest/config.html
+参考：データサイエンティストに向けたコーディング環境Jupyter Notebookの勧め - Qiita
+
+「“open location”メッセージを認識できません。」への対応方法
+
+    c.NotebookApp.browser = 'chrome'
+
+と指定してやるといいらしい。Slackで朝元雅明先生より。
+
+デフォルトで読み込むライブラリの設定
+`~/.ipython/profile_default/startup`に最初に読み込むライブラリを記載しておくと、kernel起動時に一緒に読んでくれる。セルマジックもipy形式なら記述可能なので、`%matplotlin inline`も記載しておくとよい。
+
+
+    00_init.ipy
+    %matplotlib inline
+    from matplotlib import pyplot as plt
+    import seaborn as sns
+    import numpy as np
+    import pandas as pd
+
+参考：データサイエンティストに向けたコーディング環境Jupyter Notebookの勧め
+
+nbextensionのインストール
+一般的には以下のように`pip`コマンドで入れるようだが、anaconda環境では別の方法の方が良さげ。
+
+    pip install https://github.com/ipython-contrib/IPython-notebook-extensions/archive/master.zip --user
+
+condaコマンドを用いてanaconda cloudのパッケージを用いるのが良い模様。
+
+    conda install -c conda-forge jupyter_contrib_nbextensions
+
+なお'-y'オプションをつければ途中のyes/noを全部yesでスキップできる。
+
+参考：[Anacondaインストール後のJupyterの設定: ブラウザとパスワードの設定・nbextensionsとその他拡張機能の追加・設定 - Qiita](https://qiita.com/jumjamjohn/items/710c401c205371c06bc3)
+
+'/nbextensions/' をつけてアクセスすると拡張設定画面へ
+
+参考
+extensionを追加してもっと快適なJupyter環境を構築する - Qiita
+http://qiita.com/sasaki77/items/30a19d2be7d94116b237
