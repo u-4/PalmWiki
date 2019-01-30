@@ -410,7 +410,9 @@ div.tocify {
     <li>
       <a href="scraping.html">スクレイピング(rvest)</a>
     </li>
-    <li class="dropdown-header">データベース（NDBとか色々）</li>
+    <li>
+      <a href="dataset.html">データベース（NDBとか色々）</a>
+    </li>
     <li>
       <a href="baseR.html">base関数メモ</a>
     </li>
@@ -471,10 +473,26 @@ div.tocify {
     </li>
     <li class="dropdown-header">lm, glm</li>
     <li>
+      <a href="Stat-Multilevel-Model.html">マルチレベル分析</a>
+    </li>
+    <li>
       <a href="Stat-GLMM.html">GLMM（一般化線形混合モデル）</a>
     </li>
-    <li class="dropdown-header">主成分分析</li>
-    <li class="dropdown-header">RStan</li>
+    <li>
+      <a href="Stat-Instrumental-Variable.html">操作変数法</a>
+    </li>
+    <li>
+      <a href="Stat-Regression-Discontinuity-Design.html">回帰不連続デザイン</a>
+    </li>
+    <li>
+      <a href="Stat-PCA.html">主成分分析</a>
+    </li>
+    <li>
+      <a href="Stat-Missing-Value.html">欠測値の取り扱い</a>
+    </li>
+    <li>
+      <a href="RStan.html">RStan</a>
+    </li>
     <li>
       <a href="tidymodels.html">tidymodels</a>
     </li>
@@ -564,6 +582,9 @@ div.tocify {
       <a href="mac-Environment.html">mac環境構築</a>
     </li>
     <li>
+      <a href="mac-Tips.html">macあれこれ</a>
+    </li>
+    <li>
       <a href="Git.html">GitとGitHub</a>
     </li>
   </ul>
@@ -590,7 +611,6 @@ div.tocify {
 </div>
 
 
-<p><a href="https://qiita.com/tanuk1647/items/cad362af79f528a5c348">macOSにPython環境を構築する（Python＋Pipenv） - Qiita</a></p>
 <ul>
 <li>pip環境の削除</li>
 <li>condaでのパッケージ管理方法</li>
@@ -613,13 +633,15 @@ div.tocify {
 </ul>
 <div id="年現在のpython状況" class="section level2">
 <h2>2018年現在のPython状況</h2>
-<p><a href="https://ymotongpoo.hatenablog.com/entry/2017/02/02/182647">wheelのありがたさとAnacondaへの要望 - YAMAGUCHI::weblog</a> <a href="https://ymotongpoo.hatenablog.com/entry/2017/01/29/002039">Pythonの仮想環境構築 2017.01版 - YAMAGUCHI::weblog</a></p>
 <ul>
+<li><a href="https://ymotongpoo.hatenablog.com/entry/2017/02/02/182647">wheelのありがたさとAnacondaへの要望 - YAMAGUCHI::weblog</a></li>
+<li><a href="https://ymotongpoo.hatenablog.com/entry/2017/01/29/002039">Pythonの仮想環境構築 2017.01版 - YAMAGUCHI::weblog</a></li>
+<li><p><a href="https://www.m3tech.blog/entry/python-packaging">Pythonのパッケージ周りのベストプラクティスを理解する（2019年現在） - エムスリーテックブログ</a></p></li>
 <li>Python3が主流になりつつあるが、Python2依存のものもまだまだ残っている</li>
 <li>パッケージインストーラは事実上<code>pip</code></li>
 <li>パッケージングツールは<code>wheel</code>になり、以前は<a href="https://www.anaconda.com/">Anaconda</a>を利用しないと面倒だったデータサイエンス系のパッケージである<code>numpy</code>、<code>scipy</code>、<code>scikit-learn</code>なども対応している</li>
 <li>仮想環境はPython3だけなら<code>venv</code>、Python2も使う必要があれば<code>virtual-env</code>も利用すれば良い</li>
-<li>最近は<code>pipenv</code>により<code>pip</code>と<code>virtual-env</code>を組み合わせたようなプロジェクト単位での再現可能性込みのdependency管理ができる</li>
+<li><p>最近は<code>pipenv</code>により<code>pip</code>と<code>virtual-env</code>を組み合わせたようなプロジェクト単位での再現可能性込みのdependency管理ができる</p></li>
 </ul>
 <div id="anacondaについて" class="section level3">
 <h3>Anacondaについて</h3>

@@ -11,7 +11,7 @@
 
 
 
-<title>Importing &amp; Cleaning Data with R</title>
+<title>欠測値の取り扱い</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -606,115 +606,71 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Importing &amp; Cleaning Data with R</h1>
+<h1 class="title toc-ignore">欠測値の取り扱い</h1>
 
 </div>
 
 
-<p><a href="https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf">Data Import Cheat Sheet</a></p>
+<div id="欠測データ欠測値補完" class="section level2">
+<h2>欠測データ・欠測値補完</h2>
 <ul>
-<li>readrでの読み込み</li>
-<li>excelも一応</li>
-<li>google spreadsheet, form</li>
-<li>データベースやAPIからの取得は別で</li>
-<li>データクリーニング実例もここに入れてしまうか
-<ul>
-<li><a href="https://datumstudio.jp/blog/r%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E3%82%AF%E3%83%AC%E3%83%B3%E3%82%B8%E3%83%B3%E3%82%B0">Rでデータクレンジング | DATUM STUDIO株式会社</a></li>
-<li><a href="https://heavywatal.github.io/slides/esj65/">ESJ65-W07 それもRにやらせよう — 整然データの下ごしらえ</a></li>
-</ul></li>
-<li>DataCampで実習あればそれもこちら？</li>
-<li><a href="https://keachmurakami.github.io/page/2016/04/30/r%E3%81%A7dropbox%E3%81%8B%E3%82%89%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80-r/">RでDropboxからファイルを読み込む</a></li>
+<li><a href="https://www.kyoritsu-pub.co.jp/bookdetail/9784320112568">欠測データ処理 ―Rによる単一代入法と多重代入法― / 高橋 将宜　渡辺 美智子　著 | 共立出版</a></li>
+<li><a href="http://r-statistics.co/Missing-Value-Treatment-With-R.html">Missing Value Treatment</a></li>
 </ul>
-<div id="rでのデータファイルの種類" class="section level2">
-<h2>Rでのデータファイルの種類</h2>
-<p>R言語ではデータを格納する独自形式として、「.RDS」と「.RData」の2つがあり、</p>
-<table>
-<thead>
-<tr class="header">
-<th>形式</th>
-<th>格納オブジェクト</th>
-<th>特徴</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>.RDS</td>
-<td>1個のRオブジェクトを格納</td>
-<td>再現性の高いコードを書くには推奨される。読み込み時にオブジェクト名を指定できる/しなくてはいけない</td>
-</tr>
-<tr class="even">
-<td>.RData</td>
-<td>複数のRオブジェクトを格納</td>
-<td>読み込みなどは楽だが、中身が何なのかわかりにくく、格納しているオブジェクトの名前を忘れると面倒。</td>
-</tr>
-</tbody>
-</table>
-<p>という特徴がある。RStudioの本では「<code>.RDS</code>」の使用が推奨されている。「<code>.RData</code>」が自動で保存されないようにaliasや<a href="RStudio.html">RStudio</a>を設定しておく。</p>
-<p>Rファイルとして保存することで、ファイルが自動で圧縮され、R関連のメタデータがオブジェクトとともに保存されることになる。特にデータがファクタ、日付・時刻情報、クラス属性などを持つ場合に有効。</p>
-<div id="base関数からreadrへ" class="section level3">
-<h3><code>base</code>関数から<code>readr</code>へ</h3>
-<p><code>saveRDS</code>、<code>readRDS</code>の代わりにreadrの関数を使用する方針に。</p>
-<pre class="r"><code>readr::read_rds(path)
-readr::write_rds(x, path, compress = c(&quot;none&quot;, &quot;gz&quot;, &quot;bz2&quot;, &quot;xz&quot;), ...)</code></pre>
-</div>
-<div id="rdsファイルの書き込み" class="section level3">
-<h3>「.RDS」ファイルの書き込み</h3>
-<p>書き込み（保存）は<del>「<code>saveRDS</code>」</del>「<code>readr::write_rds</code>」を使用する。ディスクスペースの問題が以前より少ないため、デフォルトでは圧縮しないようになっている。 オブジェクト「x」を「data」フォルダ内の「x.rds」に保存したければ以下のように記載（混乱を避けるためにオブジェクト名とファイル名は一致させておく方が良さそう）</p>
-<pre class="r"><code>readr::write_rds(x, &quot;data/x.rds&quot;)</code></pre>
-</div>
-<div id="rdsファイルの読み込み" class="section level3">
-<h3>「.RDS」ファイルの読み込み</h3>
-<p>読み込みは<del>「<code>readRDS</code>」</del>「<code>readr::read_rds</code>」を使用する。</p>
-<pre class="r"><code>poker &lt;- readr::read_rds(&quot;pocker.RDS&quot;)</code></pre>
-<p>オブジェクトをロードする時に名前をつけるため、たまたま同じ名前をつけていたRオブジェクトを上書きする心配もない。</p>
-</div>
-</div>
-<div id="readrによる読み込み" class="section level2">
-<h2><code>readr</code>による読み込み</h2>
-</div>
-<div id="excelファイルの処理" class="section level2">
-<h2>Excelファイルの処理</h2>
-<p>R言語でexcelファイルを読み込むためのパッケージ。tidyverseの一部のため原則としてこれを用いる。 <a href="https://github.com/tidyverse/readxl" class="uri">https://github.com/tidyverse/readxl</a> readxl 1.0の解説 <a href="http://uribo.hatenablog.com/entry/2017/05/04/122524" class="uri">http://uribo.hatenablog.com/entry/2017/05/04/122524</a> col_namesとかcol_typesの指定はreadrと同じ。 <a href="https://heavywatal.github.io/rstats/readr.html" class="uri">https://heavywatal.github.io/rstats/readr.html</a></p>
-<p>ではなさそう <a href="https://readxl.tidyverse.org/articles/cell-and-column-types.html">Cell and Column Types • readxl</a></p>
-<p>tidyverseをインストールしてあれば同時にインストールされている。</p>
-<pre><code>readxl::read_excel(path, sheet=1, col_names=TRUE, col_types=NULL, na=&#39;&#39;, skip=0)</code></pre>
+<p>単純に欠損値を除去するのではなく、欠損値が生じている背景や欠損値の種類を踏まえた上での対応方法。</p>
+<p>Rでの欠損値の取り扱い：NAなどの取り扱い方法は<a href="R-Tips.html">こちら</a>に。</p>
+<p>Rで利用できる多重代入法の主なパッケージとしてはmiceとAmeliaがある。多重代入法で作ったデータセットを解析に投げる方法が少し限られそう。</p>
 <ul>
-<li>read_excel()でxlsもxlsxも読み込める（拡張子で判断）</li>
-<li>excel_sheets()でシート名を表示できる</li>
-<li>read_excel()で読み込む時のシート指定はsheet引数で
-<ul>
-<li>sheet = “シート名”</li>
-<li>sheet = シート番号</li>
-</ul></li>
-<li>読み込むセルの範囲を指定する方法は様々で、excel的な表現も可能
-<ul>
-<li>n_max = 3
-<ul>
-<li>ヘッダ行がある場合はそれを除いた行数で</li>
-</ul></li>
-<li>range = “C1:E4”</li>
-<li>range = cell_rows(1:4)</li>
-<li>range = cell_cols(“B:D”)</li>
-<li>range = “mtcars!B1:D5”</li>
-<li>skipもある</li>
-</ul></li>
-<li>空白セルが<NA>として扱われる。他を指定するならna = “文字列”</li>
-<li>列（変数）の名前とタイプはデフォルトでは自動的に決まる。col_namesとcol_typesで指定もできる</li>
-<li>tibbleとして読み込まれる</li>
-<li>JavaとかPerlのような外部ライブラリ不要</li>
-<li>non-ASCIIはUTF-8にエンコードされる タイプの自動推定がうまくいかない場合</li>
+<li><a href="http://jojoshin.hatenablog.com/entry/2017/02/03/220118">R 欠損値の対応（missing value treatment） - 統計学と疫学と時々、助教生活</a></li>
+<li><a href="https://techblog.nhn-techorus.com/archives/6309">Rで実践！欠損データ分析入門【1】 | NHN テコラス Tech Blog | AWS、機械学習、IoTなどの技術ブログ</a></li>
+<li><a href="https://techblog.nhn-techorus.com/archives/6573">Rで実践！欠損データ分析入門【2】 | NHN テコラス Tech Blog | AWS、機械学習、IoTなどの技術ブログ</a></li>
+<li><a href="https://rpubs.com/kaz_yos/mice-amelia">RPubs - R in Action: Chapter 15 Advanced methods for missing data</a></li>
+<li><a href="https://tam07pb915.wordpress.com/2016/01/01/r-mi_amelia/">Rで多重代入法：Ameliaパッケージ | 英語教育0.2</a></li>
+<li><a href="https://stat.ethz.ch/~maechler/adv_topics_compstat/MissingData_Imputation.html">https://stat.ethz.ch/~maechler/adv_topics_compstat/MissingData_Imputation.html</a></li>
+<li><a href="http://cogpsy.educ.kyoto-u.ac.jp/personal/Kusumi/datasem17.htm">cogpsy.educ.kyoto-u.ac.jp/personal/Kusumi/datasem17.htm</a></li>
+<li><a href="https://home.hiroshima-u.ac.jp/~wakaki/lecture/probstattopicB12/slide.pdf">slide.pdf</a></li>
 </ul>
+<p><a href="http://www.stat.go.jp/training/2kenkyu/ihou/71/pdf/2-2-713.pdf">様々な多重代入法アルゴリズムの比較～大規模経済系データを用いた分析～</a></p>
+<p><a href="https://epub.ub.uni-muenchen.de/28835/1/MA_Jagdhuber.pdf">MA_Jagdhuber.pdf</a></p>
+<p><a href="http://thestatsgeek.com/2016/03/12/combining-bootstrapping-with-multiple-imputation/">Combining bootstrapping with multiple imputation – The Stats Geek</a></p>
+<div id="実際の論文での報告に際して" class="section level3">
+<h3>実際の論文での報告に際して</h3>
+<p><a href="https://www.slideshare.net/koichirogibo/ss-32418161">多重代入法の書き方 公開用</a>より</p>
+<p><img src="img/Stat-MI-report.jpg" /><!-- --></p>
+<p>hmiscパッケージの一部でも？ <a href="https://cran.r-project.org/web/packages/Hmisc/index.html">CRAN - Package Hmisc</a> <a href="http://biostat.mc.vanderbilt.edu/wiki/Main/Hmisc">Hmisc &lt; Main &lt; Vanderbilt Biostatistics Wiki</a> <a href="https://www.rdocumentation.org/packages/Hmisc/versions/4.1-1/topics/aregImpute">aregImpute function | R Documentation</a></p>
+<p>MCARかどうかの検証にLittleのMCARテスト（<a href="https://cran.r-project.org/web/packages/BaylorEdPsych/index.html">BaylorEdPsych</a>パッケージ、ちょっと古い） <a href="https://www.tandfonline.com/doi/abs/10.1080/01621459.1988.10478722">A Test of Missing Completely at Random for Multivariate Data with Missing Values: Journal of the American Statistical Association: Vol 83, No 404</a> <a href="https://www.rdocumentation.org/packages/BaylorEdPsych/versions/0.5/topics/LittleMCAR">LittleMCAR function | R Documentation</a></p>
+<p><a href="https://stats.stackexchange.com/questions/105233/interpretation-of-littles-mcar-test/105238">hypothesis testing - Interpretation of Little’s MCAR test - Cross Validated</a></p>
 </div>
-<div id="google-spreadsheet" class="section level2">
-<h2>Google Spreadsheet</h2>
-<p><a href="https://cran.r-project.org/web/packages/googlesheets/vignettes/basic-usage.html">googlesheets Basic Usage</a></p>
-<p>R言語でGoogle Spreadsheetと連携する方法あれこれ。 <a href="https://speakerdeck.com/jennybc/googlesheets-talk-at-user2015" class="uri">https://speakerdeck.com/jennybc/googlesheets-talk-at-user2015</a> <a href="http://hacknote.jp/archives/10712/" class="uri">http://hacknote.jp/archives/10712/</a> <a href="http://qiita.com/uri/items/2e108d6fcbd80ef58444" class="uri">http://qiita.com/uri/items/2e108d6fcbd80ef58444</a> <a href="https://github.com/jennybc/googlesheets" class="uri">https://github.com/jennybc/googlesheets</a></p>
 </div>
-<div id="google-forms" class="section level2">
-<h2>Google Forms</h2>
+<div id="miceパッケージ" class="section level2">
+<h2>miceパッケージ</h2>
+<p>Rでの欠損データ解析のための多重代入法の一つであるmultiple imputation by chain equation; MICEを提供してくれるパッケージ。オランダのユトレヒト大学の Stef van Buuren (2012)を中心としたチームにより開発された。完全条件付き指定（FCSS: Fully Conditional Specification）連鎖方程式（Chained Equations）</p>
+<ul>
+<li>各々の不完全な変数に対して補定モデルを構築</li>
+<li>周辺分布を利用して、単純無作為抽出を行う</li>
+<li>条件付で指定した補定モデルを使用して、補定を繰り返す</li>
+</ul>
+<p><a href="https://www.pediatricsurgery.site/entry/2016/11/20/233217">欠損値の種類と補完とRでのワークフロー - Note of Pediatric Surgery</a></p>
+<p><a href="https://datascienceplus.com/handling-missing-data-with-mice-package-a-simple-approach/">Handling missing data with MICE package; a simple approach | DataScience+</a> <a href="https://datascienceplus.com/imputing-missing-data-with-r-mice-package/">Imputing Missing Data with R; MICE package | DataScience+</a></p>
+<pre class="r"><code>imp &lt;- mice(data, m = 数字, seed = 数字, meth = &quot;norm&quot;)</code></pre>
+<p>上記で生成した補定済データは imp の名称で保存されており、with 関数を用いて回帰分析を行うことができる。統合後の結果を見るには、pool 関数を用いる。methには多くの補定モデルが準備されている。</p>
+<pre class="r"><code>fit &lt;- with(imp, lm(変数 1~変数 2+変数 3))
+summary(pool(fit))</code></pre>
+<div id="miceによる擬似完全データmidsクラスオブジェクトの扱い" class="section level3">
+<h3>miceによる擬似完全データ（midsクラスオブジェクト）の扱い</h3>
+<p>glm.midsは教科書などでは広く使われているが、現在は後方互換のために残されているだけで、「<a href="https://www.rdocumentation.org/packages/mice/versions/2.46.0/topics/with.mids">with.mids</a>」を利用すれば任意の式を当てはめることができる。</p>
 </div>
-<div id="データクレンジング実習" class="section level2">
-<h2>データクレンジング実習</h2>
+</div>
+<div id="ameliaパッケージ" class="section level2">
+<h2>Ameliaパッケージ</h2>
+<p>Rでの欠損データ解析に用いるパッケージ。EMBアルゴリズムを用いている。miceに比べて早いらしい。 Expectation-Maximization with Bootstrapping。伝統的な期待値最大化法(EM: Expectation-Maximization)にノン パラメトリック・ブートストラップ法を応用したものらしい(Honaker and King, 2010)。</p>
+<ul>
+<li>伝統的な期待値最大化法(EM: ExpectationMaximization)</li>
+<li>ノンパラメトリック・ブートストラップ</li>
+</ul>
+<p><a href="https://cran.r-project.org/web/packages/Amelia/">CRAN - Package Amelia</a> <a href="https://tam07pb915.wordpress.com/2016/01/01/r-mi_amelia/">Rで多重代入法：Ameliaパッケージ | 英語教育0.2</a></p>
+<p>Ameliaを用いて欠損値対応を行なった場合、その解析にはZeligパッケージを用いることになりそう。</p>
+<p><a href="https://stats.stackexchange.com/questions/117605/lmer-with-multiply-imputed-data">r - lmer with multiply imputed data - Cross Validated</a></p>
 </div>
 
 <footer>

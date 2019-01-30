@@ -410,7 +410,9 @@ div.tocify {
     <li>
       <a href="scraping.html">スクレイピング(rvest)</a>
     </li>
-    <li class="dropdown-header">データベース（NDBとか色々）</li>
+    <li>
+      <a href="dataset.html">データベース（NDBとか色々）</a>
+    </li>
     <li>
       <a href="baseR.html">base関数メモ</a>
     </li>
@@ -471,10 +473,26 @@ div.tocify {
     </li>
     <li class="dropdown-header">lm, glm</li>
     <li>
+      <a href="Stat-Multilevel-Model.html">マルチレベル分析</a>
+    </li>
+    <li>
       <a href="Stat-GLMM.html">GLMM（一般化線形混合モデル）</a>
     </li>
-    <li class="dropdown-header">主成分分析</li>
-    <li class="dropdown-header">RStan</li>
+    <li>
+      <a href="Stat-Instrumental-Variable.html">操作変数法</a>
+    </li>
+    <li>
+      <a href="Stat-Regression-Discontinuity-Design.html">回帰不連続デザイン</a>
+    </li>
+    <li>
+      <a href="Stat-PCA.html">主成分分析</a>
+    </li>
+    <li>
+      <a href="Stat-Missing-Value.html">欠測値の取り扱い</a>
+    </li>
+    <li>
+      <a href="RStan.html">RStan</a>
+    </li>
     <li>
       <a href="tidymodels.html">tidymodels</a>
     </li>
@@ -564,6 +582,9 @@ div.tocify {
       <a href="mac-Environment.html">mac環境構築</a>
     </li>
     <li>
+      <a href="mac-Tips.html">macあれこれ</a>
+    </li>
+    <li>
       <a href="Git.html">GitとGitHub</a>
     </li>
   </ul>
@@ -593,37 +614,57 @@ div.tocify {
 <ul>
 <li><a href="https://qiita.com/hoxo_m/like">hoxo_mがいいねした記事 - Qiita</a></li>
 <li><a href="https://github.com/yuifu/ajacs68">yuifu/ajacs68: Materials for tutorial at ajacs68 (Japanese)</a></li>
-<li><a href="https://qiita.com/renwood_aoba/items/977229fda4cbd8cfc02a">R歴1ヶ月の俺がtidyverseを使ってNDBオープンデータから尿蛋白検査の地域差を検証してみた件について #1 - Qiita</a></li>
-<li><a href="https://www.mhlw.go.jp/content/12400000/000346720.pdf">Microsoft Word - 第３回ＮＤＢオープンデータ解説編（①前編）.docx</a></li>
 <li><a href="https://www.slideshare.net/YoshihikoKunisato/r-74207682">臨床心理学におけるR入門: データハンドリングから統計解析まで</a></li>
-<li><a href="http://id.fnshr.info/2018/04/23/r-data-cleaning-school/">Rによるデータクリーニング実践――政府統計からのグラフ作成を例として｜Colorless Green Ideas</a></li>
-<li><a href="https://notchained.hatenablog.com/entry/2015/11/01/084909">e-Stat APIをRから使うパッケージを作りました - Technically, technophobic.</a></li>
-<li><p><a href="http://doratex.hatenablog.jp/entry/20180503/1525338512">Overleaf v2 で日本語を使用する方法 - TeX Alchemist Online</a></p></li>
-<li><p><a href="https://speakerdeck.com/kilometer">Presentations by kilometer - Speaker Deck</a></p></li>
-<li><p><a href="http://r-beginner.hatenadiary.jp/entry/2018/06/23/155503">ggplot2で臨床経過図を、簡単に作成する - Ｒ言語による電子カルテデータの二次利用</a></p></li>
+<li><a href="http://doratex.hatenablog.jp/entry/20180503/1525338512">Overleaf v2 で日本語を使用する方法 - TeX Alchemist Online</a></li>
+<li><a href="https://speakerdeck.com/kilometer">Presentations by kilometer - Speaker Deck</a></li>
+<li><a href="http://r-beginner.hatenadiary.jp/entry/2018/06/23/155503">ggplot2で臨床経過図を、簡単に作成する - Ｒ言語による電子カルテデータの二次利用</a></li>
 </ul>
+<div id="ダイアグラム" class="section level2">
+<h2>ダイアグラム</h2>
+<ul>
+<li><a href="https://qiita.com/babayoshihiko/items/1feec876352c5870260a">Graphviz で CONSORT 的な RCT 用 flowchart 作成 - Qiita</a></li>
+<li><a href="http://r-beginner.hatenadiary.jp/entry/2018/03/11/081150">DiagrammeR　〜RでGraphvizを使う~ - Ｒ言語による電子カルテデータの二次利用</a></li>
+</ul>
+</div>
+<div id="機械学習" class="section level2">
+<h2>機械学習</h2>
+<ul>
+<li><a href="https://github.com/christophM/interpretable-ml-book">christophM/interpretable-ml-book: Book about interpretable machine learning</a></li>
+<li><a href="https://qiita.com/yoyoyo_/items/2ef53f47f87dcf5d1e14">画像処理100本ノックを作ったった - Qiita</a></li>
+</ul>
+</div>
 <div id="並列化" class="section level2">
 <h2>並列化</h2>
 <ul>
 <li><a href="https://qiita.com/hoxo_m/items/04903cbbe9d023f0ed6d">【超訳】foreach パッケージの使い方 #rstatsj - Qiita</a></li>
 </ul>
 </div>
-<div id="欠測データ処理" class="section level2">
-<h2>欠測データ処理</h2>
-<ul>
-<li><a href="https://www.kyoritsu-pub.co.jp/bookdetail/9784320112568">欠測データ処理 ―Rによる単一代入法と多重代入法― / 高橋 将宜　渡辺 美智子　著 | 共立出版</a></li>
-</ul>
-</div>
 <div id="統計" class="section level2">
 <h2>統計</h2>
 <ul>
-<li><a href="https://genkuroki.github.io/">黒木玄のウェブサイト</a></li>
-<li><a href="https://togetter.com/li/1213644">黒木玄先生の統計の話（など） - Togetter</a></li>
+<li><a href="http://norimune.net/2740">心理学者のためのベイズ統計入門 | Sunny side up!</a></li>
+<li><p><a href="https://mjin.doshisha.ac.jp/R/">JIN’S PAGE</a></p></li>
 <li><a href="http://watanabe-www.math.dis.titech.ac.jp/users/swatanab/joho05.pdf">Mathematical Foundation of Statistical Learning</a></li>
 <li><a href="http://www-bcf.usc.edu/~gareth/ISL/">Introduction to Statistical Learning</a></li>
 <li><a href="https://web.stanford.edu/~hastie/CASI/">Computer Age Statistical Inference: Algorithms, Evidence and Data Science</a></li>
-<li><a href="https://web.stanford.edu/~hastie/StatLearnSparsity/">Statistical Learning with Sparsity: the Lasso and Generalizations</a></li>
+<li><p><a href="https://web.stanford.edu/~hastie/StatLearnSparsity/">Statistical Learning with Sparsity: the Lasso and Generalizations</a></p></li>
 </ul>
+<div id="数学的に" class="section level3">
+<h3>数学的に……</h3>
+<ul>
+<li><a href="https://genkuroki.github.io/">黒木玄のウェブサイト</a></li>
+<li><a href="https://togetter.com/li/1213644">黒木玄先生の統計の話（など） - Togetter</a></li>
+<li><a href="https://nbviewer.jupyter.org/gist/genkuroki/">Jupyter Notebook Viewer</a></li>
+<li><a href="https://nbviewer.jupyter.org/gist/genkuroki/d688c6e5e8c427dba9856d37a12bbee1">混合正規分布モデルと正規分布モデルの各種情報量規準の比較</a></li>
+<li><a href="https://twitter.com/genkuroki/status/1081065881889730561">黒木玄 Gen Kurokiさんのツイート: “例えば、多くの教科書に、2×2の分割表の独立性検定(よく使われる標準的な道具)について、 Fisherの正確確率検定はp値を正確に計算できる。(Pearsonの)カイ二乗検定はその近似に過ぎない。両方使えるなら前者を使うべきである。 のように書いてあります。しかし、これは単純に誤り。#統計”</a></li>
+<li><a href="https://twitter.com/genkuroki/status/1079522710781276160">黒木玄 Gen Kurokiさんのツイート: “#数楽 真の分布q(y)を最もよくシミュレートするp(y|w)型の分布の例について これは正確には、KL情報量D(w)=∫q(y) log(q(y)/p(y|w)) dyを最小にするw=w₀に対するp(y|w₀)のことです。 KL情報量がこういう意味を持つという結果はSanovの定理と呼ばれています。 https://t.co/uzZ6l8t902”</a></li>
+<li><a href="https://twitter.com/genkuroki/status/1079497388165783552">黒木玄 Gen Kurokiさんのツイート: “https://t.co/wDYCFLrd9h を読みました。 そこで引用されている https://t.co/raWipVBSzj から始まるスレッドの重要なキーワードは【未知の確率分布の推定】です。i.i.d.を仮定しない一般的な場合には、確率的法則の推定と言った方がよいかもしれません。続く… https://t.co/sLsrTfbkpO”</a></li>
+<li><a href="https://twitter.com/genkuroki/status/1087287538996281345?s=12">黒木玄 Gen Kurokiさんのツイート: “統計学のための数学的素養としては、 * 大数の(弱)法則 * 中心極限定理 * Kullback-Leibler情報量に関するSanovの定理 あたりが基本的なのですが、私が書いた(謙遜ではなくあまりよくなさそうな)解説が以下の場所にあります。 https://t.co/taC7B39G3k https://t.co/wSDIgaOAqf… https://t.co/cJh7Kink4C”</a></li>
+<li><p><a href="https://twitter.com/genkuroki/status/971402131407126529">黒木玄 Gen Kurokiさんのツイート: “#統計 赤池さんの1980年の論説は次の場所で読めます。 https://t.co/YRhnSOzAll 統計的推論のパラダイムの変遷について(1980) 赤池弘次 こういう話を学生時代に聴きたかった。あと次も面白い。 https://t.co/0XWLnhwq6V”</a></p></li>
+<li><a href="http://abrahamcow.hatenablog.com/entry/2019/01/03/201210">Juliaで最尤推定：ポアソン回帰を例に - 廿TT</a></li>
+<li><p><a href="http://www.jezzamon.com/fourier/index.html">Fourier Transforms</a>：フーリエ変換のアニメーション</p></li>
+</ul>
+</div>
 </div>
 <div id="fzf" class="section level2">
 <h2>fzf</h2>

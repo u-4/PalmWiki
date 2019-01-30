@@ -410,7 +410,9 @@ div.tocify {
     <li>
       <a href="scraping.html">スクレイピング(rvest)</a>
     </li>
-    <li class="dropdown-header">データベース（NDBとか色々）</li>
+    <li>
+      <a href="dataset.html">データベース（NDBとか色々）</a>
+    </li>
     <li>
       <a href="baseR.html">base関数メモ</a>
     </li>
@@ -471,10 +473,26 @@ div.tocify {
     </li>
     <li class="dropdown-header">lm, glm</li>
     <li>
+      <a href="Stat-Multilevel-Model.html">マルチレベル分析</a>
+    </li>
+    <li>
       <a href="Stat-GLMM.html">GLMM（一般化線形混合モデル）</a>
     </li>
-    <li class="dropdown-header">主成分分析</li>
-    <li class="dropdown-header">RStan</li>
+    <li>
+      <a href="Stat-Instrumental-Variable.html">操作変数法</a>
+    </li>
+    <li>
+      <a href="Stat-Regression-Discontinuity-Design.html">回帰不連続デザイン</a>
+    </li>
+    <li>
+      <a href="Stat-PCA.html">主成分分析</a>
+    </li>
+    <li>
+      <a href="Stat-Missing-Value.html">欠測値の取り扱い</a>
+    </li>
+    <li>
+      <a href="RStan.html">RStan</a>
+    </li>
     <li>
       <a href="tidymodels.html">tidymodels</a>
     </li>
@@ -564,6 +582,9 @@ div.tocify {
       <a href="mac-Environment.html">mac環境構築</a>
     </li>
     <li>
+      <a href="mac-Tips.html">macあれこれ</a>
+    </li>
+    <li>
       <a href="Git.html">GitとGitHub</a>
     </li>
   </ul>
@@ -590,6 +611,14 @@ div.tocify {
 </div>
 
 
+<div id="rでの欠測値の扱い" class="section level2">
+<h2>Rでの欠測値の扱い</h2>
+<p><code>NA</code>は伝染するという厄介な面もある。臨床データの取り扱い上は避けて通れないためまとめていく。「欠損値でない」を表す時は「<code>!</code>」と「<code>is.na(x)</code>」を用いると便利そう。</p>
+<p>Rの非数値の取り扱い方,<code>NULL</code>, <code>NA</code>, <code>NaN</code>, <code>Inf</code>の除外と置換 <a href="https://stats.biopapyrus.jp/r/basic/nan.html" class="uri">https://stats.biopapyrus.jp/r/basic/nan.html</a></p>
+<p>一部の関数（全ての集約関数）には「<code>na.rm</code>」オプションがあり、欠損値<code>NA</code>を取り除いた上で処理してくれる。設定時は「<code>na.rm = TRUE</code>」で。 ダメな場合は「<code>y &lt;- x[!is.na(x)</code>」とするなど。またデータフレームに関しては「<code>na.omit</code>」という欠損値を含む行を除去する関数もある。→今時の的にはtidyrで「<code>drop_na</code>」とか「<code>replace_na</code>」を用いる？</p>
+<p>tidyrで使える欠損値関連操作関数 <a href="https://qiita.com/kazutan/items/ab81958994426e67e017#drop_na-replace_na-fill" class="uri">https://qiita.com/kazutan/items/ab81958994426e67e017#drop_na-replace_na-fill</a></p>
+<p>dplyrで特定の列（変数）が<code>NA</code>である行を取り出す/除くなら<code>filter(d, is.na(x))</code>や<code>filter(d, !is.na(x))</code>が使いやすい。</p>
+</div>
 <div id="不要なrオブジェクトを削除する" class="section level2">
 <h2>不要なRオブジェクトを削除する</h2>
 <p><code>rm()</code>ないし<code>remove()</code>でオブジェクトを指定する。オブジェクト1つを直接指定するなら<code>rm(x)</code>で、複数指定するなら<code>list = c("x", "y")</code>。<code>c(x, y)</code>だと<code>x</code>と<code>y</code>をくっつけたベクトルになるので注意。</p>

@@ -410,7 +410,9 @@ div.tocify {
     <li>
       <a href="scraping.html">スクレイピング(rvest)</a>
     </li>
-    <li class="dropdown-header">データベース（NDBとか色々）</li>
+    <li>
+      <a href="dataset.html">データベース（NDBとか色々）</a>
+    </li>
     <li>
       <a href="baseR.html">base関数メモ</a>
     </li>
@@ -471,10 +473,26 @@ div.tocify {
     </li>
     <li class="dropdown-header">lm, glm</li>
     <li>
+      <a href="Stat-Multilevel-Model.html">マルチレベル分析</a>
+    </li>
+    <li>
       <a href="Stat-GLMM.html">GLMM（一般化線形混合モデル）</a>
     </li>
-    <li class="dropdown-header">主成分分析</li>
-    <li class="dropdown-header">RStan</li>
+    <li>
+      <a href="Stat-Instrumental-Variable.html">操作変数法</a>
+    </li>
+    <li>
+      <a href="Stat-Regression-Discontinuity-Design.html">回帰不連続デザイン</a>
+    </li>
+    <li>
+      <a href="Stat-PCA.html">主成分分析</a>
+    </li>
+    <li>
+      <a href="Stat-Missing-Value.html">欠測値の取り扱い</a>
+    </li>
+    <li>
+      <a href="RStan.html">RStan</a>
+    </li>
     <li>
       <a href="tidymodels.html">tidymodels</a>
     </li>
@@ -564,6 +582,9 @@ div.tocify {
       <a href="mac-Environment.html">mac環境構築</a>
     </li>
     <li>
+      <a href="mac-Tips.html">macあれこれ</a>
+    </li>
+    <li>
       <a href="Git.html">GitとGitHub</a>
     </li>
   </ul>
@@ -596,6 +617,31 @@ div.tocify {
 <li>一括読み込みとかは簡単に（設定などで記述済み）</li>
 <li>packrat使い方整理</li>
 </ul>
+<div id="パッケージのアップデートトラブル" class="section level2">
+<h2>パッケージのアップデートトラブル</h2>
+<p>バイナリでアップデートする時は問題が生じたことはないが、ソースからビルドすることを選択した場合に遭遇したエラーの解決方法。macOSのリンク？の問題と、自分で設定した<code>.Rprofile</code>での<code>requireNamespace</code>による<code>unloadNamespace</code>エラーの2点。</p>
+<div id="ld-warning-text-based-stub-file" class="section level3">
+<h3>ld: warning: text-based stub file …</h3>
+<p>ソースからパッケージをコンパイルする最後の方で</p>
+<pre><code>ld: warning: text-based stub file /System/Library/Frameworks//CoreFoundation.framework/CoreFoundation.tbd and library file /System/Library/Frameworks//CoreFoundation.framework/CoreFoundation are out of sync.</code></pre>
+<p>のようなライブラリのリンクエラーが表示されて失敗する。macOS特有のようで、Xcodeコマンドラインツールの再インストールで治るとしている記事もあるが、自分の環境ではうまくいかなかったために強制リンクで解決した。</p>
+<p><a href="https://stackoverflow.com/questions/51314888/ld-warning-text-based-stub-file-are-out-of-sync-falling-back-to-library-file">r - ld: warning: text-based stub file are out of sync. Falling back to library file for linking - Stack Overflow</a></p>
+<pre class="bash"><code>sudo ln -s  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreFoundation.framework /Library/Frameworks/CoreFoundation.framework</code></pre>
+</div>
+<div id="unloadnamespaceエラー" class="section level3">
+<h3><code>unloadNamespace</code>エラー</h3>
+<pre><code>Error in unloadNamespace(pkg_name) : 
+  namespace ‘purrr’ is imported by ‘tidyselect’ so cannot be unloaded</code></pre>
+<p>上記のライブラリエラーが解決できたと思ったら今度はインストールに失敗。自分の<a href="R-Environment.html">設定</a>だと通常時は<code>.Rprofle</code>で<code>tidyverse</code>などいくつかのパッケージを読み込むようにしているため、そのままだとこれらに関しては<code>unloadNamespace</code>エラーが出ることはわかっていた。<code>"NO_ADDITIONAL_PACKAGES"</code>を設定しておけば（プロジェクト<code>.Rprofile</code>などで）この処理を飛ばすようにしているため、これをオンにしたがなぜかエラーが続く。結局<code>.Rprofile</code>中の<code>ggplot</code>関連の設定で<code>requireNamespace("ggplot2", quietly=TRUE)</code>でインストールの有無を判定していたため、ここでtidyverse関連のNamespaceが読み込まれていた模様。この条件の前に条件を追加してやることで解決した。</p>
+<pre class="r"><code>if (is.na(Sys.getenv(&quot;NO_ADDITIONAL_PACKAGES&quot;, unset = NA)) &amp;&amp; (requireNamespace(&quot;ggplot2&quot;, quietly = TRUE)))
+    ## ggplot2でのフォント設定
+  ggplot2::theme_set(ggplot2::theme_bw(base_family=&quot;sans&quot;))
+  ## ggplot2の色設定
+  options(ggplot2.continuous.colour = &quot;viridis&quot;,
+          ggplot2.continuous.fill = &quot;viridis&quot;)
+}</code></pre>
+</div>
+</div>
 <div id="パッケージのインストールとロード" class="section level2">
 <h2>パッケージのインストールとロード</h2>
 </div>

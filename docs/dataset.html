@@ -11,7 +11,7 @@
 
 
 
-<title>Importing &amp; Cleaning Data with R</title>
+<title>データセット</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -606,115 +606,28 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Importing &amp; Cleaning Data with R</h1>
+<h1 class="title toc-ignore">データセット</h1>
 
 </div>
 
 
-<p><a href="https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf">Data Import Cheat Sheet</a></p>
+<p>パッケージ内のデータセットから外部データベースまで取得とか特徴とか実習とか。</p>
+<div id="e-stat" class="section level3">
+<h3>e-Stat</h3>
 <ul>
-<li>readrでの読み込み</li>
-<li>excelも一応</li>
-<li>google spreadsheet, form</li>
-<li>データベースやAPIからの取得は別で</li>
-<li>データクリーニング実例もここに入れてしまうか
-<ul>
-<li><a href="https://datumstudio.jp/blog/r%E3%81%A7%E3%83%87%E3%83%BC%E3%82%BF%E3%82%AF%E3%83%AC%E3%83%B3%E3%82%B8%E3%83%B3%E3%82%B0">Rでデータクレンジング | DATUM STUDIO株式会社</a></li>
-<li><a href="https://heavywatal.github.io/slides/esj65/">ESJ65-W07 それもRにやらせよう — 整然データの下ごしらえ</a></li>
-</ul></li>
-<li>DataCampで実習あればそれもこちら？</li>
-<li><a href="https://keachmurakami.github.io/page/2016/04/30/r%E3%81%A7dropbox%E3%81%8B%E3%82%89%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E3%82%92%E8%AA%AD%E3%81%BF%E8%BE%BC%E3%82%80-r/">RでDropboxからファイルを読み込む</a></li>
-</ul>
-<div id="rでのデータファイルの種類" class="section level2">
-<h2>Rでのデータファイルの種類</h2>
-<p>R言語ではデータを格納する独自形式として、「.RDS」と「.RData」の2つがあり、</p>
-<table>
-<thead>
-<tr class="header">
-<th>形式</th>
-<th>格納オブジェクト</th>
-<th>特徴</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>.RDS</td>
-<td>1個のRオブジェクトを格納</td>
-<td>再現性の高いコードを書くには推奨される。読み込み時にオブジェクト名を指定できる/しなくてはいけない</td>
-</tr>
-<tr class="even">
-<td>.RData</td>
-<td>複数のRオブジェクトを格納</td>
-<td>読み込みなどは楽だが、中身が何なのかわかりにくく、格納しているオブジェクトの名前を忘れると面倒。</td>
-</tr>
-</tbody>
-</table>
-<p>という特徴がある。RStudioの本では「<code>.RDS</code>」の使用が推奨されている。「<code>.RData</code>」が自動で保存されないようにaliasや<a href="RStudio.html">RStudio</a>を設定しておく。</p>
-<p>Rファイルとして保存することで、ファイルが自動で圧縮され、R関連のメタデータがオブジェクトとともに保存されることになる。特にデータがファクタ、日付・時刻情報、クラス属性などを持つ場合に有効。</p>
-<div id="base関数からreadrへ" class="section level3">
-<h3><code>base</code>関数から<code>readr</code>へ</h3>
-<p><code>saveRDS</code>、<code>readRDS</code>の代わりにreadrの関数を使用する方針に。</p>
-<pre class="r"><code>readr::read_rds(path)
-readr::write_rds(x, path, compress = c(&quot;none&quot;, &quot;gz&quot;, &quot;bz2&quot;, &quot;xz&quot;), ...)</code></pre>
-</div>
-<div id="rdsファイルの書き込み" class="section level3">
-<h3>「.RDS」ファイルの書き込み</h3>
-<p>書き込み（保存）は<del>「<code>saveRDS</code>」</del>「<code>readr::write_rds</code>」を使用する。ディスクスペースの問題が以前より少ないため、デフォルトでは圧縮しないようになっている。 オブジェクト「x」を「data」フォルダ内の「x.rds」に保存したければ以下のように記載（混乱を避けるためにオブジェクト名とファイル名は一致させておく方が良さそう）</p>
-<pre class="r"><code>readr::write_rds(x, &quot;data/x.rds&quot;)</code></pre>
-</div>
-<div id="rdsファイルの読み込み" class="section level3">
-<h3>「.RDS」ファイルの読み込み</h3>
-<p>読み込みは<del>「<code>readRDS</code>」</del>「<code>readr::read_rds</code>」を使用する。</p>
-<pre class="r"><code>poker &lt;- readr::read_rds(&quot;pocker.RDS&quot;)</code></pre>
-<p>オブジェクトをロードする時に名前をつけるため、たまたま同じ名前をつけていたRオブジェクトを上書きする心配もない。</p>
-</div>
-</div>
-<div id="readrによる読み込み" class="section level2">
-<h2><code>readr</code>による読み込み</h2>
-</div>
-<div id="excelファイルの処理" class="section level2">
-<h2>Excelファイルの処理</h2>
-<p>R言語でexcelファイルを読み込むためのパッケージ。tidyverseの一部のため原則としてこれを用いる。 <a href="https://github.com/tidyverse/readxl" class="uri">https://github.com/tidyverse/readxl</a> readxl 1.0の解説 <a href="http://uribo.hatenablog.com/entry/2017/05/04/122524" class="uri">http://uribo.hatenablog.com/entry/2017/05/04/122524</a> col_namesとかcol_typesの指定はreadrと同じ。 <a href="https://heavywatal.github.io/rstats/readr.html" class="uri">https://heavywatal.github.io/rstats/readr.html</a></p>
-<p>ではなさそう <a href="https://readxl.tidyverse.org/articles/cell-and-column-types.html">Cell and Column Types • readxl</a></p>
-<p>tidyverseをインストールしてあれば同時にインストールされている。</p>
-<pre><code>readxl::read_excel(path, sheet=1, col_names=TRUE, col_types=NULL, na=&#39;&#39;, skip=0)</code></pre>
-<ul>
-<li>read_excel()でxlsもxlsxも読み込める（拡張子で判断）</li>
-<li>excel_sheets()でシート名を表示できる</li>
-<li>read_excel()で読み込む時のシート指定はsheet引数で
-<ul>
-<li>sheet = “シート名”</li>
-<li>sheet = シート番号</li>
-</ul></li>
-<li>読み込むセルの範囲を指定する方法は様々で、excel的な表現も可能
-<ul>
-<li>n_max = 3
-<ul>
-<li>ヘッダ行がある場合はそれを除いた行数で</li>
-</ul></li>
-<li>range = “C1:E4”</li>
-<li>range = cell_rows(1:4)</li>
-<li>range = cell_cols(“B:D”)</li>
-<li>range = “mtcars!B1:D5”</li>
-<li>skipもある</li>
-</ul></li>
-<li>空白セルが<NA>として扱われる。他を指定するならna = “文字列”</li>
-<li>列（変数）の名前とタイプはデフォルトでは自動的に決まる。col_namesとcol_typesで指定もできる</li>
-<li>tibbleとして読み込まれる</li>
-<li>JavaとかPerlのような外部ライブラリ不要</li>
-<li>non-ASCIIはUTF-8にエンコードされる タイプの自動推定がうまくいかない場合</li>
+<li><a href="https://qiita.com/nozma/items/f88f5cc60ab63461deae">Rからe-Stat APIを使う - Qiita</a></li>
+<li><a href="https://qiita.com/kazutan/items/9c0b2dd0f055fde45cda">estatapiパッケージで簡単にe-Statのデータ取得 - Qiita</a></li>
+<li><p><a href="https://notchained.hatenablog.com/entry/2016/07/17/000530">e-Stat APIバージョン2.1をRから使う - Technically, technophobic.</a></p></li>
+<li><a href="http://id.fnshr.info/2018/04/23/r-data-cleaning-school/">Rによるデータクリーニング実践――政府統計からのグラフ作成を例として｜Colorless Green Ideas</a></li>
+<li><p><a href="https://notchained.hatenablog.com/entry/2015/11/01/084909">e-Stat APIをRから使うパッケージを作りました - Technically, technophobic.</a></p></li>
 </ul>
 </div>
-<div id="google-spreadsheet" class="section level2">
-<h2>Google Spreadsheet</h2>
-<p><a href="https://cran.r-project.org/web/packages/googlesheets/vignettes/basic-usage.html">googlesheets Basic Usage</a></p>
-<p>R言語でGoogle Spreadsheetと連携する方法あれこれ。 <a href="https://speakerdeck.com/jennybc/googlesheets-talk-at-user2015" class="uri">https://speakerdeck.com/jennybc/googlesheets-talk-at-user2015</a> <a href="http://hacknote.jp/archives/10712/" class="uri">http://hacknote.jp/archives/10712/</a> <a href="http://qiita.com/uri/items/2e108d6fcbd80ef58444" class="uri">http://qiita.com/uri/items/2e108d6fcbd80ef58444</a> <a href="https://github.com/jennybc/googlesheets" class="uri">https://github.com/jennybc/googlesheets</a></p>
-</div>
-<div id="google-forms" class="section level2">
-<h2>Google Forms</h2>
-</div>
-<div id="データクレンジング実習" class="section level2">
-<h2>データクレンジング実習</h2>
+<div id="ndb" class="section level3">
+<h3>NDB</h3>
+<ul>
+<li><a href="https://qiita.com/renwood_aoba/items/977229fda4cbd8cfc02a">R歴1ヶ月の俺がtidyverseを使ってNDBオープンデータから尿蛋白検査の地域差を検証してみた件について #1 - Qiita</a></li>
+<li><a href="https://www.mhlw.go.jp/content/12400000/000346720.pdf">Microsoft Word - 第３回ＮＤＢオープンデータ解説編（①前編）.docx</a></li>
+</ul>
 </div>
 
 <footer>

@@ -410,7 +410,9 @@ div.tocify {
     <li>
       <a href="scraping.html">スクレイピング(rvest)</a>
     </li>
-    <li class="dropdown-header">データベース（NDBとか色々）</li>
+    <li>
+      <a href="dataset.html">データベース（NDBとか色々）</a>
+    </li>
     <li>
       <a href="baseR.html">base関数メモ</a>
     </li>
@@ -471,10 +473,26 @@ div.tocify {
     </li>
     <li class="dropdown-header">lm, glm</li>
     <li>
+      <a href="Stat-Multilevel-Model.html">マルチレベル分析</a>
+    </li>
+    <li>
       <a href="Stat-GLMM.html">GLMM（一般化線形混合モデル）</a>
     </li>
-    <li class="dropdown-header">主成分分析</li>
-    <li class="dropdown-header">RStan</li>
+    <li>
+      <a href="Stat-Instrumental-Variable.html">操作変数法</a>
+    </li>
+    <li>
+      <a href="Stat-Regression-Discontinuity-Design.html">回帰不連続デザイン</a>
+    </li>
+    <li>
+      <a href="Stat-PCA.html">主成分分析</a>
+    </li>
+    <li>
+      <a href="Stat-Missing-Value.html">欠測値の取り扱い</a>
+    </li>
+    <li>
+      <a href="RStan.html">RStan</a>
+    </li>
     <li>
       <a href="tidymodels.html">tidymodels</a>
     </li>
@@ -564,6 +582,9 @@ div.tocify {
       <a href="mac-Environment.html">mac環境構築</a>
     </li>
     <li>
+      <a href="mac-Tips.html">macあれこれ</a>
+    </li>
+    <li>
       <a href="Git.html">GitとGitHub</a>
     </li>
   </ul>
@@ -591,6 +612,12 @@ div.tocify {
 
 
 <p><a href="https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf">R Markdown Cheat Sheet</a></p>
+<div id="r-markdownからスクリプト抜き出し" class="section level2">
+<h2>R Markdownからスクリプト抜き出し</h2>
+<ul>
+<li><a href="https://qiita.com/kazutan/items/eea17a76d095a9f81768">R Markdownファイルからコード部分だけを抜き出してRファイルに出力 - Qiita</a></li>
+</ul>
+</div>
 <div id="コードチャンクのオプション" class="section level2">
 <h2>コードチャンクのオプション</h2>
 <p>よく使うもの、まとめて変更する方法、具体例</p>
@@ -640,9 +667,9 @@ output:
 </div>
 <div id="日付を更新日に" class="section level3">
 <h3>日付を更新日に</h3>
-<p>yamlに以下を記載する</p>
-<pre class="yaml"><code>---
-  date: &quot;2019-01-21&quot;
+<p>yamlに次のように記載する。<code>date: "`r format(Sys.time(), '%Y-%m-%d')`"</code></p>
+<pre><code>---
+date: &quot;`r format(Sys.time(), &#39;%Y-%m-%d&#39;)`&quot;
 ---</code></pre>
 <ul>
 <li><a href="http://gihyo.jp/admin/serial/01/r-markdown/0004?page=2">第4回　レポつく自由自在 ～R Markdownにまつわるエトセトラ～：R Markdownで楽々レポートづくり｜gihyo.jp … 技術評論社</a></li>
@@ -688,6 +715,12 @@ knitr::include_graphics(path = &quot;img/Rlogo.png&quot;)
 <img src="img/r-chunk-escape.png" alt="RチャンクのR Markdownでのエスケープ方法" />
 <p class="caption">RチャンクのR Markdownでのエスケープ方法</p>
 </div>
+<pre><code>````
+`r &#39;&#39;````{r}
+summary(cars)
+`r &#39;&#39;````
+````</code></pre>
+<p>……ついに表示はできたけど元のRmdファイルのコードはもはや意味がわからない。一応上の方の更新日を最新化するコードを表示するための試行錯誤での副産物です。</p>
 <p><a href="https://stackoverflow.com/questions/20409172/how-to-display-verbatim-inline-r-code-with-backticks-using-rmarkdown">markdown - How to display verbatim inline r code with backticks using Rmarkdown? - Stack Overflow</a></p>
 <p>もどうしても必要になったら考慮しよう。</p>
 </div>

@@ -410,7 +410,9 @@ div.tocify {
     <li>
       <a href="scraping.html">スクレイピング(rvest)</a>
     </li>
-    <li class="dropdown-header">データベース（NDBとか色々）</li>
+    <li>
+      <a href="dataset.html">データベース（NDBとか色々）</a>
+    </li>
     <li>
       <a href="baseR.html">base関数メモ</a>
     </li>
@@ -471,10 +473,26 @@ div.tocify {
     </li>
     <li class="dropdown-header">lm, glm</li>
     <li>
+      <a href="Stat-Multilevel-Model.html">マルチレベル分析</a>
+    </li>
+    <li>
       <a href="Stat-GLMM.html">GLMM（一般化線形混合モデル）</a>
     </li>
-    <li class="dropdown-header">主成分分析</li>
-    <li class="dropdown-header">RStan</li>
+    <li>
+      <a href="Stat-Instrumental-Variable.html">操作変数法</a>
+    </li>
+    <li>
+      <a href="Stat-Regression-Discontinuity-Design.html">回帰不連続デザイン</a>
+    </li>
+    <li>
+      <a href="Stat-PCA.html">主成分分析</a>
+    </li>
+    <li>
+      <a href="Stat-Missing-Value.html">欠測値の取り扱い</a>
+    </li>
+    <li>
+      <a href="RStan.html">RStan</a>
+    </li>
     <li>
       <a href="tidymodels.html">tidymodels</a>
     </li>
@@ -564,6 +582,9 @@ div.tocify {
       <a href="mac-Environment.html">mac環境構築</a>
     </li>
     <li>
+      <a href="mac-Tips.html">macあれこれ</a>
+    </li>
+    <li>
       <a href="Git.html">GitとGitHub</a>
     </li>
   </ul>
@@ -590,11 +611,69 @@ div.tocify {
 </div>
 
 
+<ul>
+<li><a href="http://doratex.hatenablog.jp/entry/20180503/1525338512">Overleaf v2 で日本語を使用する方法 - TeX Alchemist Online</a></li>
+</ul>
 <p><a href="https://wch.github.io/latexsheet/">latexsheet</a></p>
 <ul>
 <li>macでの日本語LaTeX環境構築とアップデート</li>
-<li>よく使う表現</li>
+<li><p>よく使う表現</p></li>
+<li><p><a href="http://www.latex-cmd.com/">LaTeXコマンド集</a></p></li>
 </ul>
+<div id="macosでlatex" class="section level2">
+<h2>macOSで<span class="math inline">\(\LaTeX\)</span></h2>
+<p>macOSで<span class="math display">\[\LaTeX\]</span> macで <span class="math display">\[\LaTeX\]</span>（LaTeX）を利用するための設定方法。MacTeX2018で日本語周りが変更になったのに対応。 <code>ghostscript</code>と<code>mactex</code>はmacOS環境構築でdotfiles を用いてインストール済みのはず。</p>
+<p><a href="http://doratex.hatenablog.jp/entry/20180501/1525144736">MacTeX 2018 のインストール＆日本語環境構築法 - TeX Alchemist Online</a>を参考（丸パクリ）にして作成。(u)pLaTeX + dvipdfmxで日本語文書を出力できるようになる。</p>
+<p>Rでの日本語出力あれこれでも利用することになるLaTeX実行環境のmacOSでのセットアップ。まあTeXとしてではなくRStudioからXeLaTeXだけ使う時にどこまで設定が必要なのかはよくわかっていない。少なくともTeX Liveのアップデートまではいるだろうけど。</p>
+<p>homebrewでTeXを探すと以下のようなメッセージが出てMacTeXの利用を推奨される</p>
+<pre><code>If you meant &quot;tex&quot; specifically:
+Installing TeX from source is weird and gross, requires a lot of patches,
+and only builds 32-bit (and thus can&#39;t use Homebrew dependencies)
+
+We recommend using a MacTeX distribution: https://www.tug.org/mactex/
+
+You can install it with Homebrew-Cask:
+ brew cask install mactex</code></pre>
+<div id="tlmgrで最新版にアップデート" class="section level3">
+<h3>tlmgrで最新版にアップデート</h3>
+<p>インストール済みの環境のアップデートは</p>
+<pre><code>sudo tlmgr update --self --all</code></pre>
+</div>
+<div id="tlcontribでの追加インストール" class="section level3">
+<h3>TLContribでの追加インストール</h3>
+<p>ヒラギノフォントなど商用フォントなどの設定がTLContribに移動したので登録とインストール</p>
+<pre><code>sudo tlmgr repository add http://contrib.texlive.info/current tlcontrib
+sudo tlmgr pinning add tlcontrib &#39;*&#39;
+sudo tlmgr install japanese-otf-nonfree japanese-otf-uptex-nonfree ptex-fontmaps-macos cjk-gs-integrate-macos</code></pre>
+</div>
+<div id="ヒラギノフォントの準備" class="section level3">
+<h3>ヒラギノフォントの準備</h3>
+<p><code>/usr/local/texlive/texmf-local/fonts/</code>にmacOSの標準フォント（ヒラギノフォント）のシンボリックリンクが貼られる。</p>
+<pre><code>sudo cjk-gs-integrate --link-texmf --cleanup --force
+sudo cjk-gs-integrate-macos --link-texmf --force
+sudo mktexlsr</code></pre>
+</div>
+<div id="ヒラギノフォントの埋め込み設定high-sierra" class="section level3">
+<h3><a href="mailto:ヒラギノフォントの埋め込み設定@High" class="email">ヒラギノフォントの埋め込み設定@High</a> Sierra</h3>
+<pre><code>sudo kanji-config-updmap-sys --jis2004 hiragino-highsierra-pron</code></pre>
+</div>
+<div id="texshopのアップデート" class="section level3">
+<h3>TeXShopのアップデート</h3>
+</div>
+<div id="tex-liveユーティリティーのアップデート" class="section level3">
+<h3>TeX Liveユーティリティーのアップデート</h3>
+</div>
+<div id="latexitのアップデート" class="section level3">
+<h3>LaTeXiTのアップデート</h3>
+</div>
+<div id="bibdeskのアップデート" class="section level3">
+<h3>BibDeskのアップデート</h3>
+</div>
+<div id="用紙をa4に" class="section level3">
+<h3>用紙をA4に</h3>
+<pre><code>sudo tlmgr paper a4</code></pre>
+</div>
+</div>
 
 <footer>
   <p>Copyright &copy; 2019 Yuho TAMAI </p>

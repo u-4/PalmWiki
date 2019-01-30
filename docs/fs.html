@@ -410,7 +410,9 @@ div.tocify {
     <li>
       <a href="scraping.html">スクレイピング(rvest)</a>
     </li>
-    <li class="dropdown-header">データベース（NDBとか色々）</li>
+    <li>
+      <a href="dataset.html">データベース（NDBとか色々）</a>
+    </li>
     <li>
       <a href="baseR.html">base関数メモ</a>
     </li>
@@ -471,10 +473,26 @@ div.tocify {
     </li>
     <li class="dropdown-header">lm, glm</li>
     <li>
+      <a href="Stat-Multilevel-Model.html">マルチレベル分析</a>
+    </li>
+    <li>
       <a href="Stat-GLMM.html">GLMM（一般化線形混合モデル）</a>
     </li>
-    <li class="dropdown-header">主成分分析</li>
-    <li class="dropdown-header">RStan</li>
+    <li>
+      <a href="Stat-Instrumental-Variable.html">操作変数法</a>
+    </li>
+    <li>
+      <a href="Stat-Regression-Discontinuity-Design.html">回帰不連続デザイン</a>
+    </li>
+    <li>
+      <a href="Stat-PCA.html">主成分分析</a>
+    </li>
+    <li>
+      <a href="Stat-Missing-Value.html">欠測値の取り扱い</a>
+    </li>
+    <li>
+      <a href="RStan.html">RStan</a>
+    </li>
     <li>
       <a href="tidymodels.html">tidymodels</a>
     </li>
@@ -564,6 +582,9 @@ div.tocify {
       <a href="mac-Environment.html">mac環境構築</a>
     </li>
     <li>
+      <a href="mac-Tips.html">macあれこれ</a>
+    </li>
+    <li>
       <a href="Git.html">GitとGitHub</a>
     </li>
   </ul>
@@ -611,18 +632,18 @@ div.tocify {
   fs::dir_info() %&gt;% 
   dplyr::sample_n(10)</code></pre>
 <pre><code>## # A tibble: 10 x 18
-##    path                            type    size permissions
-##    &lt;fs::path&gt;                      &lt;fct&gt; &lt;fs::&gt; &lt;fs::perms&gt;
-##  1 img/ggplot2-3.0.0-jitter.png    file  100.7K rw-r--r--  
-##  2 docs/EDA.html                   file     14K rw-r--r--  
-##  3 img/RStudio-GitSetting.png      file    112K rw-r--r--  
-##  4 docs/footer.html                file      61 rw-r--r--  
-##  5 docs/R-and-Python.html          file   14.2K rw-r--r--  
-##  6 docs/LaTeX.html                 file   13.6K rw-r--r--  
-##  7 docs/R-Development.html         file   14.3K rw-r--r--  
-##  8 img/mac-SysPref-InputSource.png file  263.7K rw-r--r--  
-##  9 docs/RStan.html                 file   14.9K rw-r--r--  
-## 10 docs/lubridate.html             file     14K rw-r--r--  
+##    path                                           type   size permissions
+##    &lt;fs::path&gt;                                     &lt;fct&gt; &lt;fs:&gt; &lt;fs::perms&gt;
+##  1 docs/LaTeX.html                                file  17.9K rw-r--r--  
+##  2 docs/rlang.html                                file  14.6K rw-r--r--  
+##  3 docs/dataset.html                              file  15.4K rw-r--r--  
+##  4 img/r-chunk-escape.png                         file  21.2K rw-r--r--  
+##  5 docs/R-and-Python.html                         file  14.7K rw-r--r--  
+##  6 docs/plotly.html                               file  14.8K rw-r--r--  
+##  7 docs/Stat-Regression-Discontinuity-Design.html file  14.1K rw-r--r--  
+##  8 docs/reprex.html                               file  15.1K rw-r--r--  
+##  9 docs/ggplot2-practice.html                     file  14.2K rw-r--r--  
+## 10 docs/Stat-Multilevel-Model.html                file  14.7K rw-r--r--  
 ## # … with 14 more variables: modification_time &lt;dttm&gt;, user &lt;chr&gt;,
 ## #   group &lt;chr&gt;, device_id &lt;dbl&gt;, hard_links &lt;dbl&gt;,
 ## #   special_device_id &lt;dbl&gt;, inode &lt;dbl&gt;, block_size &lt;dbl&gt;, blocks &lt;dbl&gt;,
@@ -634,28 +655,27 @@ div.tocify {
 <p>pathはcharacterベクトル、<code>*_info</code>だとtibbleで返って来る。</p>
 <pre class="r"><code>fs::dir_ls() %&gt;% 
   dplyr::glimpse()</code></pre>
-<pre><code>##  &#39;fs_path&#39; Named chr [1:76] &quot;EDA.Rmd&quot; &quot;EDA.html&quot; &quot;Git.Rmd&quot; &quot;Git.html&quot; ...
-##  - attr(*, &quot;names&quot;)= chr [1:76] &quot;EDA.Rmd&quot; &quot;EDA.html&quot; &quot;Git.Rmd&quot; &quot;Git.html&quot; ...</code></pre>
+<pre><code>##  &#39;fs_path&#39; Named chr [1:89] &quot;EDA.Rmd&quot; &quot;EDA.html&quot; &quot;Git.Rmd&quot; &quot;Git.html&quot; ...
+##  - attr(*, &quot;names&quot;)= chr [1:89] &quot;EDA.Rmd&quot; &quot;EDA.html&quot; &quot;Git.Rmd&quot; &quot;Git.html&quot; ...</code></pre>
 <pre class="r"><code>fs::dir_info() %&gt;% 
   dplyr::sample_n(10)</code></pre>
 <pre><code>## # A tibble: 10 x 18
-##    path                              type     size permissions
-##    &lt;fs::path&gt;                        &lt;fct&gt; &lt;fs::b&gt; &lt;fs::perms&gt;
-##  1 site_libs                         dire…     288 rwxr-xr-x  
-##  2 RMarkdown.Rmd                     file    5.68K rw-r--r--  
-##  3 tidymodels.Rmd                    file      627 rw-r--r--  
-##  4 PalmWiki.Rproj                    file      239 rw-r--r--  
-##  5 Stat-probability-distribution.Rmd file      320 rw-r--r--  
-##  6 RStan.html                        file   14.91K rw-r--r--  
-##  7 Git.Rmd                           file     6.8K rw-r--r--  
-##  8 LICENSE                           file    1.03K rw-r--r--  
-##  9 ggplot2-grid.Rmd                  file    2.58K rw-r--r--  
-## 10 plotly.Rmd                        file      761 rw-r--r--  
-## # … with 14 more variables: modification_time &lt;dttm&gt;, user &lt;chr&gt;,
-## #   group &lt;chr&gt;, device_id &lt;dbl&gt;, hard_links &lt;dbl&gt;,
-## #   special_device_id &lt;dbl&gt;, inode &lt;dbl&gt;, block_size &lt;dbl&gt;, blocks &lt;dbl&gt;,
-## #   flags &lt;int&gt;, generation &lt;dbl&gt;, access_time &lt;dttm&gt;, change_time &lt;dttm&gt;,
-## #   birth_time &lt;dttm&gt;</code></pre>
+##    path                 type     size permissions modification_time   user 
+##    &lt;fs::path&gt;           &lt;fct&gt; &lt;fs::b&gt; &lt;fs::perms&gt; &lt;dttm&gt;              &lt;chr&gt;
+##  1 ggplot2-grid.Rmd     file    2.58K rw-r--r--   2019-01-16 13:30:03 ytam…
+##  2 Stat-GLMM.Rmd        file     2.4K rw-r--r--   2019-01-23 17:16:02 ytam…
+##  3 footer.html          file       61 rw-r--r--   2019-01-02 16:36:40 ytam…
+##  4 LICENSE              file    1.03K rw-r--r--   2019-01-06 12:55:14 ytam…
+##  5 R-Environment.Rmd    file   19.03K rw-r--r--   2019-01-16 21:16:32 ytam…
+##  6 RStudio.Rmd          file    7.53K rw-r--r--   2019-01-20 20:00:52 ytam…
+##  7 ggplot2-practice.Rmd file      166 rw-r--r--   2019-01-17 16:32:14 ytam…
+##  8 Statistics.html      file   24.17K rw-r--r--   2019-01-30 10:41:17 ytam…
+##  9 Table.Rmd            file    8.19K rw-r--r--   2019-01-16 21:24:55 ytam…
+## 10 baseR.Rmd            file    2.58K rw-r--r--   2019-01-21 02:17:26 ytam…
+## # … with 12 more variables: group &lt;chr&gt;, device_id &lt;dbl&gt;,
+## #   hard_links &lt;dbl&gt;, special_device_id &lt;dbl&gt;, inode &lt;dbl&gt;,
+## #   block_size &lt;dbl&gt;, blocks &lt;dbl&gt;, flags &lt;int&gt;, generation &lt;dbl&gt;,
+## #   access_time &lt;dttm&gt;, change_time &lt;dttm&gt;, birth_time &lt;dttm&gt;</code></pre>
 <pre class="r"><code>fs::dir_info() %&gt;% 
   names()</code></pre>
 <pre><code>##  [1] &quot;path&quot;              &quot;type&quot;              &quot;size&quot;             
@@ -666,26 +686,26 @@ div.tocify {
 ## [16] &quot;access_time&quot;       &quot;change_time&quot;       &quot;birth_time&quot;</code></pre>
 <pre class="r"><code>fs::dir_info() %&gt;% 
   dplyr::glimpse()</code></pre>
-<pre><code>## Observations: 76
+<pre><code>## Observations: 89
 ## Variables: 18
 ## $ path              &lt;fs::path&gt; &quot;EDA.Rmd&quot;, &quot;EDA.html&quot;, &quot;Git.Rmd&quot;, &quot;Git.ht…
 ## $ type              &lt;fct&gt; file, file, file, file, file, file, file, file…
-## $ size              &lt;fs::bytes&gt; 540, 14.03K, 6.8K, 22K, 1.03K, 152, 13.6…
+## $ size              &lt;fs::bytes&gt; 540, 14.5K, 6.8K, 22.47K, 1.03K, 2.77K, …
 ## $ permissions       &lt;fs::perms&gt; rw-r--r--, rw-r--r--, rw-r--r--, rw-r--r…
-## $ modification_time &lt;dttm&gt; 2019-01-10 11:25:00, 2019-01-21 10:02:17, 201…
+## $ modification_time &lt;dttm&gt; 2019-01-10 11:25:00, 2019-01-30 10:41:11, 201…
 ## $ user              &lt;chr&gt; &quot;ytamai&quot;, &quot;ytamai&quot;, &quot;ytamai&quot;, &quot;ytamai&quot;, &quot;ytama…
 ## $ group             &lt;chr&gt; &quot;staff&quot;, &quot;staff&quot;, &quot;staff&quot;, &quot;staff&quot;, &quot;staff&quot;, &quot;…
 ## $ device_id         &lt;dbl&gt; 16777220, 16777220, 16777220, 16777220, 167772…
 ## $ hard_links        &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1…
 ## $ special_device_id &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
-## $ inode             &lt;dbl&gt; 19455000, 21062516, 20971576, 21062634, 193580…
+## $ inode             &lt;dbl&gt; 19455000, 21915890, 20971576, 21916009, 193580…
 ## $ block_size        &lt;dbl&gt; 4096, 4096, 4096, 4096, 4096, 4096, 4096, 4096…
-## $ blocks            &lt;dbl&gt; 8, 32, 16, 48, 8, 8, 32, 8, 32, 72, 8, 32, 8, …
+## $ blocks            &lt;dbl&gt; 8, 32, 16, 48, 8, 8, 40, 8, 32, 72, 8, 40, 8, …
 ## $ flags             &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
 ## $ generation        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
-## $ access_time       &lt;dttm&gt; 2019-01-21 10:02:17, 2019-01-21 10:02:22, 201…
-## $ change_time       &lt;dttm&gt; 2019-01-10 11:25:00, 2019-01-21 10:02:21, 201…
-## $ birth_time        &lt;dttm&gt; 2019-01-06 20:24:18, 2019-01-21 10:02:17, 201…</code></pre>
+## $ access_time       &lt;dttm&gt; 2019-01-30 10:41:11, 2019-01-30 10:41:13, 201…
+## $ change_time       &lt;dttm&gt; 2019-01-10 11:25:00, 2019-01-30 10:41:11, 201…
+## $ birth_time        &lt;dttm&gt; 2019-01-06 20:24:18, 2019-01-30 10:39:00, 201…</code></pre>
 </div>
 <div id="はっきりfailしてくれる" class="section level3">
 <h3>はっきりfailしてくれる</h3>

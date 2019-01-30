@@ -11,7 +11,7 @@
 
 
 
-<title>Jupyter Lab</title>
+<title>Jupyter Lab / Jupyter Notebook</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -410,7 +410,9 @@ div.tocify {
     <li>
       <a href="scraping.html">スクレイピング(rvest)</a>
     </li>
-    <li class="dropdown-header">データベース（NDBとか色々）</li>
+    <li>
+      <a href="dataset.html">データベース（NDBとか色々）</a>
+    </li>
     <li>
       <a href="baseR.html">base関数メモ</a>
     </li>
@@ -471,10 +473,26 @@ div.tocify {
     </li>
     <li class="dropdown-header">lm, glm</li>
     <li>
+      <a href="Stat-Multilevel-Model.html">マルチレベル分析</a>
+    </li>
+    <li>
       <a href="Stat-GLMM.html">GLMM（一般化線形混合モデル）</a>
     </li>
-    <li class="dropdown-header">主成分分析</li>
-    <li class="dropdown-header">RStan</li>
+    <li>
+      <a href="Stat-Instrumental-Variable.html">操作変数法</a>
+    </li>
+    <li>
+      <a href="Stat-Regression-Discontinuity-Design.html">回帰不連続デザイン</a>
+    </li>
+    <li>
+      <a href="Stat-PCA.html">主成分分析</a>
+    </li>
+    <li>
+      <a href="Stat-Missing-Value.html">欠測値の取り扱い</a>
+    </li>
+    <li>
+      <a href="RStan.html">RStan</a>
+    </li>
     <li>
       <a href="tidymodels.html">tidymodels</a>
     </li>
@@ -564,6 +582,9 @@ div.tocify {
       <a href="mac-Environment.html">mac環境構築</a>
     </li>
     <li>
+      <a href="mac-Tips.html">macあれこれ</a>
+    </li>
+    <li>
       <a href="Git.html">GitとGitHub</a>
     </li>
   </ul>
@@ -585,11 +606,14 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Jupyter Lab</h1>
+<h1 class="title toc-ignore">Jupyter Lab / Jupyter Notebook</h1>
 
 </div>
 
 
+<ul>
+<li><a href="https://developers-jp.googleblog.com/2019/01/medical-ai-course-materials.html">Google Developers Japan: Google Colaboratory を用いた機械学習・深層学習の入門教材を無料公開（健康・医療向けデータを用いた実践編も含む）</a></li>
+</ul>
 <p>Jupyter NotebookからJupyter Labへ。</p>
 <p><a href="https://jupyterlab.readthedocs.io/en/stable/index.html">JupyterLab Documentation — JupyterLab 0.35.4 documentation</a></p>
 <ul>
@@ -599,6 +623,42 @@ div.tocify {
 </ul>
 <div id="jupyter-labでrを利用する" class="section level2">
 <h2>Jupyter LabでRを利用する</h2>
+</div>
+<div id="jupyter-notebookのインストールと設定古いの" class="section level2">
+<h2>Jupyter Notebookのインストールと設定（古いの）</h2>
+<p>OSX環境でHomebrew-&gt;pyenv-&gt;anacondaとやっている状況でのJupyter Notebookの設定など。</p>
+<p>Pythonのインストール Homebrewを利用したPython環境のインストール</p>
+<p>Jupyter Notebookのインストール インストール自体はanacondaのインストールに伴って行われている。</p>
+<p>初期設定ファイルの作成</p>
+<pre><code>jupyter notebook --generate-config</code></pre>
+<p>で「<code>/.jupyter/jupyter_notebook_config.py</code> 」に初期設定ファイルができる。</p>
+<p>パスワード生成</p>
+<pre><code>python -c &quot;from notebook.auth import passwd;print(passwd())&quot;</code></pre>
+<p>ででてきたhashを</p>
+<pre><code>vi ~/.jupyter/jupyter_notebook_config.py</code></pre>
+<p>で「c.NotebookApp.password」のcomment outを外して入力(d)。</p>
+<pre><code>c.NotebookApp.notebook_dir = &#39;/Users/ytamai/Dropbox/03_Personal/notebook/&#39;</code></pre>
+<p>などとしておけば立ち上げた時のデフォルトのディレクトリが設定できる。</p>
+<p>公式：<a href="http://jupyter-notebook.readthedocs.io/en/latest/config.html" class="uri">http://jupyter-notebook.readthedocs.io/en/latest/config.html</a> 参考：データサイエンティストに向けたコーディング環境Jupyter Notebookの勧め - Qiita</p>
+<p>「“open location”メッセージを認識できません。」への対応方法</p>
+<pre><code>c.NotebookApp.browser = &#39;chrome&#39;</code></pre>
+<p>と指定してやるといいらしい。Slackで朝元雅明先生より。</p>
+<p>デフォルトで読み込むライブラリの設定 <code>~/.ipython/profile_default/startup</code>に最初に読み込むライブラリを記載しておくと、kernel起動時に一緒に読んでくれる。セルマジックもipy形式なら記述可能なので、<code>%matplotlin inline</code>も記載しておくとよい。</p>
+<pre><code>00_init.ipy
+%matplotlib inline
+from matplotlib import pyplot as plt
+import seaborn as sns
+import numpy as np
+import pandas as pd</code></pre>
+<p>参考：データサイエンティストに向けたコーディング環境Jupyter Notebookの勧め</p>
+<p>nbextensionのインストール 一般的には以下のように<code>pip</code>コマンドで入れるようだが、anaconda環境では別の方法の方が良さげ。</p>
+<pre><code>pip install https://github.com/ipython-contrib/IPython-notebook-extensions/archive/master.zip --user</code></pre>
+<p>condaコマンドを用いてanaconda cloudのパッケージを用いるのが良い模様。</p>
+<pre><code>conda install -c conda-forge jupyter_contrib_nbextensions</code></pre>
+<p>なお’-y’オプションをつければ途中のyes/noを全部yesでスキップできる。</p>
+<p>参考：<a href="https://qiita.com/jumjamjohn/items/710c401c205371c06bc3">Anacondaインストール後のJupyterの設定: ブラウザとパスワードの設定・nbextensionsとその他拡張機能の追加・設定 - Qiita</a></p>
+<p>‘/nbextensions/’ をつけてアクセスすると拡張設定画面へ</p>
+<p>参考 extensionを追加してもっと快適なJupyter環境を構築する - Qiita <a href="http://qiita.com/sasaki77/items/30a19d2be7d94116b237" class="uri">http://qiita.com/sasaki77/items/30a19d2be7d94116b237</a></p>
 </div>
 
 <footer>
