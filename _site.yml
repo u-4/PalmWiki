@@ -21,7 +21,7 @@ navbar:
         - text: "スクレイピング(rvest)"
           href: scraping.html
         - text: "データベース（NDBとか色々）"
-          href: 
+          href: dataset.html
         - text: "base関数メモ"
           href: baseR.html
     - text: "可視化"
@@ -56,12 +56,20 @@ navbar:
           href: Stat-probability-distribution.html
         - text: "lm, glm"
           href: 
+        - text: "マルチレベル分析"
+          href: Stat-Multilevel-Model.html
         - text: "GLMM（一般化線形混合モデル）"
           href: Stat-GLMM.html
+        - text: "操作変数法"
+          href: Stat-Instrumental-Variable.html
+        - text: "回帰不連続デザイン"
+          href: Stat-Regression-Discontinuity-Design.html
         - text: "主成分分析"
-          href: 
+          href: Stat-PCA.html
+        - text: "欠測値の取り扱い"
+          href: Stat-Missing-Value.html
         - text: "RStan"
-          href: 
+          href: RStan.html
         - text: "tidymodels"
           href: tidymodels.html
     - text: "Rmd"
@@ -106,6 +114,8 @@ navbar:
           href: ToDo.html
         - text: "mac環境構築"
           href: mac-Environment.html
+        - text: "macあれこれ"
+          href: mac-Tips.html
         - text: "GitとGitHub"
           href: Git.html
   right:
