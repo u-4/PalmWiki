@@ -4,6 +4,12 @@ title: "R Markdown"
 
 [R Markdown Cheat Sheet](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf)
 
+## R Markdownからスクリプト抜き出し
+
+- [R Markdownファイルからコード部分だけを抜き出してRファイルに出力 - Qiita](https://qiita.com/kazutan/items/eea17a76d095a9f81768)
+
+
+
 ## コードチャンクのオプション
 
 よく使うもの、まとめて変更する方法、具体例
@@ -65,14 +71,14 @@ output:
 
 ### 日付を更新日に
 
-yamlに以下を記載する
+yamlに次のように記載する。``date: "`r
+format(Sys.time(), '%Y-%m-%d')`" ``
 
-```YAML
+```
 ---
-  date: "`r format(Sys.time(), '%Y-%m-%d')`"
+date: "`r `r ''`format(Sys.time(), '%Y-%m-%d')`"
 ---
 ```
-
 
 - [第4回　レポつく自由自在 ～R Markdownにまつわるエトセトラ～：R Markdownで楽々レポートづくり｜gihyo.jp … 技術評論社](http://gihyo.jp/admin/serial/01/r-markdown/0004?page=2)
 - [R Markdown スライドとPDF 文章（日本語含む）作成メモ - Knowledge As Practice](https://hikaru1122.hatenadiary.jp/entry/rmarkdown)
@@ -121,6 +127,16 @@ knitr::include_graphics(path = "img/Rlogo.png")
 ```{r, echo = FALSE, fig.cap = 'RチャンクのR Markdownでのエスケープ方法'}
 knitr::include_graphics("img/r-chunk-escape.png")
 ```
+
+`````
+````
+`r `r ''`''````{r}
+summary(cars)
+`r `r ''`''````
+````
+`````
+
+……ついに表示はできたけど元のRmdファイルのコードはもはや意味がわからない。一応上の方の更新日を最新化するコードを表示するための試行錯誤での副産物です。
 
 [markdown - How to display verbatim inline r code with backticks using Rmarkdown? - Stack Overflow](https://stackoverflow.com/questions/20409172/how-to-display-verbatim-inline-r-code-with-backticks-using-rmarkdown)
 
