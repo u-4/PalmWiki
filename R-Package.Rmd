@@ -7,6 +7,46 @@ title: "Rのパッケージ管理"
 - 一括読み込みとかは簡単に（設定などで記述済み）
 - packrat使い方整理
 
+## パッケージのアップデートトラブル
+
+バイナリでアップデートする時は問題が生じたことはないが、ソースからビルドすることを選択した場合に遭遇したエラーの解決方法。macOSのリンク？の問題と、自分で設定した`.Rprofile`での`requireNamespace`による`unloadNamespace`エラーの2点。
+
+### ld: warning: text-based stub file ...
+
+ソースからパッケージをコンパイルする最後の方で
+
+```
+ld: warning: text-based stub file /System/Library/Frameworks//CoreFoundation.framework/CoreFoundation.tbd and library file /System/Library/Frameworks//CoreFoundation.framework/CoreFoundation are out of sync.
+```
+
+のようなライブラリのリンクエラーが表示されて失敗する。macOS特有のようで、Xcodeコマンドラインツールの再インストールで治るとしている記事もあるが、自分の環境ではうまくいかなかったために強制リンクで解決した。
+
+[r - ld: warning: text-based stub file are out of sync. Falling back to library file for linking - Stack Overflow](https://stackoverflow.com/questions/51314888/ld-warning-text-based-stub-file-are-out-of-sync-falling-back-to-library-file)
+
+```{bash, eval=FALSE}
+sudo ln -s  /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/System/Library/Frameworks/CoreFoundation.framework /Library/Frameworks/CoreFoundation.framework
+```
+
+### `unloadNamespace`エラー
+
+```
+Error in unloadNamespace(pkg_name) : 
+  namespace ‘purrr’ is imported by ‘tidyselect’ so cannot be unloaded
+```
+
+上記のライブラリエラーが解決できたと思ったら今度はインストールに失敗。自分の[設定](R-Environment.html)だと通常時は`.Rprofle`で`tidyverse`などいくつかのパッケージを読み込むようにしているため、そのままだとこれらに関しては`unloadNamespace`エラーが出ることはわかっていた。`"NO_ADDITIONAL_PACKAGES"`を設定しておけば（プロジェクト`.Rprofile`などで）この処理を飛ばすようにしているため、これをオンにしたがなぜかエラーが続く。結局`.Rprofile`中の`ggplot`関連の設定で`requireNamespace("ggplot2", quietly=TRUE)`でインストールの有無を判定していたため、ここでtidyverse関連のNamespaceが読み込まれていた模様。この条件の前に条件を追加してやることで解決した。
+
+```{r, eval=FALSE}
+if (is.na(Sys.getenv("NO_ADDITIONAL_PACKAGES", unset = NA)) && (requireNamespace("ggplot2", quietly = TRUE)))
+    ## ggplot2でのフォント設定
+  ggplot2::theme_set(ggplot2::theme_bw(base_family="sans"))
+  ## ggplot2の色設定
+  options(ggplot2.continuous.colour = "viridis",
+          ggplot2.continuous.fill = "viridis")
+}
+```
+
+
 ## パッケージのインストールとロード
 
 ## `devtools`
