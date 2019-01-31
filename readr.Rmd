@@ -68,6 +68,7 @@ col_namesとかcol_typesの指定はreadrと同じ。
 https://heavywatal.github.io/rstats/readr.html
 
 ではなさそう
+
 [Cell and Column Types • readxl](https://readxl.tidyverse.org/articles/cell-and-column-types.html)
 
 tidyverseをインストールしてあれば同時にインストールされている。
@@ -92,8 +93,64 @@ tidyverseをインストールしてあれば同時にインストールされ�
 * tibbleとして読み込まれる
 * JavaとかPerlのような外部ライブラリ不要
 * non-ASCIIはUTF-8にエンコードされる
-タイプの自動推定がうまくいかない場合
 
+### タイプの自動推定がうまくいかない場合
+
+手動での指定が可能。`col_types`で指定できるのは`"skip"`, `"logical"`, `"numeric"`, `"date"`, `"text"`, `"list"`になり、整数値などはここでは指定できない。読み込んだ後に適宜`readr::parse_*`系の関数で`dplyr::mutate()`していく感じになる。
+
+[Cell and Column Types • readxl](https://readxl.tidyverse.org/articles/cell-and-column-types.html)
+
+にもあるが、先にエクセルファイルの列名データだけ取り出し、適宜場合分け処理して`col_types`に読み込ませるタイプ指定用の文字列ベクトルを作っておくのが良さそう。
+
+```{r, eval=FALSE}
+# エクセルファイルから列名を取得
+nms <- readxl::read_excel(path = "対象エクセルファイル", skip = 0, n_max = 0) %>% 
+  names()
+
+# 文字列にしたい列用のベクトル設定
+ct_chr <- c("ID", "Compli", "...")
+
+# ファクターにしたい列用のベクトル設定
+ct_factor <- c("ASAPS", "Sex", "...")
+
+# 整数値にしたい列用のベクトル設定
+ct_int <- c("Age", "EBL", "Urine", "...")
+
+# 論理値にしたい列用のベクトル設定
+ct_log <- c("...", "...")
+
+# set column type
+# あとでparseする都合上、文字列にしたい列、整数値にしたい列、ファクターにしたい列はいずれも"text"で指定
+column_types <- dplyr::case_when(nms %in% ct_chr ~ "text",
+                   nms %in% ct_int ~ "text",
+                   nms %in% ct_factor ~ "text",
+                   nms %in% ct_log ~ "logical",
+                   TRUE ~ "numeric")
+
+# 実際に読み込み
+# suppressWarningsは下記自動推定に関するWarningを抑制するため
+d <- suppressWarnings(readxl::read_excel(path = "対象エクセルファイル",
+                            col_types = column_types, # 上記で設定した文字列ベクトルを指定
+                            col_names = nms, # 必要ならこれも変えておける
+                            skip = 1, # 列名指定したなら
+                            n_max = 55)) %>% 
+  # ファクターは結局orderedにしたかったりレベル指定が必要なら個別に設定することになる。
+  dplyr::mutate(ASAPS = readr::parse_factor(ASAPS, levels = c("1", "2", "3", "4"), ordered = TRUE),
+                Sex = readr::parse_factor(Sex, levels = c("M", "F"), ordered = TRUE),
+                ) %>%
+  # 整数値と論理値の列を処理
+  # dplyr::mutate_at(ct_int, funs(readr::parse_integer(.))) %>% 
+  # dplyr 0.8.0からfuns()は非推奨でpurrrと同じように~を利用する
+  dplyr::mutate_at(ct_int, ~ readr::parse_integer(.)) %>% 
+  dplyr::mutate_at(ct_logical, ~ readr::parse_logical(.))
+```
+
+
+### どうしても時間型データだととりたがる
+
+`col_types`で`"numeric"`を指定していて、Excel上のセルタイプでも数値データなのに読み込み時に`Expecting numeric in E9 / R9C5: got a date`のようなWarningsが大量発生することがある。自動判定だと`date`タイプとされてしまう。指定さえしていれば実際には`numeric`で読み込んでおり実害はないのだが、他のエラーが埋もれる勢いなので、`suppressWarnings()`で読み込み部分は囲ってしまうか、チャンクオプション(`warning=FALSE`)を変えるとするか良いかもしれない。以下のブログを見る限り放っておくしかなさそう。
+
+[readxl が numeric のセルを date だと判定してしまうやつ - 金魚亭日常](http://what-alnk.hatenablog.com/entry/2018/10/19/230000)
 
 ## Google Spreadsheet
 
