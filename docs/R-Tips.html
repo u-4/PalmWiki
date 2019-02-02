@@ -387,10 +387,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="readr.html">データ読み込み(readr)</a>
+      <a href="readr.html">データ読み込みと整形(readr, tidyr)</a>
     </li>
     <li>
-      <a href="dplyr-tidyr.html">データセット操作(dplyr, tidyr)</a>
+      <a href="dplyr-tidyr.html">データセット操作(dplyr)</a>
     </li>
     <li>
       <a href="purrr.html">関数型プログラミング(purrr)</a>
@@ -724,6 +724,21 @@ sprintf(&quot;%s%s%s&quot;, stri_rand_strings(5, 5, &#39;[A-Z]&#39;),
 do.call(paste0, Map(stri_rand_strings, n=5, length=c(5, 4, 1),
            pattern = c(&#39;[A-Z]&#39;, &#39;[0-9]&#39;, &#39;[A-Z]&#39;)))</code></pre>
 <p>匿名化IDの表を印刷して、そこに本当のID、日付、必要なら氏名などを記載して鍵付きロッカー（個人情報保管用として定められたところ）へ</p>
+</div>
+<div id="文字列ベクトルをコピペできる形で出力" class="section level2">
+<h2>文字列ベクトルをコピペできる形で出力</h2>
+<p>直接入力ではなく作成された文字列ベクトルの中身を他のコードやサンプルコードとして使うためにコピペしたいときに、なかなかうまいこと出力できなかった。とりあえず強引に前後に<code>"</code>をつけて<code>cat(sep = ", ")</code>でコンソールに出力することには成功したが、もう少しうまい方法がないものだろうか（r_wakalangで聞いてみた）。</p>
+<pre class="r"><code># ランダム生成していますが、何らかの形で（直接入力ではなく）得られた文字列ベクトルです
+nms &lt;- stringi::stri_rand_strings(n = 20, length = 10)
+
+# 普通にコンソールに出力すると「[1]」が入ってカンマもないのでコピペしにくい
+nms
+#  [1] &quot;qN9Z8Di83X&quot; &quot;TYJMnhEt7d&quot; &quot;as39xLXiWg&quot; &quot;k5Vzqw1vde&quot; &quot;73y1rsUUhJ&quot; &quot;YrbjnnX73A&quot; &quot;Q1qnqeRMUl&quot; &quot;QS40PZOuNK&quot; &quot;ROh1u1FnSU&quot; &quot;Fnc9UTvsal&quot;
+# [11] &quot;v6gZXfj5yK&quot; &quot;csR8DRqJiD&quot; &quot;BVhxYNNOky&quot; &quot;WDIm2dAY2Q&quot; &quot;6uQUslLHF4&quot; &quot;TUMNpqed7k&quot; &quot;K16iGB8SBa&quot; &quot;vHJdCuhkBD&quot; &quot;MUNSOfITqA&quot; &quot;ywnNOdLIyX&quot;
+
+# とりあえず強引に出力してみました
+nms %&gt;% stringr::str_replace_all(c(&quot;^&quot; = &#39;&quot;&#39;, &quot;$&quot; = &#39;&quot;&#39;)) %&gt;% cat(sep = &quot;, &quot;)
+# &quot;qN9Z8Di83X&quot;, &quot;TYJMnhEt7d&quot;, &quot;as39xLXiWg&quot;, &quot;k5Vzqw1vde&quot;, &quot;73y1rsUUhJ&quot;, &quot;YrbjnnX73A&quot;, &quot;Q1qnqeRMUl&quot;, &quot;QS40PZOuNK&quot;, &quot;ROh1u1FnSU&quot;, &quot;Fnc9UTvsal&quot;, &quot;v6gZXfj5yK&quot;, &quot;csR8DRqJiD&quot;, &quot;BVhxYNNOky&quot;, &quot;WDIm2dAY2Q&quot;, &quot;6uQUslLHF4&quot;, &quot;TUMNpqed7k&quot;, &quot;K16iGB8SBa&quot;, &quot;vHJdCuhkBD&quot;, &quot;MUNSOfITqA&quot;, &quot;ywnNOdLIyX&quot;</code></pre>
 </div>
 <div id="rで日本語出力" class="section level2">
 <h2>Rで日本語出力</h2>

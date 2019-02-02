@@ -11,7 +11,7 @@
 
 
 
-<title>dplyr and tidyr</title>
+<title>dplyr</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -387,10 +387,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="readr.html">データ読み込み(readr)</a>
+      <a href="readr.html">データ読み込みと整形(readr, tidyr)</a>
     </li>
     <li>
-      <a href="dplyr-tidyr.html">データセット操作(dplyr, tidyr)</a>
+      <a href="dplyr-tidyr.html">データセット操作(dplyr)</a>
     </li>
     <li>
       <a href="purrr.html">関数型プログラミング(purrr)</a>
@@ -606,7 +606,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">dplyr and tidyr</h1>
+<h1 class="title toc-ignore">dplyr</h1>
 
 </div>
 
@@ -649,6 +649,11 @@ div.tocify {
 <li><a href="https://notchained.hatenablog.com/entry/2018/12/09/160956">dplyr 0.8.0を使ってみた（新機能編） - Technically, technophobic.</a></li>
 <li><a href="https://atusy.github.io/blog/2019/01/04/benchmarks-on-summarizing-with-dplyr/">group_map などの data frame を要約する関数をベンチマーク (dplyr &gt; 0.8.x) | Atusy’s blog</a></li>
 </ul>
+</div>
+<div id="dplyrでの操作内容を表示" class="section level2">
+<h2>dplyrでの操作内容を表示</h2>
+<p>間違って変なことしていないかを確認できるのは良さそうだが、名前空間の問題などがあり常用するのは面倒かな。</p>
+<p><a href="https://github.com/elbersb/tidylog">elbersb/tidylog: Tidylog provides feedback about basic dplyr operations. It provides simple wrapper functions for the most common functions, such as filter, mutate, select, and group_by.</a></p>
 </div>
 
 <footer>
