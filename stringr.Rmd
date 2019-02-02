@@ -9,3 +9,21 @@ title: "文字列操作(stringr)"
 - 1個の文字列にするときの（collapse）
 - 区切りで分ける奴の置き換え
 - あとは基本的にチートシートで十分。詰まったらメモる。
+
+### 複数パターンをまとめて置き換え
+
+`dplyr::recode`っぽい表現で`stringr::str_replace_all()`でできる。`str_replace()`ではできない模様。
+
+```{r, eval = FALSE}
+nms <- c("ID", "Urgency", "ASAPS", "Age", "Sex", "BH", "BW", "BSA", "Operation_time", "Anesthesia_time", "EBL", "Urine", "Transfusion", "Crystaloid", "colloid", "Compli","TBil_Pre", "APTT_Pre", "PTINR_Pre", "Fbg_Pre", "Hb_Pre", "Plt_Pre", "TBil_Pst", "APTT_Pst", "PTINR_Pst", "Fbg_Pst", "Hb_Pst", "Plt_Pst", "TBil_POD1", "APTT_POD1", "PTINR_POD1", "Fbg_POD1", "Hb_POD1", "Plt_POD1", "TBil_POD2", "APTT_POD2", "PTINR_POD2", "Fbg_POD2", "Hb_POD2", "Plt_POD2", "TBil_POD3", "APTT_POD3", "PTINR_POD3", "Fbg_POD3", "Hb_POD3", "Plt_POD3", "TBil_POD5", "APTT_POD5", "PTINR_POD5", "Fbg_POD5", "Hb_POD5", "Plt_POD5", "TBil_POD7", "APTT_POD7", "PTINR_POD7", "Fbg_POD7", "Hb_POD7", "Plt_POD7", "TBil_POD14", "APTT_POD14", "PTINR_POD14", "Fbg_POD14", "Hb_POD14", "Plt_POD14")
+
+nms <- nms %>% stringr::str_replace_all(c("_00$" = "_Pre",
+                                          "_0$" = "_Pst",
+                                          "_1$" = "_POD1",
+                                          "_2$" = "_POD2",
+                                          "_3$" = "_POD3",
+                                          "_5$" = "_POD5",
+                                          "_7$" = "_POD7",
+                                          "_99$" = "_POD14"))
+```
+
