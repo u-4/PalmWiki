@@ -162,6 +162,24 @@ https://stackoverflow.com/questions/42734547/generating-random-strings
 
 匿名化IDの表を印刷して、そこに本当のID、日付、必要なら氏名などを記載して鍵付きロッカー（個人情報保管用として定められたところ）へ
 
+## 文字列ベクトルをコピペできる形で出力
+
+直接入力ではなく作成された文字列ベクトルの中身を他のコードやサンプルコードとして使うためにコピペしたいときに、なかなかうまいこと出力できなかった。とりあえず強引に前後に`"`をつけて`cat(sep = ", ")`でコンソールに出力することには成功したが、もう少しうまい方法がないものだろうか（r_wakalangで聞いてみた）。
+
+```{r, eval=FALSE}
+# ランダム生成していますが、何らかの形で（直接入力ではなく）得られた文字列ベクトルです
+nms <- stringi::stri_rand_strings(n = 20, length = 10)
+
+# 普通にコンソールに出力すると「[1]」が入ってカンマもないのでコピペしにくい
+nms
+#  [1] "qN9Z8Di83X" "TYJMnhEt7d" "as39xLXiWg" "k5Vzqw1vde" "73y1rsUUhJ" "YrbjnnX73A" "Q1qnqeRMUl" "QS40PZOuNK" "ROh1u1FnSU" "Fnc9UTvsal"
+# [11] "v6gZXfj5yK" "csR8DRqJiD" "BVhxYNNOky" "WDIm2dAY2Q" "6uQUslLHF4" "TUMNpqed7k" "K16iGB8SBa" "vHJdCuhkBD" "MUNSOfITqA" "ywnNOdLIyX"
+
+# とりあえず強引に出力してみました
+nms %>% stringr::str_replace_all(c("^" = '"', "$" = '"')) %>% cat(sep = ", ")
+# "qN9Z8Di83X", "TYJMnhEt7d", "as39xLXiWg", "k5Vzqw1vde", "73y1rsUUhJ", "YrbjnnX73A", "Q1qnqeRMUl", "QS40PZOuNK", "ROh1u1FnSU", "Fnc9UTvsal", "v6gZXfj5yK", "csR8DRqJiD", "BVhxYNNOky", "WDIm2dAY2Q", "6uQUslLHF4", "TUMNpqed7k", "K16iGB8SBa", "vHJdCuhkBD", "MUNSOfITqA", "ywnNOdLIyX"
+```
+
 ## Rで日本語出力
 
 
