@@ -1,5 +1,5 @@
 ---
-title: "dplyr and tidyr"
+title: "dplyr"
 ---
 
 - [A Grammar of Data Manipulation • dplyr](https://dplyr.tidyverse.org/index.html)
@@ -39,3 +39,9 @@ tidyrはreadrとまとめるべきか？
 - [dplyr 0.8.0を使ってみた（group_by()のbreaking changes編） - Technically, technophobic.](https://notchained.hatenablog.com/entry/2018/12/09/120553)
 - [dplyr 0.8.0を使ってみた（新機能編） - Technically, technophobic.](https://notchained.hatenablog.com/entry/2018/12/09/160956)
 - [group_map などの data frame を要約する関数をベンチマーク (dplyr > 0.8.x) | Atusy's blog](https://atusy.github.io/blog/2019/01/04/benchmarks-on-summarizing-with-dplyr/)
+
+## dplyrでの操作内容を表示
+
+間違って変なことしていないかを確認できるのは良さそうだが、名前空間の問題などがあり常用するのは面倒かな。
+
+[elbersb/tidylog: Tidylog provides feedback about basic dplyr operations. It provides simple wrapper functions for the most common functions, such as filter, mutate, select, and group_by.](https://github.com/elbersb/tidylog)

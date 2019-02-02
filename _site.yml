@@ -4,9 +4,9 @@ navbar:
   left:
     - text: "データ操作"
       menu:
-        - text: "データ読み込み(readr)"
+        - text: "データ読み込みと整形(readr, tidyr)"
           href: readr.html
-        - text: "データセット操作(dplyr, tidyr)"
+        - text: "データセット操作(dplyr)"
           href: dplyr-tidyr.html
         - text: "関数型プログラミング(purrr)"
           href: purrr.html
