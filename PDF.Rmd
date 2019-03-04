@@ -1,0 +1,104 @@
+---
+title: "PDFの取り扱い"
+output: html_document
+---
+
+RとかmacOSでPDFを取り扱うための方法
+
+- [Rmarkdownで日本語PDFを出力する - Qiita](https://qiita.com/Atsushi776/items/9ef1e5d744e2b91c61ee)
+
+## PDFの情報取得からTOC、テキスト抽出まで
+
+- [ropensci/pdftools: Text Extraction, Rendering and Converting of PDF Documents](https://github.com/ropensci/pdftools)
+- [⭐️PDFの情報・文章をRでごっそり取得する - cucumber flesh](https://uribo.hatenablog.com/entry/2016/02/27/195500)
+
+画像として取り出して操作するならImageMagickを利用できる[magickパッケージ](magick.html)の方が使いやすいが、テキスト情報があるかチェックしたり、テキストベースの物を扱うならこちら。
+
+## PDFの中の表を抽出！
+
+- [ropensci/tabulizer: Bindings for Tabula PDF Table Extractor Library](https://github.com/ropensci/tabulizer)
+- [tabulizerパッケージによるPDF表データからのデータ取得](https://suryu.me/post/tabulizer_fantastic_extract_data_from_pdf/)
+- [「2016年版このRパッケージがすごい」暫定第一位、tabulizerパッケージを使って、日本で話題のCookpadの有価証券PDFから超簡単にデータを取得してビジュアライズまでしてみた - Qiita](https://qiita.com/21-Hidetaka-Ko/items/4e8977797cbfaab081e3)
+- [Rパッケージのtabulizerをインストールするのにえらく苦労した話 - Note of Pediatric Surgery](https://www.pediatricsurgery.site/entry/2018/06/21/202552)
+
+これのプレビューから範囲を指定する機能はとても便利そう。黒塗りする部分をGUIで選択して処理みたいにできると良いな。
+
+- [tabulizer/locate_area.R at master · ropensci/tabulizer](https://github.com/ropensci/tabulizer/blob/master/R/locate_area.R)
+
+## pdftk：PDFの操作から透かし、透明テキストまで
+
+- [PDFtk Server](https://www.pdflabs.com/tools/pdftk-server/)
+- [pdftk - TeX Wiki](https://texwiki.texjp.org/?pdftk)
+
+- [PDF の作り方：pdftk の活用 - Acetaminophen’s diary](http://acetaminophen.hatenablog.com/entry/2014/11/10/000559)
+- [PDFの画像比較をリファクタリングに活かす - Qiita](https://qiita.com/oohira/items/184dbbe7c631e8c335a1)
+
+
+### macOS 10.11以降でのインストール
+
+- [pdftk on OSX10.11(El capitan) - Qiita](https://qiita.com/keitasumiya/items/83756caf2865291707fb)
+
+[macOS10.11以降の対応版](https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-setup.pkg)はなぜか本家のダウンロードページからリンクが貼られていない。homebrewでのインストールも公式分ではできない。`brew search pdftk`で出てくるプルリクエストから有効なものを探す？
+
+```{bash, eval=FALSE}
+# 2018年のプルリクでパッチ
+$ brew pull https://github.com/Homebrew/homebrew-cask/pull/47265
+==> Fetching patch 
+Patch: https://github.com/Homebrew/homebrew-cask/pull/47265.patch
+######################################################################## 100.0%
+==> Applying patch
+Applying: add pdftk 2.02 cask
+Applying: use delete in uninstall stanza
+Applying: fix identation
+==> Patch closes issue #47265
+==> Patch changed:
+ Casks/pdftk.rb | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+# searchに出るようになるので
+$ brew search pdftk
+==> Casks
+pdftk
+
+# cask install
+$ brew cask intall pdftk
+Updating Homebrew...
+==> Auto-updated Homebrew!
+Updated Homebrew from 7ce517cb2 to 6ae600b5e.
+No changes to formulae.
+
+==> Satisfying dependencies
+==> Downloading https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-
+######################################################################## 100.0%
+==> Verifying SHA-256 checksum for Cask 'pdftk'.
+==> Installing Cask pdftk
+==> Running installer for pdftk; your password may be necessary.
+==> Package installers may write to any location; options such as --appdir are ignored.
+Password:
+installer: Package name is PDFtk Server - The PDF Toolkit for the Terminal
+installer: Installing at base path /
+installer: The install was successful.
+🍺  pdftk was successfully installed!
+
+$ type pdftk
+pdftk is /usr/local/bin/pdftk
+```
+
+## Pandoc
+
+- [Pandoc - TeX Wiki](https://texwiki.texjp.org/?Pandoc)
+- 
+
+
+- [Markdownで書いたテキストをPDFに変換してドキュメントを作成する方法（テンプレート活用編） - ククログ(2018-09-13)](https://www.clear-code.com/blog/2018/9/13.html)
+- [Wandmalfarbe/pandoc-latex-template: A pandoc LaTeX template to convert markdown files to PDF or LaTeX.](https://github.com/Wandmalfarbe/pandoc-latex-template)
+- [Markdownで書いたテキストをPDFに変換して納品用ドキュメントを作成する方法 - ククログ(2015-04-27)](https://www.clear-code.com/blog/2015/4/27.html)
+- [Pandoc - Pandoc User’s Guide](https://pandoc.org/MANUAL.html)
+
+- [Pandocをインストールしてマークダウン記法を自分好みに変換しよう！ - はるなぴログ](https://www.halu7.com/entry/pandoc-install-option)
+- [Adding headers and footers using Pandoc - TeX - LaTeX Stack Exchange](https://tex.stackexchange.com/questions/139139/adding-headers-and-footers-using-pandoc)
+- 
+
+
+## Acrobat DC 2017
+
