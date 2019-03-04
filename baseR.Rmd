@@ -8,7 +8,9 @@ baseRの関数メモ。`.Rprofile`での処理や、教科書・他の人のコ�
 - [Base R cheetsheet](http://github.com/rstudio/cheatsheets/raw/master/base-r.pdf)
 - [Advanced R cheetsheet](https://www.rstudio.com/wp-content/uploads/2016/02/advancedR.pdf)
 
-## `paste0` / `paste` から `str_c`
+## 文字列の扱い関連
+
+### `paste0` / `paste` から `str_c`
 
 [RPubs - Stringr-Stringi-base](http://rpubs.com/yamano357/92478)
 
@@ -16,7 +18,7 @@ baseRの関数メモ。`.Rprofile`での処理や、教科書・他の人のコ�
 `base::paste(..., sep = " ", collapse = NULL)`
 `stringr::str_c(..., sep = "", collapse = NULL)`
 
-### NAの扱いの違い
+#### NAの扱いの違い
 
 ```{r}
 # pasteはas.character処理をするのでNAの扱いも文字列になる
@@ -32,7 +34,7 @@ paste0(x, y) %>% head()
 stringr::str_c(str_replace_na(x), str_replace_na(y)) %>% head()
 ```
 
-### ベクトルリサイクリングの警告
+#### ベクトルリサイクリングの警告
 
 `str_c()`はベクトルの長さがちょうど倍数になっていない場合には警告してくれる。
 
@@ -40,6 +42,28 @@ stringr::str_c(str_replace_na(x), str_replace_na(y)) %>% head()
 paste0(month.abb, letters)
 stringr::str_c(month.abb, letters)
 ```
+
+### `sprintf`から`stringr::str_interp`・`stringr::str_glue`
+
+- [String interpolation. — str_interp ](https://stringr.tidyverse.org/reference/str_interp.html)
+- [Format and interpolate a string with glue — str_glue ](https://stringr.tidyverse.org/reference/str_glue.html)
+- 
+
+#### `printf`の文法
+
+詳しくは`?sprintf()`
+
+- `%d` 整数として出力．
+- `%05d` ５ケタの整数として出力．５ケタより短いときは頭を 0 で埋める．
+%f, 小数点付きで出力．
+%.3f, 小数点以下３ケタまで出力．
+%s, 文字列として出力．
+\t, タブ
+\n, 改行
+書式指定でない文字，そのまま出力．
+
+
+
 
 ## ファイルオペレーション関連
 
