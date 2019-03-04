@@ -150,6 +150,10 @@ d <- suppressWarnings(readxl::read_excel(path = "対象エクセルファイル"
 
 [readxl が numeric のセルを date だと判定してしまうやつ - 金魚亭日常](http://what-alnk.hatenablog.com/entry/2018/10/19/230000)
 
+### WindowsのExcelで読み込んだ時に文字化けしないcsvファイルの出力方法
+
+`readr::write_excel_csv()`を使えば良いとのこと。通常はUTF-8で出力されるのにWindowsのExcelがSJISで読み込もうとするのが原因らしい。
+
 ## Google Spreadsheet
 
 [googlesheets Basic Usage](https://cran.r-project.org/web/packages/googlesheets/vignettes/basic-usage.html)
