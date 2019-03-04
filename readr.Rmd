@@ -67,6 +67,7 @@ R言語でexcelファイルを読み込むためのパッケージ。tidyverse�
 readxl 1.0の解説
 http://uribo.hatenablog.com/entry/2017/05/04/122524
 
+
 [Cell and Column Types • readxl](https://readxl.tidyverse.org/articles/cell-and-column-types.html)
 
 tidyverseをインストールしてあれば同時にインストールされている。
