@@ -12,10 +12,10 @@ title: "文字列操作(stringr)"
 
 ### 複数パターンをまとめて置き換え
 
-`dplyr::recode`っぽい表現で`stringr::str_replace_all()`でできる。`str_replace()`ではできない模様。
+`dplyr::recode`っぽい表現で`stringr::str_replace_all()`でできる。`str_replace()`ではできない模様。`argument pattern is missing`みたいに怒られるけどヘルプにも載っている記法。
 
-```{r, eval = FALSE}
-nms <- c("ID", "Urgency", "ASAPS", "Age", "Sex", "BH", "BW", "BSA", "Operation_time", "Anesthesia_time", "EBL", "Urine", "Transfusion", "Crystaloid", "colloid", "Compli","TBil_Pre", "APTT_Pre", "PTINR_Pre", "Fbg_Pre", "Hb_Pre", "Plt_Pre", "TBil_Pst", "APTT_Pst", "PTINR_Pst", "Fbg_Pst", "Hb_Pst", "Plt_Pst", "TBil_POD1", "APTT_POD1", "PTINR_POD1", "Fbg_POD1", "Hb_POD1", "Plt_POD1", "TBil_POD2", "APTT_POD2", "PTINR_POD2", "Fbg_POD2", "Hb_POD2", "Plt_POD2", "TBil_POD3", "APTT_POD3", "PTINR_POD3", "Fbg_POD3", "Hb_POD3", "Plt_POD3", "TBil_POD5", "APTT_POD5", "PTINR_POD5", "Fbg_POD5", "Hb_POD5", "Plt_POD5", "TBil_POD7", "APTT_POD7", "PTINR_POD7", "Fbg_POD7", "Hb_POD7", "Plt_POD7", "TBil_POD14", "APTT_POD14", "PTINR_POD14", "Fbg_POD14", "Hb_POD14", "Plt_POD14")
+```{r}
+nms <- c("ID", "ASAPS", "Pst_BT", "Age", "Sex", "BH", "BW", "BSA", "Operation_time", "Anesthesia_time", "EBL", "Urine", "Transfusion", "Crystaloid", "colloid", "Compli", "TBil_00", "APTT_00", "PTINR_00", "Fbg_00", "Hb_00", "Plt_00", "TBil_0", "APTT_0", "PTINR_0", "Fbg_0", "Hb_0", "Plt_0", "TBil_1", "APTT_1", "PTINR_1", "Fbg_1", "Hb_1", "Plt_1", "TBil_2", "APTT_2", "PTINR_2", "Fbg_2", "Hb_2", "Plt_2", "TBil_3", "APTT_3", "PTINR_3", "Fbg_3", "Hb_3", "Plt_3", "TBil_5", "APTT_5", "PTINR_5", "Fbg_5", "Hb_5", "Plt_5", "TBil_7", "APTT_7", "PTINR_7", "Fbg_7", "Hb_7", "Plt_7", "TBil_99", "APTT_99", "PTINR_99", "Fbg_99", "Hb_99", "Plt_99")
 
 nms <- nms %>% stringr::str_replace_all(c("_00$" = "_Pre",
                                           "_0$" = "_Pst",
@@ -25,5 +25,6 @@ nms <- nms %>% stringr::str_replace_all(c("_00$" = "_Pre",
                                           "_5$" = "_POD5",
                                           "_7$" = "_POD7",
                                           "_99$" = "_POD14"))
+nms
 ```
 
