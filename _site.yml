@@ -4,9 +4,9 @@ navbar:
   left:
     - text: "データ操作"
       menu:
-        - text: "データ読み込みと整形(readr, tidyr)"
+        - text: "データ読み込みと整形(readr)"
           href: readr.html
-        - text: "データセット操作(dplyr)"
+        - text: "データセット操作(dplyr, tidyr)"
           href: dplyr-tidyr.html
         - text: "関数型プログラミング(purrr)"
           href: purrr.html
@@ -26,6 +26,8 @@ navbar:
           href: baseR.html
     - text: "可視化"
       menu:
+        - text: "可視化一般"
+          href: Visualization.html
         - text: "ggplot2"
           href: ggplot2.html
         - text: "ggplot2の配色"
@@ -46,6 +48,8 @@ navbar:
           href: Table.html
         - text: "Rで画像処理(magick)"
           href: magick.html
+        - text: "RでExcel出力"
+          href: Excel.html
     - text: "統計"
       menu:
         - text: "統計"
