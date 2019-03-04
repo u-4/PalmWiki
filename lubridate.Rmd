@@ -8,3 +8,54 @@ title: "日付・時刻データ(lubridate)"
 
 - [lubridateパッケージ入門 - Qiita](https://qiita.com/nozma/items/01725761d980a0110027)
 - [ログデータ処理で始めるlubridate入門](https://kazutan.github.io/SappoRoR8/01-lubridate.html)
+
+### 日本語・和暦関連
+
+- [Nippon: Japanese Utility Functions and Data](https://cran.r-project.org/package=Nippon)
+- [日付から曜日を取得する関数と日本語表記の対応 - cucumber flesh](https://uribo.hatenablog.com/entry/2017/05/02/112433)
+- [Rパッケージを使って「国民の祝日」を"整備"する - Qiita](https://qiita.com/uri/items/ad2ce23ec5476b17f0c4)
+
+
+### 通常のデータクリーニングでの日付データ処理
+
+文字データとして読み込んだ上で定型的なフォーマットなら`ymd()`とか`ymd_hms()`とかで`tz = "Asia/Tokyo"`でほとんどどうにかなってしまう。
+
+```{r}
+lubridate::ymd_hm("2015-11-09 14:35", tz = "Asia/Tokyo")
+
+lubridate::ymd_hm("2015年11月9日 14時35分", tz = "Asia/Tokyo")
+```
+
+
+`lubridate::parse_date_time(x, orders, tz = "Asia/Tokyo", locale = Sys.getlocale("LC_TIME"), ...)`が便利そう。
+
+
+### 年度計算
+
+`lubridate::quarter(x, with_year = TRUE, fiscal_start = 4)`とかかと思いきや`lubridate::quarter(lubridate::ymd("2019-03-02"), with_year = TRUE, fiscal_start = 4)`は`2018.04`になってほしいのに`2019.04`が返って来るので使えない。`%m-%`で月数を引き算して`year()`で取り出すのが良さそう。
+
+```{r}
+library(lubridate)
+ymd("2016-02-29") %m-% months(3) %>%
+  year()
+```
+
+
+### 年齢計算
+
+色々苦労する感じではあるが、`lubridate`パッケージを用いた以下の方法で問題なさそう（閏年とか月の日数違いとか）。一応誕生日の前日24時に年齢が増えるので、2/29生まれだと閏年以外では3/1に年齢が増えることになるがみなし的に2/28にしていることも多そう。道路交通法とかも2/28みなしでの運用。
+
+- [time_length: Compute the exact length of a time span in lubridate: Make Dealing with Dates a Little Easier](https://rdrr.io/cran/lubridate/man/time_length.html)
+
+```{r}
+birthday <- c("2016-02-03", "2016-02-03", "1900-01-01", "2016-02-29", "2016-02-29", "2016-02-29")
+day_of_surgery <- c("2017-02-02", "2017-02-03", "1999-12-31", "2017-02-28", "2017-03-01", "2020-02-29")
+
+lubridate::time_length(lubridate::interval(
+  start = lubridate::ymd(birthday),
+  end = lubridate::ymd(day_of_surgery)
+  )
+  , unit = "year") %>% 
+  base::trunc()
+```
+
