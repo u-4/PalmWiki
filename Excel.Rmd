@@ -1,0 +1,61 @@
+---
+title: "Excel"
+output: html_document
+---
+
+読み込みに関しては`tidyverse`な`readxl`パッケージを初め多くのパッケージがある。また一度きりであればcsv出力した上で読み込めばまず問題は生じない。まあ変態エクセルの対応はまた別になるが。
+
+書き込みについても、新規のワークブックを作成して新規のワークシートを作成すればいいのであれば多くのパッケージでできそう。既存のエクセルで作成されたテンプレートに入力して行かないといけない場合に困ったので方法を記載。
+
+## 利用可能なパッケージ
+
+### `readxl`
+
+読み込みならこれ。
+
+### `openxlsx`
+
+- [CRAN - Package openxlsx](https://cran.r-project.org/web/packages/openxlsx/index.html)
+- [Rで復習：エクセルファイルの操作に便利な「openxlsx」パッケージ](https://www.karada-good.net/analyticsr/r-535)
+
+
+JAVAに依存しないパッケージで読み書き編集できるとのことだが、テンプレートに入力する方法が上手く見つけられなかった。もしかしたらできるかもしれない。「xlsx」のみ対応。
+
+### `xlsx`
+
+JAVAに依存、xlsxのみ
+
+### `XLConnect`
+
+- [CRAN - Package XLConnect](https://cran.r-project.org/web/packages/XLConnect/index.html)
+
+JAVAに依存、xlsもxlsxも対応しており、あまり大きいデータは落ちたりしやすいようだが、テンプレートへの入力には便利な関数がデフォルトで用意されているので便利。
+
+#### rJAVAインストール関連
+
+JAVAのインストールはHomebrewなど利用して。何は無くともまず
+
+```
+R CMD javareconf
+```
+
+でRにJVMのパスの設定を行う。その後は`rJava`パッケージが正しくインストール＆ロードできると思われる。読み込めない的なエラーが出たら（RStudioやmacの）再起動など試した上で
+
+```{r, eval=FALSE}
+dyn.load('/Library/Java/JavaVirtualMachines/jdk1.8.0_202.jdk/Contents/Home/jre/lib/server/libjvm.dylib')
+```
+
+などで手動設定すると良い模様。JAVAのバージョンの確認は`java -version`でJDKがインストールされているかも確認できる。
+
+## 既存のExcelテンプレートに書き込み
+
+xlsxファイルなら`openxlsx`パッケージも使えそうだがやり方が把握できていない。`XLConnect`パッケージはJAVA関連の設定やインストールが必要だが歴史も長く使いやすい関数がある。本来なら「ワークブックの読み込み→ワークシートを指定して書き込み→ファイルを書き込み」みたいにやるところを一発でできる。
+
+```{r, eval=FALSE}
+XLConnect::writeWorksheetToFile(file = "対象のエクセルファイル", data = 書き込みたいデータオブジェクト,
+                                sheet = シート番号か名前で指定, startRow = 開始行, startCol = 開始列,
+                                header = FALSE, # テンプレートに入力なら多分いらない
+                                styleAction = XLC$"STYLE_ACTION.NONE") # これでスタイルを元のままで貼り付けできる
+```
+
+リストで渡してdataとsheetをうまく設定できれば複数でも一発。テンプレートへの入力ならスタイルはなし（既存の書式を維持）のための`styleAction = XLC$"STYLE_ACTION.NONE"`が良さそう。色々指定もできる模様。
