@@ -33,8 +33,19 @@ tidyrはreadrとまとめるべきか？
 
 [データハンドリング入門](https://kazutan.github.io/kazutanR/hands_on_170730/index.html)
 
+### 行番号を振る
 
-## dplyr 0.8
+連番で行番号を振るなら`dplyr::row_number()`でいける。
+
+```{r}
+iris %>%
+  dplyr::as_tibble() %>% 
+  dplyr::mutate(Row_Num = dplyr::row_number()) %>% 
+  dplyr::select(Row_Num, everything())
+```
+
+
+## dplyr 0.8での変更点
 
 - [dplyr 0.8.0を使ってみた（group_by()のbreaking changes編） - Technically, technophobic.](https://notchained.hatenablog.com/entry/2018/12/09/120553)
 - [dplyr 0.8.0を使ってみた（新機能編） - Technically, technophobic.](https://notchained.hatenablog.com/entry/2018/12/09/160956)
