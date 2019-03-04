@@ -2,6 +2,8 @@
 title: "R雑多メモ"
 ---
 
+未分類のものを適当に並べてあるともいう。
+
 ## Rでの欠測値の扱い
 
 `NA`は伝染するという厄介な面もある。臨床データの取り扱い上は避けて通れないためまとめていく。「欠損値でない」を表す時は「`!`」と「`is.na(x)`」を用いると便利そう。
@@ -162,23 +164,45 @@ https://stackoverflow.com/questions/42734547/generating-random-strings
 
 匿名化IDの表を印刷して、そこに本当のID、日付、必要なら氏名などを記載して鍵付きロッカー（個人情報保管用として定められたところ）へ
 
-## 文字列ベクトルをコピペできる形で出力
+## ベクトルやデータフレームの入出力を便利に
 
-直接入力ではなく作成された文字列ベクトルの中身を他のコードやサンプルコードとして使うためにコピペしたいときに、なかなかうまいこと出力できなかった。とりあえず強引に前後に`"`をつけて`cat(sep = ", ")`でコンソールに出力することには成功したが、もう少しうまい方法がないものだろうか（r_wakalangで聞いてみた）。
+### 文字列ベクトルをコピペできる形で出力したい
 
-```{r, eval=FALSE}
+直接入力ではなく作成された文字列ベクトルの中身を他のコードやサンプルコードとして使うためにコピペしたいときに、なかなかうまいこと出力できなかった。とりあえず強引に前後に`"`をつけて`cat(sep = ", ")`でコンソールに出力することには成功したが、もう少しうまい方法がないものだろうか
+
+```{r}
 # ランダム生成していますが、何らかの形で（直接入力ではなく）得られた文字列ベクトルです
 nms <- stringi::stri_rand_strings(n = 20, length = 10)
 
 # 普通にコンソールに出力すると「[1]」が入ってカンマもないのでコピペしにくい
 nms
-#  [1] "qN9Z8Di83X" "TYJMnhEt7d" "as39xLXiWg" "k5Vzqw1vde" "73y1rsUUhJ" "YrbjnnX73A" "Q1qnqeRMUl" "QS40PZOuNK" "ROh1u1FnSU" "Fnc9UTvsal"
-# [11] "v6gZXfj5yK" "csR8DRqJiD" "BVhxYNNOky" "WDIm2dAY2Q" "6uQUslLHF4" "TUMNpqed7k" "K16iGB8SBa" "vHJdCuhkBD" "MUNSOfITqA" "ywnNOdLIyX"
 
 # とりあえず強引に出力してみました
 nms %>% stringr::str_replace_all(c("^" = '"', "$" = '"')) %>% cat(sep = ", ")
-# "qN9Z8Di83X", "TYJMnhEt7d", "as39xLXiWg", "k5Vzqw1vde", "73y1rsUUhJ", "YrbjnnX73A", "Q1qnqeRMUl", "QS40PZOuNK", "ROh1u1FnSU", "Fnc9UTvsal", "v6gZXfj5yK", "csR8DRqJiD", "BVhxYNNOky", "WDIm2dAY2Q", "6uQUslLHF4", "TUMNpqed7k", "K16iGB8SBa", "vHJdCuhkBD", "MUNSOfITqA", "ywnNOdLIyX"
+
 ```
+
+
+### [r_wakalangで聞いてみた](https://r-wakalang.slack.com/archives/C06QP6NJ0/p1549091625434000)
+
+atusyさんからあっさりと`base::dput()`を、その後datasciestosistさんから`writeClipboard(toString(sprintf('"%s"',nms)))`を、yutannihilationさんからdatapastaパッケージを紹介していただいた。`dput()`とか本当にそのままです。検索キーワード難しい……。
+
+```{r}
+# baseにそのままの関数がありましたとさ
+base::dput(nms)
+
+# datapastaパッケージが汎用性が高そうでRStudioのアドインもある
+# 出力がその場にペーストになるのでコードチャンクには向かないけど
+# datapasta::vector_paste(nms)
+
+```
+
+### datapastaパッケージ
+
+[MilesMcBain/datapasta: On top of spaghetti, all covered in cheese....](https://github.com/milesmcbain/datapasta/)
+
+
+
 
 ## Rで日本語出力
 
@@ -285,6 +309,12 @@ bookdownパッケージ関連
 
 bookdownにする際はさらにややこしい問題がありそう。下記のはlualatexを使用している模様。
 [kazutan/bookdown_ja_template: for bookdown starter kits for japanese.](https://github.com/kazutan/bookdown_ja_template)
+
+## Rの環境問題
+
+`.GolobalEnv`とかの。
+
+- [（Rの）環境問題について　その４。 - Qiita](https://qiita.com/kohske/items/1cb4a7a05b026a0cf2bb)
 
 ## R用語集
 
