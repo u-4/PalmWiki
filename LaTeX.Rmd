@@ -18,6 +18,16 @@ macOSで$$\LaTeX$$
 macで $$\LaTeX$$（LaTeX）を利用するための設定方法。MacTeX2018で日本語周りが変更になったのに対応。
 `ghostscript`と`mactex`はmacOS環境構築でdotfiles を用いてインストール済みのはず。
 
+### 2019年2月追記
+
+以下のやり方だとmojave対応できない部分がある模様。TeXWikiの方法で美文書入門（懐かしすぎる）のパッチを使うのが良さそう。
+
+- [TeX Live/Mac - TeX Wiki](https://texwiki.texjp.org/?TeX%20Live%2FMac)
+- [ヒラギノフォント - TeX Wiki](https://texwiki.texjp.org/?%E3%83%92%E3%83%A9%E3%82%AE%E3%83%8E%E3%83%95%E3%82%A9%E3%83%B3%E3%83%88#macos-hiragino-setup)
+- [改訂第7版 LaTeX2e 美文書作成入門](https://okumuralab.org/bibun7/)
+- [Releases · munepi/bibunsho7-patch](https://github.com/munepi/bibunsho7-patch/releases)
+
+### 2018時点の情報
 
 [MacTeX 2018 のインストール＆日本語環境構築法 - TeX Alchemist Online](http://doratex.hatenablog.jp/entry/20180501/1525144736)を参考（丸パクリ）にして作成。(u)pLaTeX + dvipdfmxで日本語文書を出力できるようになる。
 
