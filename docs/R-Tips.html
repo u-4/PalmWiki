@@ -390,7 +390,7 @@ div.tocify {
       <a href="readr.html">データ読み込みと整形(readr)</a>
     </li>
     <li>
-      <a href="dplyr-tidyr.html">データセット操作(dplyr, tidyr)</a>
+      <a href="dplyr.html">データセット操作(dplyr, tidyr)</a>
     </li>
     <li>
       <a href="purrr.html">関数型プログラミング(purrr)</a>
@@ -742,23 +742,23 @@ nms &lt;- stringi::stri_rand_strings(n = 20, length = 10)
 
 # 普通にコンソールに出力すると「[1]」が入ってカンマもないのでコピペしにくい
 nms</code></pre>
-<pre><code>##  [1] &quot;cn7v12Hhpf&quot; &quot;5MNLnq6Op7&quot; &quot;5QNYuodbUs&quot; &quot;vUpf7jVjqd&quot; &quot;eEyL0l6s32&quot;
-##  [6] &quot;6FDjAAuW4v&quot; &quot;IGfmeZ61PO&quot; &quot;IRXbd08Qp0&quot; &quot;izyPx2gkQf&quot; &quot;rpeTZDouLm&quot;
-## [11] &quot;hZiWsrPYkn&quot; &quot;M9OR1uPqAp&quot; &quot;iLs4pMZfjm&quot; &quot;PvTb6Z4Um7&quot; &quot;SPe9npp36v&quot;
-## [16] &quot;W50BiS0sCL&quot; &quot;nB3IUuRx8b&quot; &quot;4OnZjZtmas&quot; &quot;xalvUMPnVE&quot; &quot;bYDS99T2Kz&quot;</code></pre>
+<pre><code>##  [1] &quot;AdZf8SmxpS&quot; &quot;ORi84PrTlI&quot; &quot;zQQ8TrCiaG&quot; &quot;6NJwmpDvrl&quot; &quot;Iq6graja6L&quot;
+##  [6] &quot;4jiz4QLCnM&quot; &quot;nrstHDpkhR&quot; &quot;mgkwnFXc2K&quot; &quot;JJKOZcwd3r&quot; &quot;BtAo0kVkLI&quot;
+## [11] &quot;lNNnWC3A9D&quot; &quot;VKm0fxT4tG&quot; &quot;wo3IGBkD4I&quot; &quot;BvirOYNOqu&quot; &quot;aq2SUq24SE&quot;
+## [16] &quot;G8DJOqEi31&quot; &quot;LDsIH06olH&quot; &quot;kjOG7IPq1j&quot; &quot;OTmZ8q6QMs&quot; &quot;sZIF5QSUIS&quot;</code></pre>
 <pre class="r"><code># とりあえず強引に出力してみました
 nms %&gt;% stringr::str_replace_all(c(&quot;^&quot; = &#39;&quot;&#39;, &quot;$&quot; = &#39;&quot;&#39;)) %&gt;% cat(sep = &quot;, &quot;)</code></pre>
-<pre><code>## &quot;cn7v12Hhpf&quot;, &quot;5MNLnq6Op7&quot;, &quot;5QNYuodbUs&quot;, &quot;vUpf7jVjqd&quot;, &quot;eEyL0l6s32&quot;, &quot;6FDjAAuW4v&quot;, &quot;IGfmeZ61PO&quot;, &quot;IRXbd08Qp0&quot;, &quot;izyPx2gkQf&quot;, &quot;rpeTZDouLm&quot;, &quot;hZiWsrPYkn&quot;, &quot;M9OR1uPqAp&quot;, &quot;iLs4pMZfjm&quot;, &quot;PvTb6Z4Um7&quot;, &quot;SPe9npp36v&quot;, &quot;W50BiS0sCL&quot;, &quot;nB3IUuRx8b&quot;, &quot;4OnZjZtmas&quot;, &quot;xalvUMPnVE&quot;, &quot;bYDS99T2Kz&quot;</code></pre>
+<pre><code>## &quot;AdZf8SmxpS&quot;, &quot;ORi84PrTlI&quot;, &quot;zQQ8TrCiaG&quot;, &quot;6NJwmpDvrl&quot;, &quot;Iq6graja6L&quot;, &quot;4jiz4QLCnM&quot;, &quot;nrstHDpkhR&quot;, &quot;mgkwnFXc2K&quot;, &quot;JJKOZcwd3r&quot;, &quot;BtAo0kVkLI&quot;, &quot;lNNnWC3A9D&quot;, &quot;VKm0fxT4tG&quot;, &quot;wo3IGBkD4I&quot;, &quot;BvirOYNOqu&quot;, &quot;aq2SUq24SE&quot;, &quot;G8DJOqEi31&quot;, &quot;LDsIH06olH&quot;, &quot;kjOG7IPq1j&quot;, &quot;OTmZ8q6QMs&quot;, &quot;sZIF5QSUIS&quot;</code></pre>
 </div>
 <div id="r_wakalangで聞いてみた" class="section level3">
 <h3><a href="https://r-wakalang.slack.com/archives/C06QP6NJ0/p1549091625434000">r_wakalangで聞いてみた</a></h3>
 <p>atusyさんからあっさりと<code>base::dput()</code>を、その後datasciestosistさんから<code>writeClipboard(toString(sprintf('"%s"',nms)))</code>を、yutannihilationさんからdatapastaパッケージを紹介していただいた。<code>dput()</code>とか本当にそのままです。検索キーワード難しい……。</p>
 <pre class="r"><code># baseにそのままの関数がありましたとさ
 base::dput(nms)</code></pre>
-<pre><code>## c(&quot;cn7v12Hhpf&quot;, &quot;5MNLnq6Op7&quot;, &quot;5QNYuodbUs&quot;, &quot;vUpf7jVjqd&quot;, &quot;eEyL0l6s32&quot;, 
-## &quot;6FDjAAuW4v&quot;, &quot;IGfmeZ61PO&quot;, &quot;IRXbd08Qp0&quot;, &quot;izyPx2gkQf&quot;, &quot;rpeTZDouLm&quot;, 
-## &quot;hZiWsrPYkn&quot;, &quot;M9OR1uPqAp&quot;, &quot;iLs4pMZfjm&quot;, &quot;PvTb6Z4Um7&quot;, &quot;SPe9npp36v&quot;, 
-## &quot;W50BiS0sCL&quot;, &quot;nB3IUuRx8b&quot;, &quot;4OnZjZtmas&quot;, &quot;xalvUMPnVE&quot;, &quot;bYDS99T2Kz&quot;
+<pre><code>## c(&quot;AdZf8SmxpS&quot;, &quot;ORi84PrTlI&quot;, &quot;zQQ8TrCiaG&quot;, &quot;6NJwmpDvrl&quot;, &quot;Iq6graja6L&quot;, 
+## &quot;4jiz4QLCnM&quot;, &quot;nrstHDpkhR&quot;, &quot;mgkwnFXc2K&quot;, &quot;JJKOZcwd3r&quot;, &quot;BtAo0kVkLI&quot;, 
+## &quot;lNNnWC3A9D&quot;, &quot;VKm0fxT4tG&quot;, &quot;wo3IGBkD4I&quot;, &quot;BvirOYNOqu&quot;, &quot;aq2SUq24SE&quot;, 
+## &quot;G8DJOqEi31&quot;, &quot;LDsIH06olH&quot;, &quot;kjOG7IPq1j&quot;, &quot;OTmZ8q6QMs&quot;, &quot;sZIF5QSUIS&quot;
 ## )</code></pre>
 <pre class="r"><code># datapastaパッケージが汎用性が高そうでRStudioのアドインもある
 # 出力がその場にペーストになるのでコードチャンクには向かないけど

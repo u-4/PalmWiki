@@ -7,7 +7,7 @@ navbar:
         - text: "データ読み込みと整形(readr)"
           href: readr.html
         - text: "データセット操作(dplyr, tidyr)"
-          href: dplyr-tidyr.html
+          href: dplyr.html
         - text: "関数型プログラミング(purrr)"
           href: purrr.html
         - text: "文字列操作(stringr)"
