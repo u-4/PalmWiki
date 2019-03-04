@@ -11,7 +11,7 @@
 
 
 
-<title>データセット</title>
+<title>Excel</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -612,34 +612,55 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">データセット</h1>
+<h1 class="title toc-ignore">Excel</h1>
 
 </div>
 
 
-<p>パッケージ内のデータセットから外部データベースまで取得とか特徴とか実習とか。</p>
-<div id="標準データセット" class="section level3">
-<h3>標準データセット</h3>
-<ul>
-<li><a href="https://qiita.com/wakuteka/items/95ac758070f6f4d89a96">R言語 標準データセットの私的まとめ - Qiita</a>a</li>
-</ul>
+<p>読み込みに関しては<code>tidyverse</code>な<code>readxl</code>パッケージを初め多くのパッケージがある。また一度きりであればcsv出力した上で読み込めばまず問題は生じない。まあ変態エクセルの対応はまた別になるが。</p>
+<p>書き込みについても、新規のワークブックを作成して新規のワークシートを作成すればいいのであれば多くのパッケージでできそう。既存のエクセルで作成されたテンプレートに入力して行かないといけない場合に困ったので方法を記載。</p>
+<div id="利用可能なパッケージ" class="section level2">
+<h2>利用可能なパッケージ</h2>
+<div id="readxl" class="section level3">
+<h3><code>readxl</code></h3>
+<p>読み込みならこれ。</p>
 </div>
-<div id="e-stat" class="section level3">
-<h3>e-Stat</h3>
+<div id="openxlsx" class="section level3">
+<h3><code>openxlsx</code></h3>
 <ul>
-<li><a href="https://qiita.com/nozma/items/f88f5cc60ab63461deae">Rからe-Stat APIを使う - Qiita</a></li>
-<li><a href="https://qiita.com/kazutan/items/9c0b2dd0f055fde45cda">estatapiパッケージで簡単にe-Statのデータ取得 - Qiita</a></li>
-<li><p><a href="https://notchained.hatenablog.com/entry/2016/07/17/000530">e-Stat APIバージョン2.1をRから使う - Technically, technophobic.</a></p></li>
-<li><a href="http://id.fnshr.info/2018/04/23/r-data-cleaning-school/">Rによるデータクリーニング実践――政府統計からのグラフ作成を例として｜Colorless Green Ideas</a></li>
-<li><p><a href="https://notchained.hatenablog.com/entry/2015/11/01/084909">e-Stat APIをRから使うパッケージを作りました - Technically, technophobic.</a></p></li>
+<li><a href="https://cran.r-project.org/web/packages/openxlsx/index.html">CRAN - Package openxlsx</a></li>
+<li><a href="https://www.karada-good.net/analyticsr/r-535">Rで復習：エクセルファイルの操作に便利な「openxlsx」パッケージ</a></li>
 </ul>
+<p>JAVAに依存しないパッケージで読み書き編集できるとのことだが、テンプレートに入力する方法が上手く見つけられなかった。もしかしたらできるかもしれない。「xlsx」のみ対応。</p>
 </div>
-<div id="ndb" class="section level3">
-<h3>NDB</h3>
+<div id="xlsx" class="section level3">
+<h3><code>xlsx</code></h3>
+<p>JAVAに依存、xlsxのみ</p>
+</div>
+<div id="xlconnect" class="section level3">
+<h3><code>XLConnect</code></h3>
 <ul>
-<li><a href="https://qiita.com/renwood_aoba/items/977229fda4cbd8cfc02a">R歴1ヶ月の俺がtidyverseを使ってNDBオープンデータから尿蛋白検査の地域差を検証してみた件について #1 - Qiita</a></li>
-<li><a href="https://www.mhlw.go.jp/content/12400000/000346720.pdf">Microsoft Word - 第３回ＮＤＢオープンデータ解説編（①前編）.docx</a></li>
+<li><a href="https://cran.r-project.org/web/packages/XLConnect/index.html">CRAN - Package XLConnect</a></li>
 </ul>
+<p>JAVAに依存、xlsもxlsxも対応しており、あまり大きいデータは落ちたりしやすいようだが、テンプレートへの入力には便利な関数がデフォルトで用意されているので便利。</p>
+<div id="rjavaインストール関連" class="section level4">
+<h4>rJAVAインストール関連</h4>
+<p>JAVAのインストールはHomebrewなど利用して。何は無くともまず</p>
+<pre><code>R CMD javareconf</code></pre>
+<p>でRにJVMのパスの設定を行う。その後は<code>rJava</code>パッケージが正しくインストール＆ロードできると思われる。読み込めない的なエラーが出たら（RStudioやmacの）再起動など試した上で</p>
+<pre class="r"><code>dyn.load(&#39;/Library/Java/JavaVirtualMachines/jdk1.8.0_202.jdk/Contents/Home/jre/lib/server/libjvm.dylib&#39;)</code></pre>
+<p>などで手動設定すると良い模様。JAVAのバージョンの確認は<code>java -version</code>でJDKがインストールされているかも確認できる。</p>
+</div>
+</div>
+</div>
+<div id="既存のexcelテンプレートに書き込み" class="section level2">
+<h2>既存のExcelテンプレートに書き込み</h2>
+<p>xlsxファイルなら<code>openxlsx</code>パッケージも使えそうだがやり方が把握できていない。<code>XLConnect</code>パッケージはJAVA関連の設定やインストールが必要だが歴史も長く使いやすい関数がある。本来なら「ワークブックの読み込み→ワークシートを指定して書き込み→ファイルを書き込み」みたいにやるところを一発でできる。</p>
+<pre class="r"><code>XLConnect::writeWorksheetToFile(file = &quot;対象のエクセルファイル&quot;, data = 書き込みたいデータオブジェクト,
+                                sheet = シート番号か名前で指定, startRow = 開始行, startCol = 開始列,
+                                header = FALSE, # テンプレートに入力なら多分いらない
+                                styleAction = XLC$&quot;STYLE_ACTION.NONE&quot;) # これでスタイルを元のままで貼り付けできる</code></pre>
+<p>リストで渡してdataとsheetをうまく設定できれば複数でも一発。テンプレートへの入力ならスタイルはなし（既存の書式を維持）のための<code>styleAction = XLC$"STYLE_ACTION.NONE"</code>が良さそう。色々指定もできる模様。</p>
 </div>
 
 <footer>

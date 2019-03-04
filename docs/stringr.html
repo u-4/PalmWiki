@@ -387,10 +387,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="readr.html">データ読み込みと整形(readr, tidyr)</a>
+      <a href="readr.html">データ読み込みと整形(readr)</a>
     </li>
     <li>
-      <a href="dplyr-tidyr.html">データセット操作(dplyr)</a>
+      <a href="dplyr-tidyr.html">データセット操作(dplyr, tidyr)</a>
     </li>
     <li>
       <a href="purrr.html">関数型プログラミング(purrr)</a>
@@ -426,6 +426,9 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="Visualization.html">可視化一般</a>
+    </li>
+    <li>
       <a href="ggplot2.html">ggplot2</a>
     </li>
     <li>
@@ -454,6 +457,9 @@ div.tocify {
     </li>
     <li>
       <a href="magick.html">Rで画像処理(magick)</a>
+    </li>
+    <li>
+      <a href="Excel.html">RでExcel出力</a>
     </li>
   </ul>
 </li>
@@ -621,8 +627,8 @@ div.tocify {
 </ul>
 <div id="複数パターンをまとめて置き換え" class="section level3">
 <h3>複数パターンをまとめて置き換え</h3>
-<p><code>dplyr::recode</code>っぽい表現で<code>stringr::str_replace_all()</code>でできる。<code>str_replace()</code>ではできない模様。</p>
-<pre class="r"><code>nms &lt;- c(&quot;ID&quot;, &quot;Urgency&quot;, &quot;ASAPS&quot;, &quot;Age&quot;, &quot;Sex&quot;, &quot;BH&quot;, &quot;BW&quot;, &quot;BSA&quot;, &quot;Operation_time&quot;, &quot;Anesthesia_time&quot;, &quot;EBL&quot;, &quot;Urine&quot;, &quot;Transfusion&quot;, &quot;Crystaloid&quot;, &quot;colloid&quot;, &quot;Compli&quot;,&quot;TBil_Pre&quot;, &quot;APTT_Pre&quot;, &quot;PTINR_Pre&quot;, &quot;Fbg_Pre&quot;, &quot;Hb_Pre&quot;, &quot;Plt_Pre&quot;, &quot;TBil_Pst&quot;, &quot;APTT_Pst&quot;, &quot;PTINR_Pst&quot;, &quot;Fbg_Pst&quot;, &quot;Hb_Pst&quot;, &quot;Plt_Pst&quot;, &quot;TBil_POD1&quot;, &quot;APTT_POD1&quot;, &quot;PTINR_POD1&quot;, &quot;Fbg_POD1&quot;, &quot;Hb_POD1&quot;, &quot;Plt_POD1&quot;, &quot;TBil_POD2&quot;, &quot;APTT_POD2&quot;, &quot;PTINR_POD2&quot;, &quot;Fbg_POD2&quot;, &quot;Hb_POD2&quot;, &quot;Plt_POD2&quot;, &quot;TBil_POD3&quot;, &quot;APTT_POD3&quot;, &quot;PTINR_POD3&quot;, &quot;Fbg_POD3&quot;, &quot;Hb_POD3&quot;, &quot;Plt_POD3&quot;, &quot;TBil_POD5&quot;, &quot;APTT_POD5&quot;, &quot;PTINR_POD5&quot;, &quot;Fbg_POD5&quot;, &quot;Hb_POD5&quot;, &quot;Plt_POD5&quot;, &quot;TBil_POD7&quot;, &quot;APTT_POD7&quot;, &quot;PTINR_POD7&quot;, &quot;Fbg_POD7&quot;, &quot;Hb_POD7&quot;, &quot;Plt_POD7&quot;, &quot;TBil_POD14&quot;, &quot;APTT_POD14&quot;, &quot;PTINR_POD14&quot;, &quot;Fbg_POD14&quot;, &quot;Hb_POD14&quot;, &quot;Plt_POD14&quot;)
+<p><code>dplyr::recode</code>っぽい表現で<code>stringr::str_replace_all()</code>でできる。<code>str_replace()</code>ではできない模様。<code>argument pattern is missing</code>みたいに怒られるけどヘルプにも載っている記法。</p>
+<pre class="r"><code>nms &lt;- c(&quot;ID&quot;, &quot;ASAPS&quot;, &quot;Pst_BT&quot;, &quot;Age&quot;, &quot;Sex&quot;, &quot;BH&quot;, &quot;BW&quot;, &quot;BSA&quot;, &quot;Operation_time&quot;, &quot;Anesthesia_time&quot;, &quot;EBL&quot;, &quot;Urine&quot;, &quot;Transfusion&quot;, &quot;Crystaloid&quot;, &quot;colloid&quot;, &quot;Compli&quot;, &quot;TBil_00&quot;, &quot;APTT_00&quot;, &quot;PTINR_00&quot;, &quot;Fbg_00&quot;, &quot;Hb_00&quot;, &quot;Plt_00&quot;, &quot;TBil_0&quot;, &quot;APTT_0&quot;, &quot;PTINR_0&quot;, &quot;Fbg_0&quot;, &quot;Hb_0&quot;, &quot;Plt_0&quot;, &quot;TBil_1&quot;, &quot;APTT_1&quot;, &quot;PTINR_1&quot;, &quot;Fbg_1&quot;, &quot;Hb_1&quot;, &quot;Plt_1&quot;, &quot;TBil_2&quot;, &quot;APTT_2&quot;, &quot;PTINR_2&quot;, &quot;Fbg_2&quot;, &quot;Hb_2&quot;, &quot;Plt_2&quot;, &quot;TBil_3&quot;, &quot;APTT_3&quot;, &quot;PTINR_3&quot;, &quot;Fbg_3&quot;, &quot;Hb_3&quot;, &quot;Plt_3&quot;, &quot;TBil_5&quot;, &quot;APTT_5&quot;, &quot;PTINR_5&quot;, &quot;Fbg_5&quot;, &quot;Hb_5&quot;, &quot;Plt_5&quot;, &quot;TBil_7&quot;, &quot;APTT_7&quot;, &quot;PTINR_7&quot;, &quot;Fbg_7&quot;, &quot;Hb_7&quot;, &quot;Plt_7&quot;, &quot;TBil_99&quot;, &quot;APTT_99&quot;, &quot;PTINR_99&quot;, &quot;Fbg_99&quot;, &quot;Hb_99&quot;, &quot;Plt_99&quot;)
 
 nms &lt;- nms %&gt;% stringr::str_replace_all(c(&quot;_00$&quot; = &quot;_Pre&quot;,
                                           &quot;_0$&quot; = &quot;_Pst&quot;,
@@ -631,7 +637,30 @@ nms &lt;- nms %&gt;% stringr::str_replace_all(c(&quot;_00$&quot; = &quot;_Pre&qu
                                           &quot;_3$&quot; = &quot;_POD3&quot;,
                                           &quot;_5$&quot; = &quot;_POD5&quot;,
                                           &quot;_7$&quot; = &quot;_POD7&quot;,
-                                          &quot;_99$&quot; = &quot;_POD14&quot;))</code></pre>
+                                          &quot;_99$&quot; = &quot;_POD14&quot;))
+nms</code></pre>
+<pre><code>##  [1] &quot;ID&quot;              &quot;ASAPS&quot;           &quot;Pst_BT&quot;         
+##  [4] &quot;Age&quot;             &quot;Sex&quot;             &quot;BH&quot;             
+##  [7] &quot;BW&quot;              &quot;BSA&quot;             &quot;Operation_time&quot; 
+## [10] &quot;Anesthesia_time&quot; &quot;EBL&quot;             &quot;Urine&quot;          
+## [13] &quot;Transfusion&quot;     &quot;Crystaloid&quot;      &quot;colloid&quot;        
+## [16] &quot;Compli&quot;          &quot;TBil_Pre&quot;        &quot;APTT_Pre&quot;       
+## [19] &quot;PTINR_Pre&quot;       &quot;Fbg_Pre&quot;         &quot;Hb_Pre&quot;         
+## [22] &quot;Plt_Pre&quot;         &quot;TBil_Pst&quot;        &quot;APTT_Pst&quot;       
+## [25] &quot;PTINR_Pst&quot;       &quot;Fbg_Pst&quot;         &quot;Hb_Pst&quot;         
+## [28] &quot;Plt_Pst&quot;         &quot;TBil_POD1&quot;       &quot;APTT_POD1&quot;      
+## [31] &quot;PTINR_POD1&quot;      &quot;Fbg_POD1&quot;        &quot;Hb_POD1&quot;        
+## [34] &quot;Plt_POD1&quot;        &quot;TBil_POD2&quot;       &quot;APTT_POD2&quot;      
+## [37] &quot;PTINR_POD2&quot;      &quot;Fbg_POD2&quot;        &quot;Hb_POD2&quot;        
+## [40] &quot;Plt_POD2&quot;        &quot;TBil_POD3&quot;       &quot;APTT_POD3&quot;      
+## [43] &quot;PTINR_POD3&quot;      &quot;Fbg_POD3&quot;        &quot;Hb_POD3&quot;        
+## [46] &quot;Plt_POD3&quot;        &quot;TBil_POD5&quot;       &quot;APTT_POD5&quot;      
+## [49] &quot;PTINR_POD5&quot;      &quot;Fbg_POD5&quot;        &quot;Hb_POD5&quot;        
+## [52] &quot;Plt_POD5&quot;        &quot;TBil_POD7&quot;       &quot;APTT_POD7&quot;      
+## [55] &quot;PTINR_POD7&quot;      &quot;Fbg_POD7&quot;        &quot;Hb_POD7&quot;        
+## [58] &quot;Plt_POD7&quot;        &quot;TBil_POD14&quot;      &quot;APTT_POD14&quot;     
+## [61] &quot;PTINR_POD14&quot;     &quot;Fbg_POD14&quot;       &quot;Hb_POD14&quot;       
+## [64] &quot;Plt_POD14&quot;</code></pre>
 </div>
 
 <footer>

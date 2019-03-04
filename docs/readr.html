@@ -387,10 +387,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="readr.html">データ読み込みと整形(readr, tidyr)</a>
+      <a href="readr.html">データ読み込みと整形(readr)</a>
     </li>
     <li>
-      <a href="dplyr-tidyr.html">データセット操作(dplyr)</a>
+      <a href="dplyr-tidyr.html">データセット操作(dplyr, tidyr)</a>
     </li>
     <li>
       <a href="purrr.html">関数型プログラミング(purrr)</a>
@@ -426,6 +426,9 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="Visualization.html">可視化一般</a>
+    </li>
+    <li>
       <a href="ggplot2.html">ggplot2</a>
     </li>
     <li>
@@ -454,6 +457,9 @@ div.tocify {
     </li>
     <li>
       <a href="magick.html">Rで画像処理(magick)</a>
+    </li>
+    <li>
+      <a href="Excel.html">RでExcel出力</a>
     </li>
   </ul>
 </li>
@@ -756,6 +762,10 @@ d &lt;- suppressWarnings(readxl::read_excel(path = &quot;対象エクセルフ�
 <h3>どうしても時間型データだととりたがる</h3>
 <p><code>col_types</code>で<code>"numeric"</code>を指定していて、Excel上のセルタイプでも数値データなのに読み込み時に<code>Expecting numeric in E9 / R9C5: got a date</code>のようなWarningsが大量発生することがある。自動判定だと<code>date</code>タイプとされてしまう。指定さえしていれば実際には<code>numeric</code>で読み込んでおり実害はないのだが、他のエラーが埋もれる勢いなので、<code>suppressWarnings()</code>で読み込み部分は囲ってしまうか、チャンクオプション(<code>warning=FALSE</code>)を変えるとするか良いかもしれない。以下のブログを見る限り放っておくしかなさそう。</p>
 <p><a href="http://what-alnk.hatenablog.com/entry/2018/10/19/230000">readxl が numeric のセルを date だと判定してしまうやつ - 金魚亭日常</a></p>
+</div>
+<div id="windowsのexcelで読み込んだ時に文字化けしないcsvファイルの出力方法" class="section level3">
+<h3>WindowsのExcelで読み込んだ時に文字化けしないcsvファイルの出力方法</h3>
+<p><code>readr::write_excel_csv()</code>を使えば良いとのこと。通常はUTF-8で出力されるのにWindowsのExcelがSJISで読み込もうとするのが原因らしい。</p>
 </div>
 </div>
 <div id="google-spreadsheet" class="section level2">

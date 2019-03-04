@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2019-02-02" />
+<meta name="date" content="2019-03-04" />
 
 <title>baseR</title>
 
@@ -388,10 +388,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="readr.html">データ読み込みと整形(readr, tidyr)</a>
+      <a href="readr.html">データ読み込みと整形(readr)</a>
     </li>
     <li>
-      <a href="dplyr-tidyr.html">データセット操作(dplyr)</a>
+      <a href="dplyr-tidyr.html">データセット操作(dplyr, tidyr)</a>
     </li>
     <li>
       <a href="purrr.html">関数型プログラミング(purrr)</a>
@@ -427,6 +427,9 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="Visualization.html">可視化一般</a>
+    </li>
+    <li>
       <a href="ggplot2.html">ggplot2</a>
     </li>
     <li>
@@ -455,6 +458,9 @@ div.tocify {
     </li>
     <li>
       <a href="magick.html">Rで画像処理(magick)</a>
+    </li>
+    <li>
+      <a href="Excel.html">RでExcel出力</a>
     </li>
   </ul>
 </li>
@@ -608,7 +614,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">baseR</h1>
-<h4 class="date"><em>2019-02-02</em></h4>
+<h4 class="date"><em>2019-03-04</em></h4>
 
 </div>
 
@@ -618,12 +624,14 @@ div.tocify {
 <li><a href="http://github.com/rstudio/cheatsheets/raw/master/base-r.pdf">Base R cheetsheet</a></li>
 <li><a href="https://www.rstudio.com/wp-content/uploads/2016/02/advancedR.pdf">Advanced R cheetsheet</a></li>
 </ul>
-<div id="paste0-paste-から-str_c" class="section level2">
-<h2><code>paste0</code> / <code>paste</code> から <code>str_c</code></h2>
+<div id="文字列の扱い関連" class="section level2">
+<h2>文字列の扱い関連</h2>
+<div id="paste0-paste-から-str_c" class="section level3">
+<h3><code>paste0</code> / <code>paste</code> から <code>str_c</code></h3>
 <p><a href="http://rpubs.com/yamano357/92478">RPubs - Stringr-Stringi-base</a></p>
 <p><code>base::paste0(..., collapse = NULL)</code> <code>base::paste(..., sep = " ", collapse = NULL)</code> <code>stringr::str_c(..., sep = "", collapse = NULL)</code></p>
-<div id="naの扱いの違い" class="section level3">
-<h3>NAの扱いの違い</h3>
+<div id="naの扱いの違い" class="section level4">
+<h4>NAの扱いの違い</h4>
 <pre class="r"><code># pasteはas.character処理をするのでNAの扱いも文字列になる
 x &lt;- LETTERS 
 x[x %in% c(&quot;A&quot;, &quot;E&quot;, &quot;I&quot;, &quot;O&quot;, &quot;U&quot;)] &lt;- NA
@@ -641,8 +649,8 @@ y %&gt;% head()</code></pre>
 stringr::str_c(str_replace_na(x), str_replace_na(y)) %&gt;% head()</code></pre>
 <pre><code>## [1] &quot;NANA&quot; &quot;Bb&quot;   &quot;Cc&quot;   &quot;DNA&quot;  &quot;NAe&quot;  &quot;Ff&quot;</code></pre>
 </div>
-<div id="ベクトルリサイクリングの警告" class="section level3">
-<h3>ベクトルリサイクリングの警告</h3>
+<div id="ベクトルリサイクリングの警告" class="section level4">
+<h4>ベクトルリサイクリングの警告</h4>
 <p><code>str_c()</code>はベクトルの長さがちょうど倍数になっていない場合には警告してくれる。</p>
 <pre class="r"><code>paste0(month.abb, letters)</code></pre>
 <pre><code>##  [1] &quot;Jana&quot; &quot;Febb&quot; &quot;Marc&quot; &quot;Aprd&quot; &quot;Maye&quot; &quot;Junf&quot; &quot;Julg&quot; &quot;Augh&quot; &quot;Sepi&quot; &quot;Octj&quot;
@@ -654,6 +662,23 @@ stringr::str_c(str_replace_na(x), str_replace_na(y)) %&gt;% head()</code></pre>
 <pre><code>##  [1] &quot;Jana&quot; &quot;Febb&quot; &quot;Marc&quot; &quot;Aprd&quot; &quot;Maye&quot; &quot;Junf&quot; &quot;Julg&quot; &quot;Augh&quot; &quot;Sepi&quot; &quot;Octj&quot;
 ## [11] &quot;Novk&quot; &quot;Decl&quot; &quot;Janm&quot; &quot;Febn&quot; &quot;Maro&quot; &quot;Aprp&quot; &quot;Mayq&quot; &quot;Junr&quot; &quot;Juls&quot; &quot;Augt&quot;
 ## [21] &quot;Sepu&quot; &quot;Octv&quot; &quot;Novw&quot; &quot;Decx&quot; &quot;Jany&quot; &quot;Febz&quot;</code></pre>
+</div>
+</div>
+<div id="sprintfからstringrstr_interpstringrstr_glue" class="section level3">
+<h3><code>sprintf</code>から<code>stringr::str_interp</code>・<code>stringr::str_glue</code></h3>
+<ul>
+<li><a href="https://stringr.tidyverse.org/reference/str_interp.html">String interpolation. — str_interp</a></li>
+<li><a href="https://stringr.tidyverse.org/reference/str_glue.html">Format and interpolate a string with glue — str_glue</a></li>
+<li></li>
+</ul>
+<div id="printfの文法" class="section level4">
+<h4><code>printf</code>の文法</h4>
+<p>詳しくは<code>?sprintf()</code></p>
+<ul>
+<li><code>%d</code> 整数として出力．</li>
+<li><code>%05d</code> ５ケタの整数として出力．５ケタより短いときは頭を 0 で埋める． %f, 小数点付きで出力． %.3f, 小数点以下３ケタまで出力． %s, 文字列として出力．  タブ , 改行 書式指定でない文字，そのまま出力．</li>
+</ul>
+</div>
 </div>
 </div>
 <div id="ファイルオペレーション関連" class="section level2">

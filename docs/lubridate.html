@@ -387,10 +387,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="readr.html">データ読み込みと整形(readr, tidyr)</a>
+      <a href="readr.html">データ読み込みと整形(readr)</a>
     </li>
     <li>
-      <a href="dplyr-tidyr.html">データセット操作(dplyr)</a>
+      <a href="dplyr-tidyr.html">データセット操作(dplyr, tidyr)</a>
     </li>
     <li>
       <a href="purrr.html">関数型プログラミング(purrr)</a>
@@ -426,6 +426,9 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="Visualization.html">可視化一般</a>
+    </li>
+    <li>
       <a href="ggplot2.html">ggplot2</a>
     </li>
     <li>
@@ -454,6 +457,9 @@ div.tocify {
     </li>
     <li>
       <a href="magick.html">Rで画像処理(magick)</a>
+    </li>
+    <li>
+      <a href="Excel.html">RでExcel出力</a>
     </li>
   </ul>
 </li>
@@ -617,6 +623,53 @@ div.tocify {
 <li><a href="https://qiita.com/nozma/items/01725761d980a0110027">lubridateパッケージ入門 - Qiita</a></li>
 <li><p><a href="https://kazutan.github.io/SappoRoR8/01-lubridate.html">ログデータ処理で始めるlubridate入門</a></p></li>
 </ul>
+<div id="日本語和暦関連" class="section level3">
+<h3>日本語・和暦関連</h3>
+<ul>
+<li><a href="https://cran.r-project.org/package=Nippon">Nippon: Japanese Utility Functions and Data</a></li>
+<li><a href="https://uribo.hatenablog.com/entry/2017/05/02/112433">日付から曜日を取得する関数と日本語表記の対応 - cucumber flesh</a></li>
+<li><a href="https://qiita.com/uri/items/ad2ce23ec5476b17f0c4">Rパッケージを使って「国民の祝日」を“整備”する - Qiita</a></li>
+</ul>
+</div>
+<div id="通常のデータクリーニングでの日付データ処理" class="section level3">
+<h3>通常のデータクリーニングでの日付データ処理</h3>
+<p>文字データとして読み込んだ上で定型的なフォーマットなら<code>ymd()</code>とか<code>ymd_hms()</code>とかで<code>tz = "Asia/Tokyo"</code>でほとんどどうにかなってしまう。</p>
+<pre class="r"><code>lubridate::ymd_hm(&quot;2015-11-09 14:35&quot;, tz = &quot;Asia/Tokyo&quot;)</code></pre>
+<pre><code>## [1] &quot;2015-11-09 14:35:00 JST&quot;</code></pre>
+<pre class="r"><code>lubridate::ymd_hm(&quot;2015年11月9日 14時35分&quot;, tz = &quot;Asia/Tokyo&quot;)</code></pre>
+<pre><code>## [1] &quot;2015-11-09 14:35:00 JST&quot;</code></pre>
+<p><code>lubridate::parse_date_time(x, orders, tz = "Asia/Tokyo", locale = Sys.getlocale("LC_TIME"), ...)</code>が便利そう。</p>
+</div>
+<div id="年度計算" class="section level3">
+<h3>年度計算</h3>
+<p><code>lubridate::quarter(x, with_year = TRUE, fiscal_start = 4)</code>とかかと思いきや<code>lubridate::quarter(lubridate::ymd("2019-03-02"), with_year = TRUE, fiscal_start = 4)</code>は<code>2018.04</code>になってほしいのに<code>2019.04</code>が返って来るので使えない。<code>%m-%</code>で月数を引き算して<code>year()</code>で取り出すのが良さそう。</p>
+<pre class="r"><code>library(lubridate)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:base&#39;:
+## 
+##     date</code></pre>
+<pre class="r"><code>ymd(&quot;2016-02-29&quot;) %m-% months(3) %&gt;%
+  year()</code></pre>
+<pre><code>## [1] 2015</code></pre>
+</div>
+<div id="年齢計算" class="section level3">
+<h3>年齢計算</h3>
+<p>色々苦労する感じではあるが、<code>lubridate</code>パッケージを用いた以下の方法で問題なさそう（閏年とか月の日数違いとか）。一応誕生日の前日24時に年齢が増えるので、2/29生まれだと閏年以外では3/1に年齢が増えることになるがみなし的に2/28にしていることも多そう。道路交通法とかも2/28みなしでの運用。</p>
+<ul>
+<li><a href="https://rdrr.io/cran/lubridate/man/time_length.html">time_length: Compute the exact length of a time span in lubridate: Make Dealing with Dates a Little Easier</a></li>
+</ul>
+<pre class="r"><code>birthday &lt;- c(&quot;2016-02-03&quot;, &quot;2016-02-03&quot;, &quot;1900-01-01&quot;, &quot;2016-02-29&quot;, &quot;2016-02-29&quot;, &quot;2016-02-29&quot;)
+day_of_surgery &lt;- c(&quot;2017-02-02&quot;, &quot;2017-02-03&quot;, &quot;1999-12-31&quot;, &quot;2017-02-28&quot;, &quot;2017-03-01&quot;, &quot;2020-02-29&quot;)
+
+lubridate::time_length(lubridate::interval(
+  start = lubridate::ymd(birthday),
+  end = lubridate::ymd(day_of_surgery)
+  )
+  , unit = &quot;year&quot;) %&gt;% 
+  base::trunc()</code></pre>
+<pre><code>## [1]  0  1 99  0  1  4</code></pre>
+</div>
 
 <footer>
   <p>Copyright &copy; 2019 Yuho TAMAI </p>

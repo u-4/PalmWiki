@@ -387,10 +387,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="readr.html">データ読み込みと整形(readr, tidyr)</a>
+      <a href="readr.html">データ読み込みと整形(readr)</a>
     </li>
     <li>
-      <a href="dplyr-tidyr.html">データセット操作(dplyr)</a>
+      <a href="dplyr-tidyr.html">データセット操作(dplyr, tidyr)</a>
     </li>
     <li>
       <a href="purrr.html">関数型プログラミング(purrr)</a>
@@ -426,6 +426,9 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="Visualization.html">可視化一般</a>
+    </li>
+    <li>
       <a href="ggplot2.html">ggplot2</a>
     </li>
     <li>
@@ -454,6 +457,9 @@ div.tocify {
     </li>
     <li>
       <a href="magick.html">Rで画像処理(magick)</a>
+    </li>
+    <li>
+      <a href="Excel.html">RでExcel出力</a>
     </li>
   </ul>
 </li>
@@ -642,8 +648,50 @@ div.tocify {
 </ul>
 <p><a href="https://heavywatal.github.io/slides/esj65/">ESJ65-W07 それもRにやらせよう — 整然データの下ごしらえ</a></p>
 <p><a href="https://kazutan.github.io/kazutanR/hands_on_170730/index.html">データハンドリング入門</a></p>
-<div id="dplyr-0.8" class="section level2">
-<h2>dplyr 0.8</h2>
+<div id="行番号を振る" class="section level3">
+<h3>行番号を振る</h3>
+<p>連番で行番号を振るなら<code>dplyr::row_number()</code>でいける。</p>
+<pre class="r"><code>iris %&gt;%
+  dplyr::as_tibble() %&gt;% 
+  dplyr::mutate(Row_Num = dplyr::row_number()) %&gt;% 
+  dplyr::select(Row_Num, everything())</code></pre>
+<pre><code>## # A tibble: 150 x 6
+##    Row_Num Sepal.Length Sepal.Width Petal.Length Petal.Width Species
+##      &lt;int&gt;        &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+##  1       1          5.1         3.5          1.4         0.2 setosa 
+##  2       2          4.9         3            1.4         0.2 setosa 
+##  3       3          4.7         3.2          1.3         0.2 setosa 
+##  4       4          4.6         3.1          1.5         0.2 setosa 
+##  5       5          5           3.6          1.4         0.2 setosa 
+##  6       6          5.4         3.9          1.7         0.4 setosa 
+##  7       7          4.6         3.4          1.4         0.3 setosa 
+##  8       8          5           3.4          1.5         0.2 setosa 
+##  9       9          4.4         2.9          1.4         0.2 setosa 
+## 10      10          4.9         3.1          1.5         0.1 setosa 
+## 11      11          5.4         3.7          1.5         0.2 setosa 
+## 12      12          4.8         3.4          1.6         0.2 setosa 
+## 13      13          4.8         3            1.4         0.1 setosa 
+## 14      14          4.3         3            1.1         0.1 setosa 
+## 15      15          5.8         4            1.2         0.2 setosa 
+## 16      16          5.7         4.4          1.5         0.4 setosa 
+## 17      17          5.4         3.9          1.3         0.4 setosa 
+## 18      18          5.1         3.5          1.4         0.3 setosa 
+## 19      19          5.7         3.8          1.7         0.3 setosa 
+## 20      20          5.1         3.8          1.5         0.3 setosa 
+## 21      21          5.4         3.4          1.7         0.2 setosa 
+## 22      22          5.1         3.7          1.5         0.4 setosa 
+## 23      23          4.6         3.6          1           0.2 setosa 
+## 24      24          5.1         3.3          1.7         0.5 setosa 
+## 25      25          4.8         3.4          1.9         0.2 setosa 
+## 26      26          5           3            1.6         0.2 setosa 
+## 27      27          5           3.4          1.6         0.4 setosa 
+## 28      28          5.2         3.5          1.5         0.2 setosa 
+## 29      29          5.2         3.4          1.4         0.2 setosa 
+## 30      30          4.7         3.2          1.6         0.2 setosa 
+## # … with 120 more rows</code></pre>
+</div>
+<div id="dplyr-0.8での変更点" class="section level2">
+<h2>dplyr 0.8での変更点</h2>
 <ul>
 <li><a href="https://notchained.hatenablog.com/entry/2018/12/09/120553">dplyr 0.8.0を使ってみた（group_by()のbreaking changes編） - Technically, technophobic.</a></li>
 <li><a href="https://notchained.hatenablog.com/entry/2018/12/09/160956">dplyr 0.8.0を使ってみた（新機能編） - Technically, technophobic.</a></li>

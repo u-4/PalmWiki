@@ -11,7 +11,7 @@
 
 
 
-<title>データセット</title>
+<title>PDFの取り扱い</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -612,34 +612,109 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">データセット</h1>
+<h1 class="title toc-ignore">PDFの取り扱い</h1>
 
 </div>
 
 
-<p>パッケージ内のデータセットから外部データベースまで取得とか特徴とか実習とか。</p>
-<div id="標準データセット" class="section level3">
-<h3>標準データセット</h3>
+<p>RとかmacOSでPDFを取り扱うための方法</p>
 <ul>
-<li><a href="https://qiita.com/wakuteka/items/95ac758070f6f4d89a96">R言語 標準データセットの私的まとめ - Qiita</a>a</li>
+<li><a href="https://qiita.com/Atsushi776/items/9ef1e5d744e2b91c61ee">Rmarkdownで日本語PDFを出力する - Qiita</a></li>
+</ul>
+<div id="pdfの情報取得からtocテキスト抽出まで" class="section level2">
+<h2>PDFの情報取得からTOC、テキスト抽出まで</h2>
+<ul>
+<li><a href="https://github.com/ropensci/pdftools">ropensci/pdftools: Text Extraction, Rendering and Converting of PDF Documents</a></li>
+<li><a href="https://uribo.hatenablog.com/entry/2016/02/27/195500">⭐️PDFの情報・文章をRでごっそり取得する - cucumber flesh</a></li>
+</ul>
+<p>画像として取り出して操作するならImageMagickを利用できる<a href="magick.html">magickパッケージ</a>の方が使いやすいが、テキスト情報があるかチェックしたり、テキストベースの物を扱うならこちら。</p>
+</div>
+<div id="pdfの中の表を抽出" class="section level2">
+<h2>PDFの中の表を抽出！</h2>
+<ul>
+<li><a href="https://github.com/ropensci/tabulizer">ropensci/tabulizer: Bindings for Tabula PDF Table Extractor Library</a></li>
+<li><a href="https://suryu.me/post/tabulizer_fantastic_extract_data_from_pdf/">tabulizerパッケージによるPDF表データからのデータ取得</a></li>
+<li><a href="https://qiita.com/21-Hidetaka-Ko/items/4e8977797cbfaab081e3">「2016年版このRパッケージがすごい」暫定第一位、tabulizerパッケージを使って、日本で話題のCookpadの有価証券PDFから超簡単にデータを取得してビジュアライズまでしてみた - Qiita</a></li>
+<li><a href="https://www.pediatricsurgery.site/entry/2018/06/21/202552">Rパッケージのtabulizerをインストールするのにえらく苦労した話 - Note of Pediatric Surgery</a></li>
+</ul>
+<p>これのプレビューから範囲を指定する機能はとても便利そう。黒塗りする部分をGUIで選択して処理みたいにできると良いな。</p>
+<ul>
+<li><a href="https://github.com/ropensci/tabulizer/blob/master/R/locate_area.R">tabulizer/locate_area.R at master · ropensci/tabulizer</a></li>
 </ul>
 </div>
-<div id="e-stat" class="section level3">
-<h3>e-Stat</h3>
+<div id="pdftkpdfの操作から透かし透明テキストまで" class="section level2">
+<h2>pdftk：PDFの操作から透かし、透明テキストまで</h2>
 <ul>
-<li><a href="https://qiita.com/nozma/items/f88f5cc60ab63461deae">Rからe-Stat APIを使う - Qiita</a></li>
-<li><a href="https://qiita.com/kazutan/items/9c0b2dd0f055fde45cda">estatapiパッケージで簡単にe-Statのデータ取得 - Qiita</a></li>
-<li><p><a href="https://notchained.hatenablog.com/entry/2016/07/17/000530">e-Stat APIバージョン2.1をRから使う - Technically, technophobic.</a></p></li>
-<li><a href="http://id.fnshr.info/2018/04/23/r-data-cleaning-school/">Rによるデータクリーニング実践――政府統計からのグラフ作成を例として｜Colorless Green Ideas</a></li>
-<li><p><a href="https://notchained.hatenablog.com/entry/2015/11/01/084909">e-Stat APIをRから使うパッケージを作りました - Technically, technophobic.</a></p></li>
+<li><a href="https://www.pdflabs.com/tools/pdftk-server/">PDFtk Server</a></li>
+<li><p><a href="https://texwiki.texjp.org/?pdftk">pdftk - TeX Wiki</a></p></li>
+<li><a href="http://acetaminophen.hatenablog.com/entry/2014/11/10/000559">PDF の作り方：pdftk の活用 - Acetaminophen’s diary</a></li>
+<li><p><a href="https://qiita.com/oohira/items/184dbbe7c631e8c335a1">PDFの画像比較をリファクタリングに活かす - Qiita</a></p></li>
+</ul>
+<div id="macos-10.11以降でのインストール" class="section level3">
+<h3>macOS 10.11以降でのインストール</h3>
+<ul>
+<li><a href="https://qiita.com/keitasumiya/items/83756caf2865291707fb">pdftk on OSX10.11(El capitan) - Qiita</a></li>
+</ul>
+<p><a href="https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-setup.pkg">macOS10.11以降の対応版</a>はなぜか本家のダウンロードページからリンクが貼られていない。homebrewでのインストールも公式分ではできない。<code>brew search pdftk</code>で出てくるプルリクエストから有効なものを探す？</p>
+<pre class="bash"><code># 2018年のプルリクでパッチ
+$ brew pull https://github.com/Homebrew/homebrew-cask/pull/47265
+==&gt; Fetching patch 
+Patch: https://github.com/Homebrew/homebrew-cask/pull/47265.patch
+######################################################################## 100.0%
+==&gt; Applying patch
+Applying: add pdftk 2.02 cask
+Applying: use delete in uninstall stanza
+Applying: fix identation
+==&gt; Patch closes issue #47265
+==&gt; Patch changed:
+ Casks/pdftk.rb | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
+
+# searchに出るようになるので
+$ brew search pdftk
+==&gt; Casks
+pdftk
+
+# cask install
+$ brew cask intall pdftk
+Updating Homebrew...
+==&gt; Auto-updated Homebrew!
+Updated Homebrew from 7ce517cb2 to 6ae600b5e.
+No changes to formulae.
+
+==&gt; Satisfying dependencies
+==&gt; Downloading https://www.pdflabs.com/tools/pdftk-the-pdf-toolkit/pdftk_server-2.02-mac_osx-10.11-
+######################################################################## 100.0%
+==&gt; Verifying SHA-256 checksum for Cask &#39;pdftk&#39;.
+==&gt; Installing Cask pdftk
+==&gt; Running installer for pdftk; your password may be necessary.
+==&gt; Package installers may write to any location; options such as --appdir are ignored.
+Password:
+installer: Package name is PDFtk Server - The PDF Toolkit for the Terminal
+installer: Installing at base path /
+installer: The install was successful.
+🍺  pdftk was successfully installed!
+
+$ type pdftk
+pdftk is /usr/local/bin/pdftk</code></pre>
+</div>
+</div>
+<div id="pandoc" class="section level2">
+<h2>Pandoc</h2>
+<ul>
+<li><a href="https://texwiki.texjp.org/?Pandoc">Pandoc - TeX Wiki</a></li>
+<li></li>
+<li><a href="https://www.clear-code.com/blog/2018/9/13.html">Markdownで書いたテキストをPDFに変換してドキュメントを作成する方法（テンプレート活用編） - ククログ(2018-09-13)</a></li>
+<li><a href="https://github.com/Wandmalfarbe/pandoc-latex-template">Wandmalfarbe/pandoc-latex-template: A pandoc LaTeX template to convert markdown files to PDF or LaTeX.</a></li>
+<li><a href="https://www.clear-code.com/blog/2015/4/27.html">Markdownで書いたテキストをPDFに変換して納品用ドキュメントを作成する方法 - ククログ(2015-04-27)</a></li>
+<li><p><a href="https://pandoc.org/MANUAL.html">Pandoc - Pandoc User’s Guide</a></p></li>
+<li><a href="https://www.halu7.com/entry/pandoc-install-option">Pandocをインストールしてマークダウン記法を自分好みに変換しよう！ - はるなぴログ</a></li>
+<li><a href="https://tex.stackexchange.com/questions/139139/adding-headers-and-footers-using-pandoc">Adding headers and footers using Pandoc - TeX - LaTeX Stack Exchange</a></li>
+<li></li>
 </ul>
 </div>
-<div id="ndb" class="section level3">
-<h3>NDB</h3>
-<ul>
-<li><a href="https://qiita.com/renwood_aoba/items/977229fda4cbd8cfc02a">R歴1ヶ月の俺がtidyverseを使ってNDBオープンデータから尿蛋白検査の地域差を検証してみた件について #1 - Qiita</a></li>
-<li><a href="https://www.mhlw.go.jp/content/12400000/000346720.pdf">Microsoft Word - 第３回ＮＤＢオープンデータ解説編（①前編）.docx</a></li>
-</ul>
+<div id="acrobat-dc-2017" class="section level2">
+<h2>Acrobat DC 2017</h2>
 </div>
 
 <footer>

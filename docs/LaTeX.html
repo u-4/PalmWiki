@@ -387,10 +387,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="readr.html">データ読み込みと整形(readr, tidyr)</a>
+      <a href="readr.html">データ読み込みと整形(readr)</a>
     </li>
     <li>
-      <a href="dplyr-tidyr.html">データセット操作(dplyr)</a>
+      <a href="dplyr-tidyr.html">データセット操作(dplyr, tidyr)</a>
     </li>
     <li>
       <a href="purrr.html">関数型プログラミング(purrr)</a>
@@ -426,6 +426,9 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="Visualization.html">可視化一般</a>
+    </li>
+    <li>
       <a href="ggplot2.html">ggplot2</a>
     </li>
     <li>
@@ -454,6 +457,9 @@ div.tocify {
     </li>
     <li>
       <a href="magick.html">Rで画像処理(magick)</a>
+    </li>
+    <li>
+      <a href="Excel.html">RでExcel出力</a>
     </li>
   </ul>
 </li>
@@ -623,6 +629,18 @@ div.tocify {
 <div id="macosでlatex" class="section level2">
 <h2>macOSで<span class="math inline">\(\LaTeX\)</span></h2>
 <p>macOSで<span class="math display">\[\LaTeX\]</span> macで <span class="math display">\[\LaTeX\]</span>（LaTeX）を利用するための設定方法。MacTeX2018で日本語周りが変更になったのに対応。 <code>ghostscript</code>と<code>mactex</code>はmacOS環境構築でdotfiles を用いてインストール済みのはず。</p>
+<div id="年2月追記" class="section level3">
+<h3>2019年2月追記</h3>
+<p>以下のやり方だとmojave対応できない部分がある模様。TeXWikiの方法で美文書入門（懐かしすぎる）のパッチを使うのが良さそう。</p>
+<ul>
+<li><a href="https://texwiki.texjp.org/?TeX%20Live%2FMac">TeX Live/Mac - TeX Wiki</a></li>
+<li><a href="https://texwiki.texjp.org/?%E3%83%92%E3%83%A9%E3%82%AE%E3%83%8E%E3%83%95%E3%82%A9%E3%83%B3%E3%83%88#macos-hiragino-setup">ヒラギノフォント - TeX Wiki</a></li>
+<li><a href="https://okumuralab.org/bibun7/">改訂第7版 LaTeX2e 美文書作成入門</a></li>
+<li><a href="https://github.com/munepi/bibunsho7-patch/releases">Releases · munepi/bibunsho7-patch</a></li>
+</ul>
+</div>
+<div id="時点の情報" class="section level3">
+<h3>2018時点の情報</h3>
 <p><a href="http://doratex.hatenablog.jp/entry/20180501/1525144736">MacTeX 2018 のインストール＆日本語環境構築法 - TeX Alchemist Online</a>を参考（丸パクリ）にして作成。(u)pLaTeX + dvipdfmxで日本語文書を出力できるようになる。</p>
 <p>Rでの日本語出力あれこれでも利用することになるLaTeX実行環境のmacOSでのセットアップ。まあTeXとしてではなくRStudioからXeLaTeXだけ使う時にどこまで設定が必要なのかはよくわかっていない。少なくともTeX Liveのアップデートまではいるだろうけど。</p>
 <p>homebrewでTeXを探すと以下のようなメッセージが出てMacTeXの利用を推奨される</p>
@@ -634,6 +652,7 @@ We recommend using a MacTeX distribution: https://www.tug.org/mactex/
 
 You can install it with Homebrew-Cask:
  brew cask install mactex</code></pre>
+</div>
 <div id="tlmgrで最新版にアップデート" class="section level3">
 <h3>tlmgrで最新版にアップデート</h3>
 <p>インストール済みの環境のアップデートは</p>

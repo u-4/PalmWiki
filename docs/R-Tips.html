@@ -387,10 +387,10 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="readr.html">データ読み込みと整形(readr, tidyr)</a>
+      <a href="readr.html">データ読み込みと整形(readr)</a>
     </li>
     <li>
-      <a href="dplyr-tidyr.html">データセット操作(dplyr)</a>
+      <a href="dplyr-tidyr.html">データセット操作(dplyr, tidyr)</a>
     </li>
     <li>
       <a href="purrr.html">関数型プログラミング(purrr)</a>
@@ -426,6 +426,9 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="Visualization.html">可視化一般</a>
+    </li>
+    <li>
       <a href="ggplot2.html">ggplot2</a>
     </li>
     <li>
@@ -454,6 +457,9 @@ div.tocify {
     </li>
     <li>
       <a href="magick.html">Rで画像処理(magick)</a>
+    </li>
+    <li>
+      <a href="Excel.html">RでExcel出力</a>
     </li>
   </ul>
 </li>
@@ -611,6 +617,7 @@ div.tocify {
 </div>
 
 
+<p>未分類のものを適当に並べてあるともいう。</p>
 <div id="rでの欠測値の扱い" class="section level2">
 <h2>Rでの欠測値の扱い</h2>
 <p><code>NA</code>は伝染するという厄介な面もある。臨床データの取り扱い上は避けて通れないためまとめていく。「欠損値でない」を表す時は「<code>!</code>」と「<code>is.na(x)</code>」を用いると便利そう。</p>
@@ -725,20 +732,42 @@ do.call(paste0, Map(stri_rand_strings, n=5, length=c(5, 4, 1),
            pattern = c(&#39;[A-Z]&#39;, &#39;[0-9]&#39;, &#39;[A-Z]&#39;)))</code></pre>
 <p>匿名化IDの表を印刷して、そこに本当のID、日付、必要なら氏名などを記載して鍵付きロッカー（個人情報保管用として定められたところ）へ</p>
 </div>
-<div id="文字列ベクトルをコピペできる形で出力" class="section level2">
-<h2>文字列ベクトルをコピペできる形で出力</h2>
-<p>直接入力ではなく作成された文字列ベクトルの中身を他のコードやサンプルコードとして使うためにコピペしたいときに、なかなかうまいこと出力できなかった。とりあえず強引に前後に<code>"</code>をつけて<code>cat(sep = ", ")</code>でコンソールに出力することには成功したが、もう少しうまい方法がないものだろうか（r_wakalangで聞いてみた）。</p>
+<div id="ベクトルやデータフレームの入出力を便利に" class="section level2">
+<h2>ベクトルやデータフレームの入出力を便利に</h2>
+<div id="文字列ベクトルをコピペできる形で出力したい" class="section level3">
+<h3>文字列ベクトルをコピペできる形で出力したい</h3>
+<p>直接入力ではなく作成された文字列ベクトルの中身を他のコードやサンプルコードとして使うためにコピペしたいときに、なかなかうまいこと出力できなかった。とりあえず強引に前後に<code>"</code>をつけて<code>cat(sep = ", ")</code>でコンソールに出力することには成功したが、もう少しうまい方法がないものだろうか</p>
 <pre class="r"><code># ランダム生成していますが、何らかの形で（直接入力ではなく）得られた文字列ベクトルです
 nms &lt;- stringi::stri_rand_strings(n = 20, length = 10)
 
 # 普通にコンソールに出力すると「[1]」が入ってカンマもないのでコピペしにくい
-nms
-#  [1] &quot;qN9Z8Di83X&quot; &quot;TYJMnhEt7d&quot; &quot;as39xLXiWg&quot; &quot;k5Vzqw1vde&quot; &quot;73y1rsUUhJ&quot; &quot;YrbjnnX73A&quot; &quot;Q1qnqeRMUl&quot; &quot;QS40PZOuNK&quot; &quot;ROh1u1FnSU&quot; &quot;Fnc9UTvsal&quot;
-# [11] &quot;v6gZXfj5yK&quot; &quot;csR8DRqJiD&quot; &quot;BVhxYNNOky&quot; &quot;WDIm2dAY2Q&quot; &quot;6uQUslLHF4&quot; &quot;TUMNpqed7k&quot; &quot;K16iGB8SBa&quot; &quot;vHJdCuhkBD&quot; &quot;MUNSOfITqA&quot; &quot;ywnNOdLIyX&quot;
-
-# とりあえず強引に出力してみました
-nms %&gt;% stringr::str_replace_all(c(&quot;^&quot; = &#39;&quot;&#39;, &quot;$&quot; = &#39;&quot;&#39;)) %&gt;% cat(sep = &quot;, &quot;)
-# &quot;qN9Z8Di83X&quot;, &quot;TYJMnhEt7d&quot;, &quot;as39xLXiWg&quot;, &quot;k5Vzqw1vde&quot;, &quot;73y1rsUUhJ&quot;, &quot;YrbjnnX73A&quot;, &quot;Q1qnqeRMUl&quot;, &quot;QS40PZOuNK&quot;, &quot;ROh1u1FnSU&quot;, &quot;Fnc9UTvsal&quot;, &quot;v6gZXfj5yK&quot;, &quot;csR8DRqJiD&quot;, &quot;BVhxYNNOky&quot;, &quot;WDIm2dAY2Q&quot;, &quot;6uQUslLHF4&quot;, &quot;TUMNpqed7k&quot;, &quot;K16iGB8SBa&quot;, &quot;vHJdCuhkBD&quot;, &quot;MUNSOfITqA&quot;, &quot;ywnNOdLIyX&quot;</code></pre>
+nms</code></pre>
+<pre><code>##  [1] &quot;cn7v12Hhpf&quot; &quot;5MNLnq6Op7&quot; &quot;5QNYuodbUs&quot; &quot;vUpf7jVjqd&quot; &quot;eEyL0l6s32&quot;
+##  [6] &quot;6FDjAAuW4v&quot; &quot;IGfmeZ61PO&quot; &quot;IRXbd08Qp0&quot; &quot;izyPx2gkQf&quot; &quot;rpeTZDouLm&quot;
+## [11] &quot;hZiWsrPYkn&quot; &quot;M9OR1uPqAp&quot; &quot;iLs4pMZfjm&quot; &quot;PvTb6Z4Um7&quot; &quot;SPe9npp36v&quot;
+## [16] &quot;W50BiS0sCL&quot; &quot;nB3IUuRx8b&quot; &quot;4OnZjZtmas&quot; &quot;xalvUMPnVE&quot; &quot;bYDS99T2Kz&quot;</code></pre>
+<pre class="r"><code># とりあえず強引に出力してみました
+nms %&gt;% stringr::str_replace_all(c(&quot;^&quot; = &#39;&quot;&#39;, &quot;$&quot; = &#39;&quot;&#39;)) %&gt;% cat(sep = &quot;, &quot;)</code></pre>
+<pre><code>## &quot;cn7v12Hhpf&quot;, &quot;5MNLnq6Op7&quot;, &quot;5QNYuodbUs&quot;, &quot;vUpf7jVjqd&quot;, &quot;eEyL0l6s32&quot;, &quot;6FDjAAuW4v&quot;, &quot;IGfmeZ61PO&quot;, &quot;IRXbd08Qp0&quot;, &quot;izyPx2gkQf&quot;, &quot;rpeTZDouLm&quot;, &quot;hZiWsrPYkn&quot;, &quot;M9OR1uPqAp&quot;, &quot;iLs4pMZfjm&quot;, &quot;PvTb6Z4Um7&quot;, &quot;SPe9npp36v&quot;, &quot;W50BiS0sCL&quot;, &quot;nB3IUuRx8b&quot;, &quot;4OnZjZtmas&quot;, &quot;xalvUMPnVE&quot;, &quot;bYDS99T2Kz&quot;</code></pre>
+</div>
+<div id="r_wakalangで聞いてみた" class="section level3">
+<h3><a href="https://r-wakalang.slack.com/archives/C06QP6NJ0/p1549091625434000">r_wakalangで聞いてみた</a></h3>
+<p>atusyさんからあっさりと<code>base::dput()</code>を、その後datasciestosistさんから<code>writeClipboard(toString(sprintf('"%s"',nms)))</code>を、yutannihilationさんからdatapastaパッケージを紹介していただいた。<code>dput()</code>とか本当にそのままです。検索キーワード難しい……。</p>
+<pre class="r"><code># baseにそのままの関数がありましたとさ
+base::dput(nms)</code></pre>
+<pre><code>## c(&quot;cn7v12Hhpf&quot;, &quot;5MNLnq6Op7&quot;, &quot;5QNYuodbUs&quot;, &quot;vUpf7jVjqd&quot;, &quot;eEyL0l6s32&quot;, 
+## &quot;6FDjAAuW4v&quot;, &quot;IGfmeZ61PO&quot;, &quot;IRXbd08Qp0&quot;, &quot;izyPx2gkQf&quot;, &quot;rpeTZDouLm&quot;, 
+## &quot;hZiWsrPYkn&quot;, &quot;M9OR1uPqAp&quot;, &quot;iLs4pMZfjm&quot;, &quot;PvTb6Z4Um7&quot;, &quot;SPe9npp36v&quot;, 
+## &quot;W50BiS0sCL&quot;, &quot;nB3IUuRx8b&quot;, &quot;4OnZjZtmas&quot;, &quot;xalvUMPnVE&quot;, &quot;bYDS99T2Kz&quot;
+## )</code></pre>
+<pre class="r"><code># datapastaパッケージが汎用性が高そうでRStudioのアドインもある
+# 出力がその場にペーストになるのでコードチャンクには向かないけど
+# datapasta::vector_paste(nms)</code></pre>
+</div>
+<div id="datapastaパッケージ" class="section level3">
+<h3>datapastaパッケージ</h3>
+<p><a href="https://github.com/milesmcbain/datapasta/">MilesMcBain/datapasta: On top of spaghetti, all covered in cheese….</a></p>
+</div>
 </div>
 <div id="rで日本語出力" class="section level2">
 <h2>Rで日本語出力</h2>
@@ -804,6 +833,13 @@ header-includes:
 <p>ggplot2関連</p>
 <p>bookdownパッケージ関連</p>
 <p>bookdownにする際はさらにややこしい問題がありそう。下記のはlualatexを使用している模様。 <a href="https://github.com/kazutan/bookdown_ja_template">kazutan/bookdown_ja_template: for bookdown starter kits for japanese.</a></p>
+</div>
+<div id="rの環境問題" class="section level2">
+<h2>Rの環境問題</h2>
+<p><code>.GolobalEnv</code>とかの。</p>
+<ul>
+<li><a href="https://qiita.com/kohske/items/1cb4a7a05b026a0cf2bb">（Rの）環境問題について　その４。 - Qiita</a></li>
+</ul>
 </div>
 <div id="r用語集" class="section level2">
 <h2>R用語集</h2>
